@@ -1,15 +1,21 @@
 {
   "pipeline": {
+    "deploy": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".svelte-kit/**"]
+    },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".build/**"]
+      "outputs": ["dist/**", ".build/**", ""]
     },
     "lint": {
       "outputs": []
     },
     "dev": {
-      "cache": false,
-      "input": ["./packages/editor-presets"]
+      "cache": false
+    },
+    "preview": {
+      "cache": false
     },
     "clean": {
       "cache": false
