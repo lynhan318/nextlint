@@ -1,4 +1,6 @@
-# Editor design
-
-- https://dribbble.com/shots/14268185-Meta-App-Editor/attachments/5918114?mode=media
-  fetch("nextlint://localhost/0d5c1998-9c4b-4d7a-bb44-847e12b5fae9.jpg")
+# Sveltor
+This project is a WYSIWYG (What You See Is What You Get) editor built using the "@tiptap" library and developed with Svelte. It provides a user-friendly interface for editing and formatting text, allowing users to create rich content effortlessly.
+# Features
+- **Easy-to-use:** The editor provides a simple and intuitive interface, making it easy for users to create and edit content without any technical knowledge.
+- **Rich Text Editing:** Users can format text using various styles such as bold, italic, underline, headings, lists, and more.
+- **Extensible:** You can extend the editor's functionality by adding or creating custom extensions, allowing you to integrate additional features or customize the behavior of the editor.
