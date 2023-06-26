@@ -1,0 +1,83 @@
+{
+  "name": "@sveltor/svelte",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "pnpm dev:package",
+    "dev:package": "pnpm package -w",
+    "build": "pnpm package",
+    "preview": "vite preview",
+    "package": "svelte-kit sync && svelte-package",
+    "prepublishOnly": "npm run package",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "prettier --plugin-search-dir . --check . && eslint .",
+    "format": "prettier --plugin-search-dir . --write .",
+    "prepare": "svelte-kit sync "
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "peerDependencies": {
+    "svelte": "^3.59.1"
+  },
+  "dependencies": {
+    "@svelteuidev/composables": "^0.13.0",
+    "@svelteuidev/core": "^0.13.0",
+    "@sveltor/core": "workspace:*",
+    "@tiptap/core": "^2.0.3",
+    "@tiptap/extension-bubble-menu": "2.0.3",
+    "@tiptap/extension-dropcursor": "^2.0.3",
+    "@tiptap/extension-floating-menu": "^2.0.3",
+    "@tiptap/extension-link": "2.0.3",
+    "@tiptap/pm": "^2.0.3",
+    "@tiptap/suggestion": "^2.0.3",
+    "hast-util-to-html": "^8.0.4",
+    "highlight.js": "^11.8.0",
+    "lowlight": "^2.9.0",
+    "radash": "^10.9.0",
+    "radix-icons-svelte": "^1.2.1",
+    "tippy.js": "^6.3.7",
+    "unsplash-js": "^7.0.18",
+    "vite-plugin-lightningcss": "^0.0.5",
+    "zeed-dom": "^0.10.5"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/kit": "^1.20.5",
+    "@sveltejs/package": "^2.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "lightningcss": "^1.21.1",
+    "prettier": "^2.8.8",
+    "prettier-plugin-svelte": "^2.10.1",
+    "publint": "^0.1.12",
+    "sass": "^1.63.6",
+    "svelte": "^4.0.0",
+    "svelte-check": "^3.4.4",
+    "tslib": "^2.5.3",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9"
+  },
+  "publishConfig": {
+    "@sveltor:registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sveltor/sveltor.git",
+    "directory": "packages/editor"
+  },
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module"
+}

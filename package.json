@@ -1,0 +1,63 @@
+{
+  "name": "nextlint-editor",
+  "version": "1.5.5",
+  "private": true,
+  "author": "lynhan318",
+  "description": "This is an unofficial SvelteKit monorepo starter powered by Turborepo.",
+  "scripts": {
+    "build": "turbo run build --parallel",
+    "dev": "pnpm run --parallel --filter './packages/**' dev",
+    "dev:packages": "pnpm run --parallel --filter svelte-editor... dev",
+    "lint": "turbo run lint",
+    "build:packages": "rollup -c",
+    "changeset": "changeset",
+    "dev:lib": "turbo run --parallel --filter='./packages/*' dev",
+    "clean": "rm -rf node_modules ./**/*/{node_modules,build,dist,.turbo,.svelte-kit,.pnpm}",
+    "version": "changeset version",
+    "release": "changeset publish",
+    "release:tag": "changeset tag"
+  },
+  "devDependencies": {
+    "@atomico/rollup-plugin-sizes": "^1.1.4",
+    "@babel/core": "^7.22.5",
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.1",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.1",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
+    "eslint": "^8.42.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-svelte": "^2.30.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "minimist": "^1.2.8",
+    "prettier-plugin-svelte": "^2.10.1",
+    "rollup": "^3.25.0",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-svelte": "^7.1.5",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "svelte-preprocess": "5.0.4",
+    "turbo": "latest",
+    "vite": "^4.3.9"
+  },
+  "keywords": [
+    "Svelte",
+    "Component Library",
+    "Turborepo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Brisklemonade/turbosvelte.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "volta": {
+    "node": "18.12.1"
+  },
+  "dependencies": {
+    "acorn": "^8.8.2"
+  }
+}

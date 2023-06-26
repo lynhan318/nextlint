@@ -1,0 +1,156 @@
+@import 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;700;900&display=swap';
+@import './Editor.scss';
+
+.ProseMirror {
+  --editor-font: 'Literata', serif;
+  --editor-font-heading: 'Bitter', serif;
+  --editor-font-code: 'Fira Code', monospace;
+  --editor-font-size: 1.1rem;
+  --editor-font-height: 1.7rem;
+  --editor-block-gap: 16px;
+
+  outline: none;
+  position: relative;
+  display: block;
+
+  p {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    line-height: var(--editor-font-height);
+    font-size: var(--editor-font-size);
+    font-family: var(--editor-font);
+    font-weight: 400;
+    margin-bottom: var(--editor-block-gap);
+    color: var(--svelteui-colors-dark500);
+
+    &.is-editor-empty:first-child:before {
+      color: rgb(173, 181, 189);
+      content: attr(data-placeholder);
+      float: left;
+      height: 0px;
+      pointer-events: none;
+    }
+
+    &.is-block-empty:before {
+      color: rgb(173, 181, 189);
+      content: 'Type "/" for custom blocks';
+      float: left;
+      height: 0px;
+      pointer-events: none;
+    }
+
+    code {
+      background-color: rgb(229, 238, 245);
+      padding: 2px;
+      font-family: var(--editor-font-code);
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--svelteui-colors-red700);
+      border-radius: 4px;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    font-family: var(--editor-font-heading);
+    color: var(--svelteui-colors-dark400);
+    margin-top: var(--editor-block-gap);
+  }
+  h1 {
+    font-size: 2.2rem;
+    line-height: 3.3rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 1.8rem;
+    line-height: 2.7rem;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    font-weight: 700;
+  }
+  h4 {
+    font-size: 1.2rem;
+    line-height: 2.4rem;
+    font-weight: 700;
+  }
+  hr {
+    border-top: 2px solid var(--svelteui-colors-gray500);
+    margin: calc(var(--editor-block-gap) + 8px) 0;
+  }
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin-left: 16px;
+  }
+  ul {
+    list-style: disc;
+    margin-bottom: var(--editor-block-gap);
+  }
+  ol {
+    list-style-type: decimal;
+    margin-bottom: var(--editor-block-gap);
+  }
+  t emt {
+    font-style: italic;
+  }
+  strong {
+    font-weight: 700;
+  }
+  .nextlint-link {
+    color: var(--svelteui-colors-blue400);
+  }
+  blockquote {
+    margin: 0;
+    margin-bottom: var(--editor-block-gap);
+    background-color: var(--svelteui-colors-gray100);
+    border: solid 2px var(--svelteui-colors-gray200);
+    border-radius: 4px;
+    display: inline-block;
+    padding: 8px;
+    width: 100%;
+    color: var(--sveteui-colors-dark500);
+    p {
+      margin: 0;
+    }
+  }
+  figure {
+    width: 100%;
+    margin: 0;
+    margin-bottom: var(--editor-block-gap);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    figcaption {
+      margin: 4px 0px;
+      outline: none;
+      font-style: italic;
+      font-size: 15px;
+      font-family: var(--editor-font);
+      color: var(--svelteui-colors-dark500);
+    }
+  }
+  img {
+    border-radius: 8;
+    width: 100%;
+    max-height: 500;
+    object-fit: contain;
+  }
+  s {
+    text-decoration: line-through;
+  }
+  u {
+    text-decoration: underline;
+  }
+}

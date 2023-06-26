@@ -1,0 +1,26 @@
+.DS_Store
+node_modules
+/bin
+/turbosvelte-cli
+build
+/build
+.svelte-kit
+/.svelte-kit
+package
+/package
+.env
+.env.*
+!.env.example
+.vercel
+.output
+.turbo
+ build/**
+ dist
+ tiptap/**
+dist
+dist/**
+tiptap
+tiptap/**
+prosemirror
+prosemirror/**
+# git ignore prosemirror folder

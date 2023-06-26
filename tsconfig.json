@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "jsx": "react-jsx",
+    "importHelpers": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "lib": ["ESNode", "dom", "dom.iterable", "scripthost"]
+  },
+  "files": ["./env.d.ts"],
+  "include": ["**/*.d.ts", "**/*.svelte"],
+  "exclude": ["**/node_modules", "**/dist"]
+}
