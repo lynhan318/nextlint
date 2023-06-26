@@ -1,9 +1,10 @@
 <script lang="ts">
-  import {type NextEditor, Editor} from '$lib';
+  import {SvelteEditor} from '$lib';
+  import type {Editor} from '@tiptap/core';
   import EditorTheme from '$lib/EditorTheme.svelte';
   import Devtool from '../_components/Devtool.svelte';
 
-  let editor: NextEditor;
+  let editor: Editor;
   const onSave = () => {
     const json = editor.getJSON();
     localStorage.setItem('editor', JSON.stringify(json));
@@ -18,22 +19,16 @@
     <Devtool bind:options />
     <div class="container">
       <div class="wrapper">
-        <Editor
+        <SvelteEditor
           content=""
           placeholder="Press 'space' for GPT support, '/' for more blocks"
-          onChange={nextEditor => {
-            editor = nextEditor;
+          onChange={_editor => {
+            editor = _editor;
           }}
           openAI
         />
         <button on:click={onSave}>save</button>
       </div>
-
-      {#if options.preview}
-        <div class="wrapper">
-          <Preview {editor} />
-        </div>
-      {/if}
     </div>
   </EditorTheme>
 </div>

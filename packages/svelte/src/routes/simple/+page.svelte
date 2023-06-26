@@ -1,5 +1,6 @@
 <script lang="ts">
   import {SimpleEditor, EditorTheme} from '$lib';
+  import type {Editor} from '@tiptap/core';
   let editor: Editor;
 </script>
 
