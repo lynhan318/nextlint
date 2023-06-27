@@ -9,12 +9,34 @@
     Modal,
     Container
   } from '@svelteuidev/core';
-  import {renderHTML, useEditor} from '@sveltor/core';
+
+  import {renderHTML} from '@sveltor/core';
+  import type {Editor} from '@tiptap/core';
   import {Gear, Cross1, EyeOpen, PinBottom, FileText} from 'radix-icons-svelte';
-  export let editor;
+  export let editor: Editor;
   let show = false;
   let preview = false;
   let element: HTMLElement;
+  const downloadHTML = () => {
+    const html = renderHTML(editor);
+    const a = document.getElementById('download_html') as HTMLAnchorElement;
+    const downloadUrl = URL.createObjectURL(
+      new Blob([html], {type: 'text/html'})
+    );
+    a.download = 'sveltor.html';
+    a.href = downloadUrl;
+    a.click();
+  };
+  const downloadJSON = () => {
+    const json = editor.getJSON();
+    const a = document.getElementById('download_json') as HTMLAnchorElement;
+    const downloadUrl = URL.createObjectURL(
+      new Blob([JSON.stringify(json)], {type: 'application/json'})
+    );
+    a.download = 'sveltor.json';
+    a.href = downloadUrl;
+    a.click();
+  };
 </script>
 
 <Portal zIndex={5}>
@@ -35,15 +57,17 @@
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Download JSON">
-            <ActionIcon>
+            <ActionIcon on:click={downloadJSON}>
               <PinBottom size={24} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Download HTML">
-            <ActionIcon>
+            <ActionIcon on:click={downloadHTML}>
               <FileText size={24} />
             </ActionIcon>
           </Tooltip>
+          <a id="download_json" />
+          <a id="download_html" />
         </Group>
       </Popper>
     {/if}
