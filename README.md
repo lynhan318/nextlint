@@ -1,5 +1,5 @@
-# Sveltor
-This project is a WYSIWYG (What You See Is What You Get) editor built using the "@tiptap" library and developed with Svelte. It provides a user-friendly interface for editing and formatting text, allowing users to create rich content effortlessly.
+# Nextlint
+Nextlint is a WYSIWYG (What You See Is What You Get) editor built using the "@tiptap" library and developed with Svelte. It provides a user-friendly interface for editing and formatting text, allowing users to create rich content effortlessly.
 # Demo:
 https://sveltor-editor.vercel.app/
 # Features
