@@ -1,0 +1,5 @@
+---
+'@sveltor/svelte': patch
+---
+
+Fix

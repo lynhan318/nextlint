@@ -54,7 +54,7 @@
             selectImage: {
               handleUpload,
               unsplash: {
-                accessKey: 'asdfasdf'
+                accessKey: ''
               }
             },
             gpt: {query: submitPromt}
