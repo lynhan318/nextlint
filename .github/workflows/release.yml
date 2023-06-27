@@ -65,11 +65,11 @@ jobs:
         id: changesets
         uses: changesets/action@62a9eee638c4655e15f69233d6dbe447a8654921 #v1.4.2
         with:
-          publish: pnpm run release
+          publish: pnpm release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release Tag
         if: github.event_name == 'push' && steps.changesets.outputs.published == 'true'

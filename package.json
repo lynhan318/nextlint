@@ -1,7 +1,7 @@
 {
   "name": "nextlint-editor",
   "version": "1.5.5",
-  "private": true,
+  "private": false,
   "author": "lynhan318",
   "description": "This is an unofficial SvelteKit monorepo starter powered by Turborepo.",
   "scripts": {
