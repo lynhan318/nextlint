@@ -1,5 +1,5 @@
 {
-  "name": "@sveltor/svelte",
+  "name": "@nextlint/svelte",
   "version": "1.0.1",
   "scripts": {
     "playground": "vite dev",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@svelteuidev/composables": "^0.13.0",
     "@svelteuidev/core": "^0.13.0",
-    "@sveltor/core": "workspace:*",
+    "@nextlint/core": "workspace:*",
     "@tiptap/core": "^2.0.3",
     "@tiptap/extension-bubble-menu": "2.0.3",
     "@tiptap/extension-dropcursor": "^2.0.3",
@@ -73,12 +73,12 @@
     "vite": "^4.3.9"
   },
   "publishConfig": {
-    "@sveltor:registry": "https://registry.npmjs.org"
+    "@nextlint:registry": "https://registry.npmjs.org"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/sveltor/sveltor.git",
-    "directory": "packages/editor"
+    "directory": "packages/svelte"
   },
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
