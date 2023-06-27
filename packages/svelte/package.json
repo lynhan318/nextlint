@@ -52,7 +52,7 @@
     "zeed-dom": "^0.10.5"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/adapter-static": "^2.0.2",
     "@sveltejs/kit": "^1.20.5",
     "@sveltejs/package": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
