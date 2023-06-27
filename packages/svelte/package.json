@@ -73,7 +73,7 @@
     "vite": "^4.3.9"
   },
   "publishConfig": {
-    "@sveltor:registry": "https://npm.pkg.github.com"
+    "@sveltor:registry": "https://registry.npmjs.org"
   },
   "repository": {
     "type": "git",
