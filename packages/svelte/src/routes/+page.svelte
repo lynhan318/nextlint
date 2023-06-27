@@ -60,7 +60,6 @@
             gpt: {query: submitPromt}
           }}
         />
-        <button on:click={onSave}>save</button>
       </div>
     </div>
     {#if editor}
