@@ -1,5 +1,0 @@
----
-'@sveltor/svelte': patch
----
-
-Fix
