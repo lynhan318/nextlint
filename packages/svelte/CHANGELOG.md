@@ -1,5 +1,11 @@
 # @sveltor/editor
 
+## 1.0.1
+
+### Patch Changes
+
+- [`b70b8a6`](https://github.com/sveltor/sveltor/commit/b70b8a6e02aa5c6ff93137a1022a9faf2c10a9be) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix
+
 ## 1.0.0
 
 ### Major Changes
