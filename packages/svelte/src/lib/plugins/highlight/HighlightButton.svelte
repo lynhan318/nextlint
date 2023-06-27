@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {useEditor} from '@sveltor/core';
+  import {useEditor} from '@nextlint/core';
   import {Popper, Group, Box} from '@svelteuidev/core';
   import {Pencil1} from 'radix-icons-svelte';
 

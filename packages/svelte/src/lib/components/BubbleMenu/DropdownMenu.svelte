@@ -1,7 +1,7 @@
 <script lang="ts">
   import {Menu, Group, Box, Text} from '@svelteuidev/core';
   import {CaretDown, Check} from 'radix-icons-svelte';
-  import {useEditor} from '@sveltor/core';
+  import {useEditor} from '@nextlint/core';
   import {onMount} from 'svelte';
 
   import {BubbleMenuDropdownList} from './constants';

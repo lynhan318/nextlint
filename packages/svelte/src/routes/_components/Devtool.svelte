@@ -10,7 +10,7 @@
     Container
   } from '@svelteuidev/core';
 
-  import {renderHTML} from '@sveltor/core';
+  import {renderHTML} from '@nextlint/core';
   import type {Editor} from '@tiptap/core';
   import {Gear, Cross1, EyeOpen, PinBottom, FileText} from 'radix-icons-svelte';
   export let editor: Editor;

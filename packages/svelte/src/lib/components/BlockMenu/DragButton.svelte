@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import {setDragImage} from './DragHandler';
-  import {getRootNode, useEditor} from '@sveltor/core';
+  import {getRootNode, useEditor} from '@nextlint/core';
   import {positionStore} from '$lib/components/Positioner';
 
   const editor = useEditor();

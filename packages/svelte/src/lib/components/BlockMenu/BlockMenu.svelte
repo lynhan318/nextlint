@@ -3,7 +3,7 @@
 <script lang="ts">
   import {DragHandleDots2, ArrowUp, ArrowDown, Trash} from 'radix-icons-svelte';
   import {ActionIcon, Menu} from '@svelteuidev/core';
-  import {useEditor} from '@sveltor/core';
+  import {useEditor} from '@nextlint/core';
   import {positionStore} from '$lib/components/Positioner';
   import {isNodeSelection} from '@tiptap/core';
   import DragButton from './DragButton.svelte';

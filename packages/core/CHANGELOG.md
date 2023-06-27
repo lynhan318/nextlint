@@ -1,4 +1,4 @@
-# @sveltor/core
+# @nextlint/core
 
 ## 1.0.0
 

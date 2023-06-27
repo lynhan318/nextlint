@@ -1,4 +1,4 @@
-# @sveltor/editor
+# @nextlint/editor
 
 ## 1.0.1
 
@@ -15,7 +15,7 @@
 ### Patch Changes
 
 - Updated dependencies [[`7101847`](https://github.com/sveltor/sveltor/commit/7101847a92b088f95f451d883cd504d619fef358)]:
-  - @sveltor/core@1.0.0
+  - @nextlint/core@1.0.0
 
 ## 0.1.7
 
@@ -24,7 +24,7 @@
 - [`b164b16`](https://github.com/sveltor/sveltor/commit/b164b16051bede9d0831b06240dc2e56da888376) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix: theme
 
 - Updated dependencies [[`b164b16`](https://github.com/sveltor/sveltor/commit/b164b16051bede9d0831b06240dc2e56da888376)]:
-  - @sveltor/plugin-block-menu@0.2.1
+  - @nextlint/plugin-block-menu@0.2.1
 
 ## 0.1.6
 
@@ -33,14 +33,14 @@
 - [`e5cc387`](https://github.com/sveltor/sveltor/commit/e5cc387603e8831dcd29d1900e2f70436f31060c) Thanks [@lynhan318](https://github.com/lynhan318)! - chore: patch bump
 
 - Updated dependencies [[`3a8e998`](https://github.com/sveltor/sveltor/commit/3a8e998e94e1ec153a3dfafbe054548a617c40d2)]:
-  - @sveltor/plugin-block-menu@0.2.0
+  - @nextlint/plugin-block-menu@0.2.0
 
 ## 0.1.4
 
 ### Patch Changes
 
 - Updated dependencies [[`9069bf2`](https://github.com/sveltor/sveltor/commit/9069bf23c1da7498b4a66096af4dcaf6ec4a4bad)]:
-  - @sveltor/plugin-block-menu@0.1.0
+  - @nextlint/plugin-block-menu@0.1.0
 
 ## 0.1.3
 
@@ -49,7 +49,7 @@
 - [`e584d5a`](https://github.com/sveltor/sveltor/commit/e584d5ad449d8d30ed07edd3c58dc79eca6c3e6b) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix: trigger open ai
 
 - Updated dependencies [[`e584d5a`](https://github.com/sveltor/sveltor/commit/e584d5ad449d8d30ed07edd3c58dc79eca6c3e6b)]:
-  - @sveltor/plugin-openai@0.0.7
+  - @nextlint/plugin-openai@0.0.7
 
 ## 0.1.2
 
@@ -58,7 +58,7 @@
 - [`e27ca9b`](https://github.com/sveltor/sveltor/commit/e27ca9b9dae9bea1cc65f2bc005eab5919992e2b) Thanks [@lynhan318](https://github.com/lynhan318)! - Improve openai UX
 
 - Updated dependencies [[`e27ca9b`](https://github.com/sveltor/sveltor/commit/e27ca9b9dae9bea1cc65f2bc005eab5919992e2b)]:
-  - @sveltor/plugin-openai@0.0.6
+  - @nextlint/plugin-openai@0.0.6
 
 ## 0.1.1
 
@@ -67,17 +67,17 @@
 - [`b34af2c`](https://github.com/sveltor/sveltor/commit/b34af2c907c15aa8436feee42b0b8fdf8e3a523e) Thanks [@lynhan318](https://github.com/lynhan318)! - Bump package
 
 - Updated dependencies [[`b34af2c`](https://github.com/sveltor/sveltor/commit/b34af2c907c15aa8436feee42b0b8fdf8e3a523e)]:
-  - @sveltor/plugin-floating-menu@0.0.5
-  - @sveltor/plugin-bubble-menu@0.0.5
-  - @sveltor/plugin-block-menu@0.0.5
-  - @sveltor/plugin-suggestion@0.0.5
-  - @sveltor/plugin-highlight@0.0.5
-  - @sveltor/plugin-openai@0.0.5
-  - @sveltor/plugin-upload@0.0.6
-  - @sveltor/plugin-image@0.0.5
-  - @sveltor/plugin-slash@0.0.5
-  - @sveltor/plugin-link@0.0.5
-  - @sveltor/share-ui@0.0.5
+  - @nextlint/plugin-floating-menu@0.0.5
+  - @nextlint/plugin-bubble-menu@0.0.5
+  - @nextlint/plugin-block-menu@0.0.5
+  - @nextlint/plugin-suggestion@0.0.5
+  - @nextlint/plugin-highlight@0.0.5
+  - @nextlint/plugin-openai@0.0.5
+  - @nextlint/plugin-upload@0.0.6
+  - @nextlint/plugin-image@0.0.5
+  - @nextlint/plugin-slash@0.0.5
+  - @nextlint/plugin-link@0.0.5
+  - @nextlint/share-ui@0.0.5
 
 ## 0.1.0
 
@@ -90,7 +90,7 @@
 ### Patch Changes
 
 - Updated dependencies [[`414344e`](https://github.com/sveltor/sveltor/commit/414344e34789b583600a470d4000be9f3fdc8c2d)]:
-  - @sveltor/plugin-upload@0.0.5
+  - @nextlint/plugin-upload@0.0.5
 
 ## 0.0.7
 
@@ -111,16 +111,16 @@
 - [`8bb911d`](https://github.com/sveltor/sveltor/commit/8bb911d173862ed4ae94342ccf50e142b1efa9a0) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix: import
 
 - Updated dependencies [[`8bb911d`](https://github.com/sveltor/sveltor/commit/8bb911d173862ed4ae94342ccf50e142b1efa9a0)]:
-  - @sveltor/plugin-block-menu@0.0.4
-  - @sveltor/plugin-bubble-menu@0.0.4
-  - @sveltor/plugin-floating-menu@0.0.4
-  - @sveltor/plugin-highlight@0.0.4
-  - @sveltor/plugin-image@0.0.4
-  - @sveltor/plugin-link@0.0.4
-  - @sveltor/plugin-slash@0.0.4
-  - @sveltor/plugin-suggestion@0.0.4
-  - @sveltor/plugin-upload@0.0.4
-  - @sveltor/share-ui@0.0.4
+  - @nextlint/plugin-block-menu@0.0.4
+  - @nextlint/plugin-bubble-menu@0.0.4
+  - @nextlint/plugin-floating-menu@0.0.4
+  - @nextlint/plugin-highlight@0.0.4
+  - @nextlint/plugin-image@0.0.4
+  - @nextlint/plugin-link@0.0.4
+  - @nextlint/plugin-slash@0.0.4
+  - @nextlint/plugin-suggestion@0.0.4
+  - @nextlint/plugin-upload@0.0.4
+  - @nextlint/share-ui@0.0.4
 
 ## 0.0.4
 
@@ -129,16 +129,16 @@
 - [`5ec7420`](https://github.com/sveltor/sveltor/commit/5ec7420580ce77f1b036ff41fb0a69d9010e0644) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix: add changeset tag cmd
 
 - Updated dependencies [[`5ec7420`](https://github.com/sveltor/sveltor/commit/5ec7420580ce77f1b036ff41fb0a69d9010e0644)]:
-  - @sveltor/plugin-block-menu@0.0.3
-  - @sveltor/plugin-bubble-menu@0.0.3
-  - @sveltor/plugin-floating-menu@0.0.3
-  - @sveltor/plugin-highlight@0.0.3
-  - @sveltor/plugin-image@0.0.3
-  - @sveltor/plugin-link@0.0.3
-  - @sveltor/plugin-slash@0.0.3
-  - @sveltor/plugin-suggestion@0.0.3
-  - @sveltor/plugin-upload@0.0.3
-  - @sveltor/share-ui@0.0.3
+  - @nextlint/plugin-block-menu@0.0.3
+  - @nextlint/plugin-bubble-menu@0.0.3
+  - @nextlint/plugin-floating-menu@0.0.3
+  - @nextlint/plugin-highlight@0.0.3
+  - @nextlint/plugin-image@0.0.3
+  - @nextlint/plugin-link@0.0.3
+  - @nextlint/plugin-slash@0.0.3
+  - @nextlint/plugin-suggestion@0.0.3
+  - @nextlint/plugin-upload@0.0.3
+  - @nextlint/share-ui@0.0.3
 
 ## 0.0.3
 
@@ -153,13 +153,13 @@
 - [`73b3ede`](https://github.com/lynhan318/sveltor/commit/73b3ede30782b94781fabeaebf01aa47c8119e5f) Thanks [@lynhan318](https://github.com/lynhan318)! - feat: init package
 
 - Updated dependencies [[`73b3ede`](https://github.com/lynhan318/sveltor/commit/73b3ede30782b94781fabeaebf01aa47c8119e5f)]:
-  - @sveltor/plugin-floating-menu@0.0.2
-  - @sveltor/plugin-bubble-menu@0.0.2
-  - @sveltor/plugin-block-menu@0.0.2
-  - @sveltor/plugin-highlight@0.0.2
-  - @sveltor/plugin-upload@0.0.2
-  - @sveltor/plugin-image@0.0.2
-  - @sveltor/plugin-slash@0.0.2
-  - @sveltor/plugin-link@0.0.2
-  - @sveltor/plugin-suggestion@0.0.2
-  - @sveltor/share-ui@0.0.2
+  - @nextlint/plugin-floating-menu@0.0.2
+  - @nextlint/plugin-bubble-menu@0.0.2
+  - @nextlint/plugin-block-menu@0.0.2
+  - @nextlint/plugin-highlight@0.0.2
+  - @nextlint/plugin-upload@0.0.2
+  - @nextlint/plugin-image@0.0.2
+  - @nextlint/plugin-slash@0.0.2
+  - @nextlint/plugin-link@0.0.2
+  - @nextlint/plugin-suggestion@0.0.2
+  - @nextlint/share-ui@0.0.2

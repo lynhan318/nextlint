@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {CommentEditor, Editor, EditorTheme} from '@sveltor/editor';
+  import {CommentEditor, Editor, EditorTheme} from '@nextlint/editor';
 
   const onEditorChange = () => {};
 

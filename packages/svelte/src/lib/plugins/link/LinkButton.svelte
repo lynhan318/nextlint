@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {useEditor} from '@sveltor/core';
+  import {useEditor} from '@nextlint/core';
   import {ActionIcon, Button, Input, Popper, Box} from '@svelteuidev/core';
   import {Link2, Check} from 'radix-icons-svelte';
   import {getMarkAttributes} from '@tiptap/core';

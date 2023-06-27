@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-  import {createEditorContext, useEditor} from '@sveltor/core';
+  import {createEditorContext, useEditor} from '@nextlint/core';
   import type {Content, Editor} from '@tiptap/core';
   import {SvelteUIProvider} from '@svelteuidev/core';
 

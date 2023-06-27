@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-  import {useEditor} from '@sveltor/core';
+  import {useEditor} from '@nextlint/core';
   import tippy, {type Props, type SingleTarget} from 'tippy.js';
   import {onDestroy, setContext} from 'svelte';
 

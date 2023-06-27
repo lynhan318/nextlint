@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {createEditorContext} from '@sveltor/core';
+  import {createEditorContext} from '@nextlint/core';
   import type {Content, Editor} from '@tiptap/core';
   import {Stack, SvelteUIProvider} from '@svelteuidev/core';
 

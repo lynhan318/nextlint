@@ -10,7 +10,7 @@
     TextAlignCenter,
     TextAlignRight
   } from 'radix-icons-svelte';
-  import {useEditor, getRootNode} from '@sveltor/core';
+  import {useEditor, getRootNode} from '@nextlint/core';
   import {onMount} from 'svelte';
   import {CommandButton} from '$lib/components';
 
