@@ -73,11 +73,11 @@
     "vite": "^4.3.9"
   },
   "publishConfig": {
-    "@nextlint:registry": "https://registry.npmjs.org"
+    "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sveltor/sveltor.git",
+    "url": "git+https://github.com/sveltor/nextlint.git",
     "directory": "packages/svelte"
   },
   "svelte": "./dist/index.js",
