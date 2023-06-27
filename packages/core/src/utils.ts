@@ -43,7 +43,6 @@ export const renderHTML = (editor: Editor) => {
   const doc = editor.getJSON();
   try {
     const schema = editor.schema;
-    console.log('doc', doc);
     const contentNode = Node.fromJSON(schema, doc);
     return transformHTML(contentNode.content, schema);
   } catch (error) {

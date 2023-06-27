@@ -13,10 +13,6 @@
     localStorage.setItem('editor', JSON.stringify(json));
   };
 
-  let options = {
-    preview: false,
-    toc: false
-  };
   const submitPromt = async (prompt: string) => {
     const {data} = await fetch('https://api.nextlint.com/graphql', {
       method: 'POST',
@@ -41,7 +37,6 @@
 
 <div class="editor">
   <EditorTheme>
-    <Devtool bind:options />
     <div class="container">
       <div class="wrapper">
         <SvelteEditor
@@ -68,6 +63,9 @@
         <button on:click={onSave}>save</button>
       </div>
     </div>
+    {#if editor}
+      <Devtool {editor} />
+    {/if}
   </EditorTheme>
 </div>
 
@@ -77,11 +75,9 @@
     flex-direction: row;
   }
   .wrapper {
-    max-width: 800px;
+    max-width: 860px;
     width: 100%;
     margin: auto;
-    margin-top: 120px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding: 32px;
     border-radius: 8px;
   }

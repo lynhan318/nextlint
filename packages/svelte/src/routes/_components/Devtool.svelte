@@ -1,23 +1,57 @@
 <script lang="ts">
-  import {Checkbox, Container, Group} from '@svelteuidev/core';
-  export let options = {
-    preview: false
-  };
-  let checked = 'check';
+  import {
+    Portal,
+    Box,
+    Popper,
+    ActionIcon,
+    Tooltip,
+    Group,
+    Modal,
+    Container
+  } from '@svelteuidev/core';
+  import {renderHTML, useEditor} from '@sveltor/core';
+  import {Gear, Cross1, EyeOpen, PinBottom, FileText} from 'radix-icons-svelte';
+  export let editor;
+  let show = false;
+  let preview = false;
+  let element: HTMLElement;
 </script>
 
-<Container override={{width: '100%'}}>
-  <Group
-    override={{
-      margin: 'auto',
-      boxShadow: '$shadows$lg',
-      maxWidth: 500,
-      padding: 16,
-      borderRadius: 16,
-      marginTop: 32
-    }}
-  >
-    <Checkbox label="Preview" bind:checked={options.preview} />
-    <Checkbox label="TOC" bind:checked={options.toc} />
-  </Group>
-</Container>
+<Portal zIndex={5}>
+  <Box css={{position: 'fixed', bottom: 30, right: 30}}>
+    <ActionIcon bind:element on:click={() => (show = !show)}>
+      {#if show}
+        <Cross1 size={24} />
+      {:else}
+        <Gear size={24} />
+      {/if}
+    </ActionIcon>
+    {#if show}
+      <Popper mounted={show} reference={element} position="left">
+        <Group>
+          <Tooltip label="Preview">
+            <ActionIcon on:click={() => (preview = !preview)}>
+              <EyeOpen size={24} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Download JSON">
+            <ActionIcon>
+              <PinBottom size={24} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Download HTML">
+            <ActionIcon>
+              <FileText size={24} />
+            </ActionIcon>
+          </Tooltip>
+        </Group>
+      </Popper>
+    {/if}
+  </Box>
+</Portal>
+
+<Modal opened={preview} size="100%" on:close={() => (preview = false)}>
+  <Container fluid override={{width: 860}}>
+    {@html renderHTML(editor)}
+  </Container>
+</Modal>

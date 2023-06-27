@@ -2,6 +2,7 @@
   "name": "@sveltor/svelte",
   "version": "1.0.0",
   "scripts": {
+    "playground": "vite dev",
     "dev": "pnpm dev:package",
     "dev:package": "pnpm package -w",
     "build": "pnpm package",
