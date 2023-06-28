@@ -1,5 +1,11 @@
 # @nextlint/core
 
+## 1.0.2
+
+### Patch Changes
+
+- [`dea1381`](https://github.com/sveltor/nextlint/commit/dea1381fd6756bdda5f0a8c8964d967ebbdaabaa) Thanks [@lynhan318](https://github.com/lynhan318)! - fix missing source
+
 ## 1.0.1
 
 ### Patch Changes
