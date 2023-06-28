@@ -61,7 +61,7 @@
 </script>
 
 <SvelteUIProvider>
-  <div use:render />
+  <div use:render id="nextlint-editor" />
   {#await ready then _}
     <Positioner position="selection">
       <BubbleMenu />

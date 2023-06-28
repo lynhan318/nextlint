@@ -30,11 +30,9 @@
           position: 'relative',
           display: 'block',
           '& > p,figure,blockquote': {
-            // padding: 8,
             borderRadius: 4
           },
           '& .ProseMirror-selectednode': {
-            // transition: 'all 0.2s ease-in-out',
             outline: '2px solid $green200',
             boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
           },
@@ -80,7 +78,6 @@
             fontFamily: 'var(--editor-font-heading)',
             color: theme.colors.dark400.value,
             marginTop: 'var(--editor-block-gap)',
-            // padding: 8,
             borderRadius: 4
           },
           '& h1': {
@@ -196,7 +193,5 @@
 </script>
 
 <div class={getStyles({css: override})}>
-  <div class="ProseMirror">
-    <slot />
-  </div>
+  <slot />
 </div>

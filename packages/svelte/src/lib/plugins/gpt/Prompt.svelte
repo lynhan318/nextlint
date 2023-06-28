@@ -22,9 +22,17 @@
 
   export let onApply = (text: string) => {};
   export let onClose = () => {};
+
+  // external access {{
   export const onShow = () => {
     input.focus();
   };
+  export const onHide = () => {
+    prompt = '';
+    completion = '';
+  };
+  // }}
+
   export const clearData = () => {
     completion = '';
     prompt = '';
