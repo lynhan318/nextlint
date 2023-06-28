@@ -77,10 +77,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sveltor/nextlint.git",
+    "url": "https://github.com/sveltor/nextlint",
     "directory": "packages/svelte"
   },
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module"
+  "type": "module",
+  "keywords": [
+    "Svelte",
+    "Rich Text Editor",
+    "WYSIWYG",
+    "Nextlint",
+    "tiptap",
+    "javascript",
+    "typescript",
+    "gpt"
+  ]
 }
