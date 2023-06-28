@@ -1,5 +1,11 @@
 # @nextlint/core
 
+## 1.0.3
+
+### Patch Changes
+
+- [#11](https://github.com/sveltor/nextlint/pull/11) [`d0313c4`](https://github.com/sveltor/nextlint/commit/d0313c4bc3e8d3c95089ac3a02001fe08820bfeb) Thanks [@lynhan318](https://github.com/lynhan318)! - allow custom extension
+
 ## 1.0.2
 
 ### Patch Changes
