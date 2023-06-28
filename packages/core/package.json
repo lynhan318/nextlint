@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sveltor/nextlint.git",
+    "url": "https://github.com/sveltor/nextlint",
     "directory": "packages/core"
   },
   "dependencies": {
@@ -61,5 +61,15 @@
     "tippy.js": "^6.3.7",
     "vite-plugin-lightningcss": "^0.0.5",
     "zeed-dom": "^0.10.5"
-  }
+  },
+  "keywords": [
+    "Svelte",
+    "Rich Text Editor",
+    "WYSIWYG",
+    "Nextlint",
+    "tiptap",
+    "javascript",
+    "typescript",
+    "gpt"
+  ]
 }

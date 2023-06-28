@@ -3,7 +3,7 @@
   "version": "1.5.5",
   "private": false,
   "author": "lynhan318",
-  "description": "This is an unofficial SvelteKit monorepo starter powered by Turborepo.",
+  "description": "Nextlint is a WYSIWYG editor, writen in Svelte",
   "scripts": {
     "build": "turbo run build --parallel",
     "dev": "pnpm run --parallel --filter './packages/**' dev",
@@ -45,12 +45,17 @@
   },
   "keywords": [
     "Svelte",
-    "Component Library",
-    "Turborepo"
+    "Rich Text Editor",
+    "WYSIWYG",
+    "Nextlint",
+    "tiptap",
+    "javascript",
+    "typescript",
+    "gpt"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Brisklemonade/turbosvelte.git"
+    "url": "https://github.com/sveltor/nextlint.git"
   },
   "license": "MIT",
   "type": "module",
