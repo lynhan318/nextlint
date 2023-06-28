@@ -1,58 +1,73 @@
-# create-svelte
+# Nextlint
+Nextlint is a WYSIWYG (What You See Is What You Get) editor built using the "@tiptap" library and developed with Svelte. It provides a user-friendly interface for editing and formatting text, allowing users to create rich content effortlessly.
+# Features
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+[x] Bubble Menu
+[x] Slash Menu
+[x] Image 
+[x] GPT prompt
+[ ] Block Menu (WIP)
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
+... and many more.
 
-## Creating a project
+# Demo:
+https://nextlint-editor.vercel.app/
 
-If you're seeing this, you've probably already done this step. Congrats!
+# Quick start
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Install the package:
+```sh
+//npm
+npm install @nextlint/svelte
 
-# create a new project in my-app
-npm create svelte@latest my-app
+//yarn
+yarn add @nextlint/svelte
+
+//pnmp 
+npm add @nextlint/svelte
+```
+# Setup
+
+```svelte
+<script lang="ts">
+  import {type Editor, EditorTheme, SvelteEditor} from '@nextlint/svelte';
+
+  let editor: Editor;
+
+  const submitPromt = async (prompt: string) => {
+    // handle prompt for GPT plugin
+    return '';
+  };
+  
+  const handleUpload = async (file: File) => {
+    // handle upload here
+    const blob = new Blob([file]);
+    const previewUrl = URL.createObjectURL(blob);
+    return previewUrl;
+  };
+  
+</script>
+
+<EditorTheme>
+  <SvelteEditor
+    content={''}
+    placeholder="Press 'space' GPT support, type '/' for help"
+    onCreated={createdEditor => { editor = createdEditor }}
+    onChange={nextEditor => { editor = nextEditor }}
+    
+    <!-- plugins config -->
+    plugins={{
+      selectImage: {
+        handleUpload,
+        unsplash: {
+          accessKey: 'UNPLASH_API_KEY'
+        }
+      },
+      gpt: {query: submitPromt}
+    }}
+    
+  />
+</EditorTheme>
+
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
