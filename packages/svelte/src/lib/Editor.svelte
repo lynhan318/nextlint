@@ -53,10 +53,12 @@
       HighlightExtension,
       SlashMenu,
       FigureExtension,
-      PluginGPT.configure(plugins.gpt),
       SelectImageExtension.configure(plugins.selectImage),
-      Dropcursor.configure(plugins.dropCursor)
-    ].concat(extensions)
+      Dropcursor.configure(plugins.dropCursor),
+      plugins.gpt && PluginGPT.configure(plugins.gpt)
+    ]
+      .concat(extensions)
+      .filter(Boolean)
   });
 </script>
 

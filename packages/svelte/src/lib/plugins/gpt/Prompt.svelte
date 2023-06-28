@@ -59,7 +59,7 @@
   }}
 >
   <form on:submit={onSubmit}>
-    <input
+    <textarea
       class="input"
       bind:this={input}
       placeholder="Hi there! How can I help you?"
