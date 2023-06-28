@@ -50,11 +50,11 @@
           onChange={nextEditor => {
             editor = nextEditor;
           }}
-          editorOptions={{
+          plugins={{
             selectImage: {
               handleUpload,
               unsplash: {
-                accessKey: ''
+                accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
               }
             },
             gpt: {query: submitPromt}
