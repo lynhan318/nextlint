@@ -6,10 +6,11 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "tsc"
   },
   "files": [
-    "./dist"
+    "dist"
   ],
   "devDependencies": {
     "typescript": "^5.1.3",

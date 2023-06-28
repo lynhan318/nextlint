@@ -1,5 +1,5 @@
 {
-  "name": "nextlint-editor",
+  "name": "nextlint",
   "version": "1.5.5",
   "private": false,
   "author": "lynhan318",
@@ -14,7 +14,7 @@
     "dev:lib": "turbo run --parallel --filter='./packages/*' dev",
     "clean": "rm -rf node_modules ./**/*/{node_modules,build,dist,.turbo,.svelte-kit,.pnpm}",
     "version": "changeset version",
-    "release": "changeset publish",
+    "release": "pnpm build && changeset publish",
     "release:tag": "changeset tag"
   },
   "devDependencies": {
