@@ -1,5 +1,12 @@
 # @nextlint/editor
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`dea1381`](https://github.com/sveltor/nextlint/commit/dea1381fd6756bdda5f0a8c8964d967ebbdaabaa)]:
+  - @nextlint/core@1.0.2
+
 ## 1.0.2
 
 ### Patch Changes
