@@ -2,12 +2,13 @@
   export type PluginOptions = {
     selectImage?: SelectImageOptions;
     gpt?: GPTOptions;
+    dropCursor?: DropcursorOptions;
   };
 </script>
 
 <script lang="ts">
-  import {createEditorContext, useEditor} from '@nextlint/core';
-  import type {Content, Editor} from '@tiptap/core';
+  import {createEditorContext} from '@nextlint/core';
+  import type {Content, Editor, Extensions} from '@tiptap/core';
   import {SvelteUIProvider} from '@svelteuidev/core';
 
   import {LinkExtension} from '$lib/plugins/link';
@@ -20,7 +21,10 @@
   import {HighlightExtension} from '$lib/plugins/highlight';
   import {SlashMenu} from '$lib/plugins/slash';
 
-  import {Dropcursor} from '@tiptap/extension-dropcursor';
+  import {
+    Dropcursor,
+    type DropcursorOptions
+  } from '@tiptap/extension-dropcursor';
 
   import Positioner from './components/Positioner/Positioner.svelte';
   import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
@@ -30,6 +34,7 @@
   export let onChange: (editor: Editor) => void;
   export let onCreated = (editor: Editor) => {};
   export let plugins: PluginOptions = {};
+  export let extensions: Extensions = [];
 
   const {render, ready} = createEditorContext({
     editable: true,
@@ -50,11 +55,8 @@
       FigureExtension,
       PluginGPT.configure(plugins.gpt),
       SelectImageExtension.configure(plugins.selectImage),
-      Dropcursor.configure({
-        width: 2,
-        color: 'var(--svelteui-colors-green200)'
-      })
-    ]
+      Dropcursor.configure(plugins.dropCursor)
+    ].concat(extensions)
   });
 </script>
 
