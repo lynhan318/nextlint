@@ -8,16 +8,19 @@ Nextlint is a WYSIWYG (What You See Is What You Get) editor built using the "@ti
 
 # Features
 
-**Bubble Menu**
+### Bubble Menu
 ![Bubble Menu](/source/bubble_menu.png)
 
-**Slash Menu**
+### Slash Menu
 ![Slash Menu](/source/slash_menu.png)
 
-**Image**: support upload/embed/unsplash api
+### Image 
+Support upload/embed/unsplash api
+
 ![Image](/source/image.png)
 
-**Suport GPT prompt**
+### GPT prompt
+
 ![GPT prompt](/source/gpt_prompt.png)
 
 ... and many more.
@@ -27,7 +30,7 @@ https://nextlint-editor.vercel.app/
 
 # Quick start
 
-Install package:
+Install the package:
 ```sh
 //npm
 npm install @nextlint/svelte
@@ -38,3 +41,48 @@ yarn add @nextlint/svelte
 //pnmp 
 npm add @nextlint/svelte
 ```
+# Setup
+
+```svelte
+<script lang="ts">
+  import {type Editor, EditorTheme, SvelteEditor} from '@nextlint/svelte';
+
+  let editor: Editor;
+
+  const submitPromt = async (prompt: string) => {
+    // handle prompt for GPT plugin
+    return '';
+  };
+  
+  const handleUpload = async (file: File) => {
+    // handle upload here
+    const blob = new Blob([file]);
+    const previewUrl = URL.createObjectURL(blob);
+    return previewUrl;
+  };
+  
+</script>
+
+<EditorTheme>
+  <SvelteEditor
+    content={''}
+    placeholder="Press 'space' GPT support, type '/' for help"
+    onCreated={createdEditor => { editor = createdEditor }}
+    onChange={nextEditor => { editor = nextEditor }}
+    
+    <!-- plugins config -->
+    plugins={{
+      selectImage: {
+        handleUpload,
+        unsplash: {
+          accessKey: 'UNPLASH_API_KEY'
+        }
+      },
+      gpt: {query: submitPromt}
+    }}
+    
+  />
+</EditorTheme>
+
+```
+
