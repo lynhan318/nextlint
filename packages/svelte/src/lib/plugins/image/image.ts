@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export interface UploadOptions {
+export interface SelectImageOptions {
   handleUpload?: (file: File) => Promise<string>;
   unsplash?: {
     accessKey: string;
@@ -25,7 +25,7 @@ let popup: Instance<Props>;
 let wrapper: HTMLElement;
 let component: SelectImage;
 export const imageStore = writable<NodeViewRendererProps | null>(null);
-export const SelectImageExtension = Node.create<UploadOptions>({
+export const SelectImageExtension = Node.create<SelectImageOptions>({
   name: 'selectImage',
   group: 'block',
   selectable: true,
