@@ -1,5 +1,11 @@
 # @nextlint/core
 
+## 1.0.4
+
+### Patch Changes
+
+- [`f344632`](https://github.com/sveltor/nextlint/commit/f344632a42f2fb84dc7e0afeb2518e27cbc57e22) Thanks [@lynhan318](https://github.com/lynhan318)! - add license
+
 ## 1.0.3
 
 ### Patch Changes
