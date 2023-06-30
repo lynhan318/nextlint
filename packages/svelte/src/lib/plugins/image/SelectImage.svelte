@@ -6,10 +6,10 @@
   import {getContext} from 'svelte';
   import type {Writable} from 'svelte/store';
   import type {NodeViewRendererProps} from '@tiptap/core';
-  import type {UploadOptions} from './image';
+  import type {SelectImageOptions} from './image';
 
   const store = getContext<Writable<NodeViewRendererProps>>('store');
-  const options = getContext<UploadOptions>('options');
+  const options = getContext<SelectImageOptions>('options');
 
   export let onHide = () => {};
 
@@ -47,7 +47,7 @@
     {/if}
     <EmbedTab {onInsert} />
     {#if options.unsplash}
-      <UnplashTab {onInsert} />
+      <UnplashTab {onInsert} unsplash={options.unsplash} />
     {/if}
   </Tabs>
 </Box>
