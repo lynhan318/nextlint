@@ -12,7 +12,6 @@
   import {createApi} from 'unsplash-js';
 
   export let unsplash = {accessKey: ''};
-  console.log('unspls', unsplash);
 
   let lists = [];
   let query = '';
