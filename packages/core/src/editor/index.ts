@@ -1,5 +1,5 @@
 import {lowlight} from 'lowlight/lib/common';
-import {Editor, type Content, Extension} from '@tiptap/core';
+import {Editor, type Content, type Extensions} from '@tiptap/core';
 
 import {StarterKit, type StarterKitOptions} from './starterKit';
 
@@ -11,7 +11,7 @@ export type EditorOptions = {
   editable?: boolean;
   onChange?: (editor: Editor) => void;
   onCreated?: (editor: Editor) => void;
-  extensions?: Extension[];
+  extensions?: Extensions;
 };
 
 export const createEditor = (options: EditorOptions) => {
@@ -29,7 +29,7 @@ export const createEditor = (options: EditorOptions) => {
         },
         ...options.starterKit
       })
-    ].concat(options.extensions || []),
+    ].concat((options.extensions as any) || []),
     content: options.content
   });
   return editor;

@@ -85,15 +85,15 @@ export class Renderer {
       getReferenceClientRect: props.clientRect
     });
     this.popup.show();
-    this.svelteComponent!.onShow();
+    this.svelteComponent?.onShow();
   }
 
   hide() {
-    this.popup[0].hide();
-    this.svelteComponent!.onHide();
+    this.popup?.hide();
+    this.svelteComponent?.onHide();
   }
   destroy() {
     this.svelteComponent?.$destroy();
-    this.popup[0].destroy();
+    this.popup?.destroy();
   }
 }

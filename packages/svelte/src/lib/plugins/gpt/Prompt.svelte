@@ -22,9 +22,17 @@
 
   export let onApply = (text: string) => {};
   export let onClose = () => {};
+
+  // external access {{
   export const onShow = () => {
     input.focus();
   };
+  export const onHide = () => {
+    prompt = '';
+    completion = '';
+  };
+  // }}
+
   export const clearData = () => {
     completion = '';
     prompt = '';
@@ -51,7 +59,7 @@
   }}
 >
   <form on:submit={onSubmit}>
-    <input
+    <textarea
       class="input"
       bind:this={input}
       placeholder="Hi there! How can I help you?"

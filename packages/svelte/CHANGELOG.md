@@ -1,5 +1,32 @@
 # @nextlint/editor
 
+## 1.0.4
+
+### Patch Changes
+
+- [`eeb1290`](https://github.com/sveltor/nextlint/commit/eeb1290b95e96817117a50c580eebffb6e3c1dd7) Thanks [@lynhan318](https://github.com/lynhan318)! - fix crashing when close gpt modal
+
+- [`d7fd1d0`](https://github.com/sveltor/nextlint/commit/d7fd1d066427a5737d0d9795c19aa697e06b1415) Thanks [@lynhan318](https://github.com/lynhan318)! - fix using textarea for input prompt
+
+- Updated dependencies [[`d0313c4`](https://github.com/sveltor/nextlint/commit/d0313c4bc3e8d3c95089ac3a02001fe08820bfeb)]:
+  - @nextlint/core@1.0.3
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`dea1381`](https://github.com/sveltor/nextlint/commit/dea1381fd6756bdda5f0a8c8964d967ebbdaabaa)]:
+  - @nextlint/core@1.0.2
+
+## 1.0.2
+
+### Patch Changes
+
+- [#8](https://github.com/sveltor/nextlint/pull/8) [`abc6c49`](https://github.com/sveltor/nextlint/commit/abc6c4902201aec495a33d0e62848e437ab90e95) Thanks [@lynhan318](https://github.com/lynhan318)! - docs: update README.md
+
+- Updated dependencies [[`abc6c49`](https://github.com/sveltor/nextlint/commit/abc6c4902201aec495a33d0e62848e437ab90e95)]:
+  - @nextlint/core@1.0.1
+
 ## 1.0.1
 
 ### Patch Changes
