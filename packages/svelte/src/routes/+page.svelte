@@ -3,6 +3,7 @@
 
   import EditorTheme from '$lib/EditorTheme.svelte';
   import SvelteEditor from '$lib/Editor.svelte';
+  import showcaseContent from './sveltor.json';
 
   import Devtool from './_components/Devtool.svelte';
 
@@ -23,11 +24,13 @@
         query: `{sveltor_completion(prompt:"${prompt}"){text}}`
       })
     }).then(res => res.json());
+
     if (data?.sveltor_completion) {
       return data.sveltor_completion[0].text.trim();
     }
     return '';
   };
+
   const handleUpload = async (file: File) => {
     const blob = new Blob([file]);
     const previewUrl = URL.createObjectURL(blob);
@@ -40,12 +43,10 @@
     <div class="container">
       <div class="wrapper">
         <SvelteEditor
-          content={''}
+          content={showcaseContent}
           placeholder="Press 'space' GPT support, type '/' for help"
           onCreated={createdEditor => {
             editor = createdEditor;
-            const content = localStorage.getItem('editor');
-            createdEditor.commands.setContent(JSON.parse(content || ''));
           }}
           onChange={nextEditor => {
             editor = nextEditor;
