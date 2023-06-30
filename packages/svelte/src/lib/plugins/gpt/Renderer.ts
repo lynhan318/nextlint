@@ -66,16 +66,14 @@ export class Renderer {
         }
       });
       editorDOM.appendChild(this.tooltipWrapper);
-      this.popup = tippy('body', {
-        offset: [0, 0],
-        hideOnClick: true,
+      this.popup ||= tippy('body', {
         getReferenceClientRect: () => new DOMRect(-9999, -9999),
-        appendTo: () => document.body,
         content: this.tooltipWrapper,
         showOnCreate: false,
+        hideOnClick: true,
         interactive: true,
         trigger: 'manual',
-        placement: 'bottom-start',
+        placement: 'top-start',
         plugins: [createHidePlugin(this.editor)]
       })[0];
     }

@@ -64,6 +64,11 @@
       bind:this={input}
       placeholder="Hi there! How can I help you?"
       bind:value={prompt}
+      on:keypress={e => {
+        if (e.key === 'Enter') {
+          return onSubmit(e);
+        }
+      }}
     />
   </form>
 
