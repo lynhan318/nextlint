@@ -145,6 +145,6 @@ Default editor tokens
 ```
 
 ## Contributing (WIP)
-//TODO
+Please follow the [contribute guideline](https://github.com/sveltor/nextlint/blob/main/CONTRIBUTING.md)
 ## License
 The MIT License (MIT). Please see [License File](https://github.com/sveltor/nextlint/blob/main/LICENSE) for more information.
