@@ -9,7 +9,11 @@ import {
   Strikethrough,
   Text,
   Pencil2,
-  Underline
+  Underline,
+  AlignLeft,
+  TextAlignCenter,
+  TextAlignLeft,
+  TextAlignRight
 } from 'radix-icons-svelte';
 import type {SlashMenuItem} from './slash-menu';
 import {
@@ -149,6 +153,27 @@ const suggestionItem = [
     command({editor, range}) {
       return editor.chain().deleteRange(range).toggleOrderedList().run();
     }
+  },
+  {
+    title: 'Text Align Left',
+    command: ({editor}) => {
+      return editor.commands.setTextAlign('left');
+    },
+    icon: TextAlignLeft
+  },
+  {
+    title: 'Text Align Center',
+    command: ({editor}) => {
+      return editor.commands.setTextAlign('center');
+    },
+    icon: TextAlignCenter
+  },
+  {
+    title: 'Text Align Right',
+    command: ({editor}) => {
+      return editor.commands.setTextAlign('right');
+    },
+    icon: TextAlignRight
   },
   {
     title: 'Image',

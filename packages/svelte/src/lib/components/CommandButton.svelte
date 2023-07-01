@@ -28,7 +28,6 @@
     bind:element
     color={active ? 'teal' : ''}
     on:click={e => {
-      e.stopPropagation();
       toggle();
     }}
     override={{
