@@ -14,6 +14,8 @@
   import {onMount} from 'svelte';
   import {CommandButton} from '$lib/components';
 
+  import {type TextAlignment} from '$lib/plugins/slash';
+
   const editor = useEditor();
 
   $: isActive = (style: string): boolean => $editor!.isActive(style);
@@ -31,16 +33,8 @@
   const toggle = (style: string): boolean => {
     return $editor!.commands[`toggle${style}`]();
   };
-  const setTextAlign = (direction: string) => {
-    const rootNode = getRootNode($editor!);
-    if (rootNode) {
-      const {start, node} = rootNode;
-      $editor!
-        .chain()
-        .setTextSelection(start)
-        .updateAttributes(node.type, {align: direction})
-        .run();
-    }
+  const setTextAlign = (direction: TextAlignment) => {
+    $editor.chain().setTextAlign(direction).run();
   };
 
   $: renderer = [
