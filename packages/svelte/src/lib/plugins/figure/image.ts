@@ -2,30 +2,26 @@ import {mergeAttributes, Node} from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
 import {Node as PMNode} from '@tiptap/pm/model';
 import {Plugin, PluginKey} from '@tiptap/pm/state';
-import {Decoration, DecorationSet} from '@tiptap/pm/view';
+import {type Decoration, DecorationSet} from '@tiptap/pm/view';
 
-import {renderHTML, setFocusNode} from './utils';
+import {renderHTML} from './utils';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
 }
 
-export type ImageOptions = FigureOptions;
-
 export const imageRegex =
   /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|webp|svg)/g;
 
-export type ImageAttributes = {
+export type FigureAttributes = {
   src: string;
   direction?: 'left' | 'right' | 'center';
-  alt?: string;
-  title?: string;
 };
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     figure: {
-      toggleFigure: (options: ImageAttributes) => ReturnType;
+      toggleFigure: (options: FigureAttributes) => ReturnType;
     };
   }
 }
@@ -41,26 +37,6 @@ export const FigureExtension = Node.create<FigureOptions>({
       default: null,
       parseHTML: (dom: HTMLElement) => {
         return dom.querySelector('img')?.src;
-      }
-    },
-    alt: {
-      default: 'image alt',
-      parseHTML: (dom: HTMLElement) => {
-        return (
-          dom.querySelector('figcaption')?.textContent ||
-          dom.querySelector('img')?.alt ||
-          ''
-        );
-      }
-    },
-    title: {
-      default: 'next image',
-      parseHTML: (dom: HTMLElement) => {
-        return (
-          dom.querySelector('figcaption')?.textContent ||
-          dom.querySelector('img')?.title ||
-          ''
-        );
       }
     },
     direction: {
@@ -79,10 +55,10 @@ export const FigureExtension = Node.create<FigureOptions>({
       }
     ];
   },
-  renderHTML({HTMLAttributes}) {
+  renderHTML({HTMLAttributes, node}) {
     return [
       'figure',
-      mergeAttributes(this.options.HTMLAttributes || {}),
+      mergeAttributes(this.options.HTMLAttributes),
       [
         'img',
         mergeAttributes(HTMLAttributes, {
@@ -100,15 +76,19 @@ export const FigureExtension = Node.create<FigureOptions>({
         HTMLAttributes: nodeView.HTMLAttributes,
         node: nodeView.node
       });
+
       const img = dom.querySelector('img');
+
       if (img) {
         img.onclick = event => {
           event.stopPropagation();
-          setFocusNode(nodeView);
+          nodeView.editor.commands.setNodeSelection(nodeView.getPos()!);
         };
       }
+
       setTimeout(() => {
-        contentDOM.innerText = nodeView.HTMLAttributes.alt || 'image alt';
+        const node = nodeView.node;
+        contentDOM.innerText = node.textContent;
       }, 50);
 
       return {dom, contentDOM};
@@ -143,7 +123,7 @@ export const FigureExtension = Node.create<FigureOptions>({
           return chain()
             .insertContent({
               type: this.name,
-              content: [{type: 'text', text: attrs.alt || 'image alt'}],
+              content: [{type: 'text', text: 'image alt'}],
               attrs
             })
             .run();
@@ -165,8 +145,7 @@ export const FigureExtension = Node.create<FigureOptions>({
                 const fragment = PMNode.fromJSON(this.editor.schema, {
                   type: this.name,
                   attrs: {
-                    src,
-                    alt: 'image alt'
+                    src
                   },
                   content: [{type: 'text', text: 'image alt'}]
                 });
