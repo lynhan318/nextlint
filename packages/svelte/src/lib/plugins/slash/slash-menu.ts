@@ -46,17 +46,16 @@ export const SlashMenu = Extension.create<SlashMenuOptions>({
     return {
       setTextAlign:
         (align?: TextAlignment) =>
-        ({editor, tr}) => {
-          const sel = editor.state.selection;
+        ({editor, state}) => {
+          const sel = state.selection;
           const node = sel.$anchor.node(1);
-          const from = sel.$anchor.start(1);
-          const to = sel.$anchor.end(1);
-          return editor
-            .chain()
-            .setTextSelection({from, to})
-            .focus()
-            .updateAttributes(node.type, {align})
-            .run();
+
+          //Workaround: invaid with selection range when click on command item
+          queueMicrotask(() => {
+            editor.commands.updateAttributes(node.type, {align});
+          });
+
+          return true;
         }
     };
   },
