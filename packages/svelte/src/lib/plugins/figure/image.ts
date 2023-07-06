@@ -1,20 +1,26 @@
-import {mergeAttributes, Node} from '@tiptap/core';
+import {
+  mergeAttributes,
+  Node,
+  nodeInputRule,
+  type InputRuleMatch
+} from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
 import {Node as PMNode} from '@tiptap/pm/model';
 import {Plugin, PluginKey} from '@tiptap/pm/state';
 import {type Decoration, DecorationSet} from '@tiptap/pm/view';
 
-import {renderHTML} from './utils';
+import Figure from './Figure.svelte';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
 }
 
 export const imageRegex =
-  /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|webp|svg)/g;
+  /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|svg|jpeg)/g;
 
 export type FigureAttributes = {
   src: string;
+  alt?: string;
   direction?: 'left' | 'right' | 'center';
 };
 
@@ -39,6 +45,12 @@ export const FigureExtension = Node.create<FigureOptions>({
         return dom.querySelector('img')?.src;
       }
     },
+    alt: {
+      default: 'image alt',
+      parseHTML: (dom: HTMLElement) => {
+        return dom.querySelector('figcaption')?.innerText;
+      }
+    },
     direction: {
       default: 'left',
       parseHTML: (dom: HTMLElement) => {
@@ -55,7 +67,7 @@ export const FigureExtension = Node.create<FigureOptions>({
       }
     ];
   },
-  renderHTML({HTMLAttributes, node}) {
+  renderHTML({HTMLAttributes}) {
     return [
       'figure',
       mergeAttributes(this.options.HTMLAttributes),
@@ -72,26 +84,15 @@ export const FigureExtension = Node.create<FigureOptions>({
 
   addNodeView() {
     return nodeView => {
-      const {dom, contentDOM} = renderHTML({
-        HTMLAttributes: nodeView.HTMLAttributes,
-        node: nodeView.node
+      const figureWrapper = document.createElement('div');
+
+      const figure = new Figure({
+        target: figureWrapper,
+        props: {
+          nodeView
+        }
       });
-
-      const img = dom.querySelector('img');
-
-      if (img) {
-        img.onclick = event => {
-          event.stopPropagation();
-          nodeView.editor.commands.setNodeSelection(nodeView.getPos()!);
-        };
-      }
-
-      setTimeout(() => {
-        const node = nodeView.node;
-        contentDOM.innerText = node.textContent;
-      }, 50);
-
-      return {dom, contentDOM};
+      return figure;
     };
   },
 
@@ -135,26 +136,36 @@ export const FigureExtension = Node.create<FigureOptions>({
     return [
       new Plugin({
         key: new PluginKey('image-utils'),
-        props: {
-          decorations: ({doc, tr}) => {
-            const decorations: Decoration[] = [];
-            doc.forEach((node, offset) => {
-              if (new RegExp(imageRegex).test(node.textContent || '')) {
-                const src = node.textContent;
-                tr.deleteRange(offset, src.length + offset + 1);
-                const fragment = PMNode.fromJSON(this.editor.schema, {
-                  type: this.name,
-                  attrs: {
-                    src
-                  },
-                  content: [{type: 'text', text: 'image alt'}]
-                });
-                tr.insert(offset, fragment);
-                this.editor.view.dispatch(tr);
-              }
-            });
-            return DecorationSet.create(doc, decorations);
+        appendTransaction: (transactions, oldState, newState) => {
+          const anchorRes = newState.selection.$anchor;
+
+          const docChanged =
+            transactions.some(tr => tr.docChanged) &&
+            !oldState.doc.eq(newState.doc);
+
+          const isParagraph = anchorRes.node(1).type.name === 'paragraph';
+
+          if (!docChanged || !isParagraph) return;
+
+          const nodeText = anchorRes.node(1).textContent;
+          const [src] = (nodeText || '').trim().match(imageRegex) || [];
+          const {tr} = newState;
+
+          if (src === nodeText) {
+            const startNode = anchorRes.start(1);
+            tr.deleteRange(startNode, anchorRes.end(1));
+            tr.insert(
+              startNode - 1,
+              PMNode.fromJSON(this.editor.schema, {
+                type: this.name,
+                attrs: {
+                  src
+                },
+                content: [{type: 'text', text: 'image alt'}]
+              })
+            );
           }
+          return tr;
         }
       })
     ];
