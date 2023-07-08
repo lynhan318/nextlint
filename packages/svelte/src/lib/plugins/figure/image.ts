@@ -1,19 +1,19 @@
 import {
   mergeAttributes,
   Node,
-  nodeInputRule,
-  type InputRuleMatch,
   combineTransactionSteps,
   getChangedRanges,
   findChildrenInRange,
-  type NodeWithPos
+  type NodeWithPos,
+  isNodeSelection
 } from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
 import {Node as PMNode} from '@tiptap/pm/model';
 import {Plugin, PluginKey} from '@tiptap/pm/state';
-import {type Decoration, DecorationSet} from '@tiptap/pm/view';
+import {Decoration, DecorationSet} from '@tiptap/pm/view';
 
 import Figure from './Figure.svelte';
+import FigureWidget from './FigureWidget.svelte';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
@@ -89,13 +89,13 @@ export const FigureExtension = Node.create<FigureOptions>({
   addNodeView() {
     return nodeView => {
       const figureWrapper = document.createElement('div');
-
       const figure = new Figure({
         target: figureWrapper,
         props: {
           nodeView
         }
       });
+      figure.stopEvent = () => true;
       return figure;
     };
   },
@@ -140,6 +140,47 @@ export const FigureExtension = Node.create<FigureOptions>({
     return [
       new Plugin({
         key: new PluginKey('image-utils'),
+        state: {
+          init() {
+            return {
+              disposes: [],
+              decorators: DecorationSet.empty
+            };
+          },
+          apply: (tr, oldState) => {
+            const content = tr.selection.content().content;
+            const nodeSelection =
+              isNodeSelection(tr.selection) &&
+              content.childCount === 1 &&
+              content.firstChild;
+
+            if (nodeSelection) {
+              const wrapper = document.createElement('div');
+              const component = new FigureWidget({
+                target: wrapper
+              });
+              const decorator = Decoration.widget(
+                tr.selection.anchor + 1,
+                wrapper
+              );
+
+              const newState = {
+                disposes: [() => component.$destroy(), () => wrapper.remove()],
+                decorators: DecorationSet.create(tr.doc, [decorator])
+              };
+
+              return newState;
+            }
+
+            oldState.disposes.forEach((dispose: any) => dispose());
+            return {disposes: [], decorators: DecorationSet.empty};
+          }
+        },
+        props: {
+          decorations(state) {
+            return this.getState(state)?.decorators;
+          }
+        },
         appendTransaction: (transactions, oldState, newState) => {
           const {tr} = newState;
 
