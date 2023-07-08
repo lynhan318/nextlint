@@ -2,7 +2,11 @@ import {
   mergeAttributes,
   Node,
   nodeInputRule,
-  type InputRuleMatch
+  type InputRuleMatch,
+  combineTransactionSteps,
+  getChangedRanges,
+  findChildrenInRange,
+  type NodeWithPos
 } from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
 import {Node as PMNode} from '@tiptap/pm/model';
@@ -137,34 +141,58 @@ export const FigureExtension = Node.create<FigureOptions>({
       new Plugin({
         key: new PluginKey('image-utils'),
         appendTransaction: (transactions, oldState, newState) => {
-          const anchorRes = newState.selection.$anchor;
+          const {tr} = newState;
 
           const docChanged =
             transactions.some(tr => tr.docChanged) &&
             !oldState.doc.eq(newState.doc);
 
-          const isParagraph = anchorRes.node(1).type.name === 'paragraph';
+          if (!docChanged) return;
 
-          if (!docChanged || !isParagraph) return;
+          const transform = combineTransactionSteps(oldState.doc, [
+            ...transactions
+          ]);
+          const changeRanges = getChangedRanges(transform);
 
-          const nodeText = anchorRes.node(1).textContent;
-          const [src] = (nodeText || '').trim().match(imageRegex) || [];
-          const {tr} = newState;
+          let imageBlocks: NodeWithPos[] = [];
 
-          if (src === nodeText) {
-            const startNode = anchorRes.start(1);
-            tr.deleteRange(startNode, anchorRes.end(1));
-            tr.insert(
-              startNode - 1,
-              PMNode.fromJSON(this.editor.schema, {
-                type: this.name,
-                attrs: {
-                  src
-                },
-                content: [{type: 'text', text: 'image alt'}]
-              })
+          changeRanges.forEach(({newRange}) => {
+            imageBlocks = findChildrenInRange(
+              newState.doc,
+              newRange,
+              node => node.type.name === 'paragraph'
             );
+          });
+          imageBlocks.forEach(({pos, node}) => {
+            if (
+              node.type.name === 'paragraph' &&
+              newState.doc
+                .resolve(pos + 1)
+                .node(1)
+                .eq(node)
+            ) {
+              const text = node.textContent;
+              const [src] = text.match(imageRegex) || [];
+              const newPos = tr.mapping.map(pos);
+              if (src && src === text) {
+                tr.replaceWith(
+                  newPos, // insert at root block
+                  newPos + text.length + 1,
+                  PMNode.fromJSON(this.editor.schema, {
+                    type: this.name,
+                    attrs: {
+                      src
+                    },
+                    content: [{type: 'text', text: 'image alt'}]
+                  })
+                );
+              }
+            }
+          });
+          if (!tr.steps.length) {
+            return;
           }
+
           return tr;
         }
       })
