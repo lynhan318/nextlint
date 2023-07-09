@@ -1,5 +1,15 @@
 # @nextlint/editor
 
+## 1.0.6
+
+### Patch Changes
+
+- [`25b6dc9`](https://github.com/sveltor/nextlint/commit/25b6dc9d01156af199fa9c19cf796d3b8e31fae5) Thanks [@lynhan318](https://github.com/lynhan318)! - fix missing unsplash options
+
+- [#22](https://github.com/sveltor/nextlint/pull/22) [`abf5aae`](https://github.com/sveltor/nextlint/commit/abf5aae5b45fe0def2e1c1a704723818700bce4a) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix dropdown menu undefined
+
+- [#20](https://github.com/sveltor/nextlint/pull/20) [`fe70dd1`](https://github.com/sveltor/nextlint/commit/fe70dd1e88fc4363118785539bc69d7aa8b24bc3) Thanks [@lynhan318](https://github.com/lynhan318)! - [fix] keep bubble menu visible when click on the text alignment
+
 ## 1.0.5
 
 ### Patch Changes
