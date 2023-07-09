@@ -1,31 +1,35 @@
-import {mergeAttributes, Node} from '@tiptap/core';
+import {
+  mergeAttributes,
+  Node,
+  combineTransactionSteps,
+  getChangedRanges,
+  findChildrenInRange,
+  type NodeWithPos,
+  isNodeSelection
+} from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
 import {Node as PMNode} from '@tiptap/pm/model';
 import {Plugin, PluginKey} from '@tiptap/pm/state';
 import {Decoration, DecorationSet} from '@tiptap/pm/view';
 
-import {renderHTML, setFocusNode} from './utils';
+import Figure from './Figure.svelte';
+import FigureWidget from './FigureWidget.svelte';
+import {createImageSettingPlugin} from './image-setting-plugin';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
 }
 
-export type ImageOptions = FigureOptions;
-
-export const imageRegex =
-  /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|webp|svg)/g;
-
-export type ImageAttributes = {
+export type FigureAttributes = {
   src: string;
-  direction?: 'left' | 'right' | 'center';
   alt?: string;
-  title?: string;
+  fit?: 'contain' | 'cover' | 'fill';
 };
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     figure: {
-      toggleFigure: (options: ImageAttributes) => ReturnType;
+      toggleFigure: (options: FigureAttributes) => ReturnType;
     };
   }
 }
@@ -46,27 +50,18 @@ export const FigureExtension = Node.create<FigureOptions>({
     alt: {
       default: 'image alt',
       parseHTML: (dom: HTMLElement) => {
-        return (
-          dom.querySelector('figcaption')?.textContent ||
-          dom.querySelector('img')?.alt ||
-          ''
-        );
+        return dom.querySelector('figcaption')?.innerText;
       }
     },
-    title: {
-      default: 'next image',
+    fit: {
+      default: 'contain',
+      renderHTML: (attrs: FigureAttributes) => {
+        return {
+          'data-fit': attrs.fit
+        };
+      },
       parseHTML: (dom: HTMLElement) => {
-        return (
-          dom.querySelector('figcaption')?.textContent ||
-          dom.querySelector('img')?.title ||
-          ''
-        );
-      }
-    },
-    direction: {
-      default: 'left',
-      parseHTML: (dom: HTMLElement) => {
-        return dom.getAttribute('data-direction') || 'left';
+        return dom.getAttribute('data-fit') || 'contain';
       }
     }
   }),
@@ -82,7 +77,7 @@ export const FigureExtension = Node.create<FigureOptions>({
   renderHTML({HTMLAttributes}) {
     return [
       'figure',
-      mergeAttributes(this.options.HTMLAttributes || {}),
+      mergeAttributes(this.options.HTMLAttributes),
       [
         'img',
         mergeAttributes(HTMLAttributes, {
@@ -96,22 +91,15 @@ export const FigureExtension = Node.create<FigureOptions>({
 
   addNodeView() {
     return nodeView => {
-      const {dom, contentDOM} = renderHTML({
-        HTMLAttributes: nodeView.HTMLAttributes,
-        node: nodeView.node
+      const figureWrapper = document.createElement('div');
+      const figure = new Figure({
+        target: figureWrapper,
+        props: {
+          nodeView
+        }
       });
-      const img = dom.querySelector('img');
-      if (img) {
-        img.onclick = event => {
-          event.stopPropagation();
-          setFocusNode(nodeView);
-        };
-      }
-      setTimeout(() => {
-        contentDOM.innerText = nodeView.HTMLAttributes.alt || 'image alt';
-      }, 50);
-
-      return {dom, contentDOM};
+      figure.stopEvent = () => true;
+      return figure;
     };
   },
 
@@ -143,7 +131,7 @@ export const FigureExtension = Node.create<FigureOptions>({
           return chain()
             .insertContent({
               type: this.name,
-              content: [{type: 'text', text: attrs.alt || 'image alt'}],
+              content: [{type: 'text', text: 'image alt'}],
               attrs
             })
             .run();
@@ -152,32 +140,6 @@ export const FigureExtension = Node.create<FigureOptions>({
   },
 
   addProseMirrorPlugins() {
-    return [
-      new Plugin({
-        key: new PluginKey('image-utils'),
-        props: {
-          decorations: ({doc, tr}) => {
-            const decorations: Decoration[] = [];
-            doc.forEach((node, offset) => {
-              if (new RegExp(imageRegex).test(node.textContent || '')) {
-                const src = node.textContent;
-                tr.deleteRange(offset, src.length + offset + 1);
-                const fragment = PMNode.fromJSON(this.editor.schema, {
-                  type: this.name,
-                  attrs: {
-                    src,
-                    alt: 'image alt'
-                  },
-                  content: [{type: 'text', text: 'image alt'}]
-                });
-                tr.insert(offset, fragment);
-                this.editor.view.dispatch(tr);
-              }
-            });
-            return DecorationSet.create(doc, decorations);
-          }
-        }
-      })
-    ];
+    return [createImageSettingPlugin(this.editor, FigureExtension)];
   }
 });

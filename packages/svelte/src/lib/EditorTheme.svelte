@@ -159,12 +159,9 @@
 
           //-----------Image block-----------
           '& figure': {
-            width: '100%',
             margin: 0,
+            width: '100%',
             marginBottom: 'var(--editor-block-gap)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
             flexDirection: 'column',
             '& figcaption': {
               margin: '4px 0',
@@ -177,9 +174,8 @@
           },
           '& img': {
             borderRadius: 8,
-            width: '100%',
-            maxHeight: 500,
-            objectFit: 'contain'
+            width: 'inherit',
+            maxHeight: 700
           },
           //---------End Image block-----
           '& s': {

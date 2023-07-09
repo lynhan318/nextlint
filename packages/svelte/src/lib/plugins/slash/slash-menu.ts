@@ -1,5 +1,5 @@
 import type {SvelteComponent} from 'svelte';
-import {Editor, Extension, type Range} from '@tiptap/core';
+import {Editor, Extension, isNodeSelection, type Range} from '@tiptap/core';
 import {type SuggestionOptions, Suggestion} from '@tiptap/suggestion';
 import {getRootNode} from '@nextlint/core';
 import {PluginKey} from '@tiptap/pm/state';
@@ -48,14 +48,21 @@ export const SlashMenu = Extension.create<SlashMenuOptions>({
         (align?: TextAlignment) =>
         ({editor, state}) => {
           const sel = state.selection;
-          const node = sel.$anchor.node(1);
+          if (isNodeSelection(sel)) {
+            queueMicrotask(() => {
+              editor.commands.updateAttributes(sel.node.type, {align});
+            });
+            return true;
+          } else {
+            const node = sel.$anchor.node(1);
 
-          //Workaround: invaid with selection range when click on command item
-          queueMicrotask(() => {
-            editor.commands.updateAttributes(node.type, {align});
-          });
+            //Workaround: invaid with selection range when click on command item
+            queueMicrotask(() => {
+              editor.commands.updateAttributes(node.type, {align});
+            });
 
-          return true;
+            return true;
+          }
         }
     };
   },
