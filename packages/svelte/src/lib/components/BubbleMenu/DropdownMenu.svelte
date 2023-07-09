@@ -1,32 +1,28 @@
 <script lang="ts">
   import {Menu, Group, Box, Text} from '@svelteuidev/core';
+  import type {Node as PMNode} from '@tiptap/pm/model';
   import {CaretDown, Check} from 'radix-icons-svelte';
   import {useEditor} from '@nextlint/core';
-  import {onMount} from 'svelte';
 
   import {BubbleMenuDropdownList} from './constants';
 
   const editor = useEditor();
-  let currentNode = BubbleMenuDropdownList[0];
-  onMount(() => {
-    $editor?.on('selectionUpdate', ({editor}) => {
-      const sel = editor.view.state.selection;
-      const resolver = editor.view.state.doc.resolve(sel.anchor);
-      const node = resolver.node(1);
-      if (node) {
-        currentNode = BubbleMenuDropdownList.find(item => {
-          if (node.type.name === 'heading') {
-            return item.slug === `${node.type.name}${node.attrs.level}`;
-          }
-          return node.type.name === item.slug;
-        });
-      }
-    });
-  });
+
+  export let visibleNode: PMNode;
+
+  const formatHeadingSlug = (visibleNode: PMNode) =>
+    visibleNode.type.name === 'heading'
+      ? visibleNode.type.name + visibleNode.attrs.level
+      : visibleNode.type.name;
+
+  $: currentNode =
+    BubbleMenuDropdownList.find(
+      item => item.type === formatHeadingSlug(visibleNode)
+    ) || BubbleMenuDropdownList[0];
 </script>
 
 <Menu
-  opened
+  opened={false}
   override={{
     display: 'flex'
   }}
@@ -46,17 +42,13 @@
     }}
   >
     <Group override={{padding: 4}}>
-      <svelte:component
-        this={currentNode?.icon}
-        style="width: 24px; height: 24px"
-      />
       <Text
         override={{
           fontFamily: 'var(--editor-font-heading)',
           fontSize: '14px',
           fontWeight: 'bold',
           color: '$dark300'
-        }}>{currentNode?.label}</Text
+        }}>{currentNode.label}</Text
       >
       <CaretDown />
     </Group>
@@ -77,9 +69,7 @@
       }}
       on:click={e => {
         e.stopPropagation();
-        if (item.toggle($editor)) {
-          currentNode = item;
-        }
+        item.toggle($editor);
       }}
     >
       <Group
@@ -98,7 +88,7 @@
         >
           {item.label}
         </Text>
-        {#if currentNode?.slug === item.slug}
+        {#if formatHeadingSlug(visibleNode) === item.type}
           <Box css={{position: 'absolute', right: 4}}>
             <Check />
           </Box>
