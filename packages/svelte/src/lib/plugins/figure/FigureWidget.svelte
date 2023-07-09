@@ -1,17 +1,24 @@
 <script lang="ts">
-  import {onDestroy, onMount} from 'svelte';
   import {ActionIcon, Box, Group} from '@svelteuidev/core';
   import {
     TextAlignCenter,
     TextAlignLeft,
     TextAlignRight
   } from 'radix-icons-svelte';
+  import type {Editor} from '@tiptap/core';
+  import {TrashIcon} from '$lib/icons';
+
+  export let editor: Editor;
+  const removeBlock = () => {
+    //delete image here
+    editor.commands.deleteSelection();
+  };
 </script>
 
 <Box
   css={{
     position: 'absolute',
-    top: -40,
+    top: -44,
     left: '50%',
     translate: '-50% 0',
     backgroundColor: 'white',
@@ -21,8 +28,8 @@
   }}
 >
   <Group>
-    <ActionIcon><TextAlignLeft size={20} /></ActionIcon>
-    <ActionIcon><TextAlignCenter size={20} /></ActionIcon>
-    <ActionIcon><TextAlignRight size={20} /></ActionIcon>
+    <ActionIcon color="red" on:click={removeBlock}>
+      <TrashIcon />
+    </ActionIcon>
   </Group>
 </Box>

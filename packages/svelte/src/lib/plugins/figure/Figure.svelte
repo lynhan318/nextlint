@@ -18,11 +18,6 @@
   //Implement node view interface {{
   export let dom: HTMLElement;
   export let contentDOM: HTMLElement;
-  export const update = (updatedNode: Node) => {
-    alt = updatedNode.textContent || '';
-    // console.log('isActive', nodeView.editor.isActive('figure'));
-  };
-  // }}
 
   const setFocus = e => {
     e.preventDefault();
@@ -37,10 +32,15 @@
 <figure
   bind:this={dom}
   data-node-type="figure"
-  data-direction={attrs.direction}
-  style="position:relative"
+  data-align={attrs.direction}
+  style="position:relative;"
 >
-  <img {alt} src={attrs.src} on:mousedown={setFocus} />
+  <img
+    {alt}
+    src={attrs.src}
+    on:mousedown={setFocus}
+    style="object-fit: {attrs.fit};"
+  />
   <Box
     root="figcaption"
     css={{width: '100%', textAlign: 'center'}}

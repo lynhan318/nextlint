@@ -14,18 +14,16 @@ import {Decoration, DecorationSet} from '@tiptap/pm/view';
 
 import Figure from './Figure.svelte';
 import FigureWidget from './FigureWidget.svelte';
+import {createImageSettingPlugin} from './image-setting-plugin';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
 }
 
-export const imageRegex =
-  /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|svg|jpeg)/g;
-
 export type FigureAttributes = {
   src: string;
   alt?: string;
-  direction?: 'left' | 'right' | 'center';
+  fit?: 'contain' | 'cover' | 'fill';
 };
 
 declare module '@tiptap/core' {
@@ -55,10 +53,15 @@ export const FigureExtension = Node.create<FigureOptions>({
         return dom.querySelector('figcaption')?.innerText;
       }
     },
-    direction: {
-      default: 'left',
+    fit: {
+      default: 'contain',
+      renderHTML: (attrs: FigureAttributes) => {
+        return {
+          'data-fit': attrs.fit
+        };
+      },
       parseHTML: (dom: HTMLElement) => {
-        return dom.getAttribute('data-direction') || 'left';
+        return dom.getAttribute('data-fit') || 'contain';
       }
     }
   }),
@@ -137,106 +140,6 @@ export const FigureExtension = Node.create<FigureOptions>({
   },
 
   addProseMirrorPlugins() {
-    return [
-      new Plugin({
-        key: new PluginKey('image-utils'),
-        state: {
-          init() {
-            return {
-              disposes: [],
-              decorators: DecorationSet.empty
-            };
-          },
-          apply: (tr, oldState) => {
-            const content = tr.selection.content().content;
-            const nodeSelection =
-              isNodeSelection(tr.selection) &&
-              content.childCount === 1 &&
-              content.firstChild;
-
-            if (nodeSelection) {
-              const wrapper = document.createElement('div');
-              const component = new FigureWidget({
-                target: wrapper
-              });
-              const decorator = Decoration.widget(
-                tr.selection.anchor + 1,
-                wrapper
-              );
-
-              const newState = {
-                disposes: [() => component.$destroy(), () => wrapper.remove()],
-                decorators: DecorationSet.create(tr.doc, [decorator])
-              };
-
-              return newState;
-            }
-
-            oldState.disposes.forEach((dispose: any) => dispose());
-            return {disposes: [], decorators: DecorationSet.empty};
-          }
-        },
-        props: {
-          decorations(state) {
-            return this.getState(state)?.decorators;
-          }
-        },
-        appendTransaction: (transactions, oldState, newState) => {
-          const {tr} = newState;
-
-          const docChanged =
-            transactions.some(tr => tr.docChanged) &&
-            !oldState.doc.eq(newState.doc);
-
-          if (!docChanged) return;
-
-          const transform = combineTransactionSteps(oldState.doc, [
-            ...transactions
-          ]);
-          const changeRanges = getChangedRanges(transform);
-
-          let imageBlocks: NodeWithPos[] = [];
-
-          changeRanges.forEach(({newRange}) => {
-            imageBlocks = findChildrenInRange(
-              newState.doc,
-              newRange,
-              node => node.type.name === 'paragraph'
-            );
-          });
-          imageBlocks.forEach(({pos, node}) => {
-            if (
-              node.type.name === 'paragraph' &&
-              newState.doc
-                .resolve(pos + 1)
-                .node(1)
-                .eq(node)
-            ) {
-              const text = node.textContent;
-              const [src] = text.match(imageRegex) || [];
-              const newPos = tr.mapping.map(pos);
-              if (src && src === text) {
-                tr.replaceWith(
-                  newPos, // insert at root block
-                  newPos + text.length + 1,
-                  PMNode.fromJSON(this.editor.schema, {
-                    type: this.name,
-                    attrs: {
-                      src
-                    },
-                    content: [{type: 'text', text: 'image alt'}]
-                  })
-                );
-              }
-            }
-          });
-          if (!tr.steps.length) {
-            return;
-          }
-
-          return tr;
-        }
-      })
-    ];
+    return [createImageSettingPlugin(this.editor, FigureExtension)];
   }
 });
