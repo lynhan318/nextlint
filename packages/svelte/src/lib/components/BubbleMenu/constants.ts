@@ -1,4 +1,4 @@
-import {Text} from 'radix-icons-svelte';
+import {Quote, Text} from 'radix-icons-svelte';
 import {
   H2Icon,
   H3Icon,
@@ -6,49 +6,59 @@ import {
   BulletListIcon,
   OrderListIcon
 } from '$lib/icons';
+
 import type {Editor} from '@tiptap/core';
 
 export const BubbleMenuDropdownList = [
   {
     label: 'Paragraph',
     icon: Text,
-    slug: 'paragraph',
+    type: 'paragraph',
     active: (editor: Editor) => editor.isActive('paragraph'),
-    toggle: (editor: Editor) => editor.commands.setNode('paragraph')
+    toggle: (editor: Editor) =>
+      editor.chain().clearNodes().scrollIntoView().run()
+  },
+  {
+    label: 'Blockquote',
+    icon: Quote,
+    type: 'blockquote',
+    active: (editor: Editor) => editor.isActive('blockquote'),
+    toggle: (editor: Editor) =>
+      editor.chain().toggleBlockquote().scrollIntoView().run()
   },
   {
     label: 'Heading 2',
     icon: H2Icon,
-    slug: 'heading2',
+    type: 'heading2',
     active: (editor: Editor) => editor.isActive('heading', {level: 2}),
     toggle: (editor: Editor) => editor.commands.toggleHeading({level: 2})
   },
   {
     label: 'Heading 3',
     icon: H3Icon,
-    slug: 'heading3',
+    type: 'heading3',
     active: (editor: Editor) => editor.isActive('heading', {level: 3}),
     toggle: (editor: Editor) => editor.commands.toggleHeading({level: 3})
   },
   {
     label: 'Heading 4',
     icon: H4Icon,
-    slug: 'heading4',
+    type: 'heading4',
     active: (editor: Editor) => editor.isActive('heading', {level: 4}),
     toggle: (editor: Editor) => editor.commands.toggleHeading({level: 4})
   },
   {
     label: 'Bullet List',
     icon: BulletListIcon,
-    slug: 'bulletList',
+    type: 'bulletList',
     active: (editor: Editor) => editor.isActive('bulletList'),
-    toggle: (editor: Editor) => editor.commands.toggleList('bulletList')
+    toggle: (editor: Editor) => editor.commands.toggleBulletList()
   },
   {
     label: 'Order List',
     icon: OrderListIcon,
-    slug: 'orderedList',
+    type: 'orderedList',
     active: (editor: Editor) => editor.isActive('orderedList'),
-    toggle: (editor: Editor) => editor.commands.toggleList('orderedList')
+    toggle: (editor: Editor) => editor.commands.toggleOrderedList()
   }
 ];

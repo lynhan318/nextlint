@@ -1,30 +1,35 @@
 <svelte:options accessors={true} />
 
 <script lang="ts">
-  import {ActionIcon, Box, Group} from '@svelteuidev/core';
+  import {Box} from '@svelteuidev/core';
   import type {NodeViewRendererProps} from '@tiptap/core';
-  import {
-    TextAlignCenter,
-    TextAlignLeft,
-    TextAlignRight
-  } from 'radix-icons-svelte';
+  import type {Node} from '@tiptap/pm/model';
 
   export let nodeView: NodeViewRendererProps;
   let attrs = nodeView.node.attrs;
   let alt = nodeView.node.textContent;
 
-  let hasFocus = false;
-
   //Implement node view interface {{
   export let dom: HTMLElement;
   export let contentDOM: HTMLElement;
+
+  export const update = (node: Node) => {
+    //TODO: workaround sync the image alt
+    if (nodeView.editor.state.tr.docChanged) {
+      queueMicrotask(() => {
+        nodeView.editor.commands.updateAttributes('figure', {
+          alt: node.textContent
+        });
+      });
+    }
+  };
 
   const setFocus = e => {
     e.preventDefault();
     e.stopPropagation();
     const {editor, getPos} = nodeView;
     if (typeof getPos === 'function') {
-      hasFocus = editor.commands.setNodeSelection(getPos());
+      editor.commands.setNodeSelection(getPos());
     }
   };
 </script>

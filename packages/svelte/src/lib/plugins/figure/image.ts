@@ -1,19 +1,7 @@
-import {
-  mergeAttributes,
-  Node,
-  combineTransactionSteps,
-  getChangedRanges,
-  findChildrenInRange,
-  type NodeWithPos,
-  isNodeSelection
-} from '@tiptap/core';
+import {mergeAttributes, Node} from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
-import {Node as PMNode} from '@tiptap/pm/model';
-import {Plugin, PluginKey} from '@tiptap/pm/state';
-import {Decoration, DecorationSet} from '@tiptap/pm/view';
 
 import Figure from './Figure.svelte';
-import FigureWidget from './FigureWidget.svelte';
 import {createImageSettingPlugin} from './image-setting-plugin';
 
 export interface FigureOptions {

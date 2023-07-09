@@ -14,8 +14,6 @@
   import {onMount} from 'svelte';
   import {CommandButton} from '$lib/components';
 
-  import {type TextAlignment} from '$lib/plugins/slash';
-
   const editor = useEditor();
 
   $: isActive = (style: string): boolean => $editor!.isActive(style);
