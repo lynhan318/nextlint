@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 1.0.7
+
+### Patch Changes
+
+- [`cb29f2d`](https://github.com/sveltor/nextlint/commit/cb29f2d3037315a336691dcae3a7b727aa8bae9d) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix unexpected scroll when visible prompt
+
 ## 1.0.6
 
 ### Patch Changes
