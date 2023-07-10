@@ -35,7 +35,7 @@ export const PluginGPT = Node.create<GPTOptions>({
                   clientRect: () =>
                     (domAtNode.node as HTMLElement).getBoundingClientRect()
                 });
-                queueMicrotask(() => {
+                requestAnimationFrame(() => {
                   this.editor.commands.deleteRange({
                     from: oldState.selection.from,
                     to: oldState.selection.from + 1

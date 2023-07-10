@@ -1,6 +1,6 @@
 import tippy, {type Instance, type Props} from 'tippy.js';
-import {EditorView} from '@tiptap/pm/view';
-import {Editor, type Content, type JSONContent} from '@tiptap/core';
+import type {EditorView} from '@tiptap/pm/view';
+import type {Editor, Content} from '@tiptap/core';
 
 import PromtComponent from './Prompt.svelte';
 
@@ -79,11 +79,13 @@ export class Renderer {
     }
   }
   show(props: any) {
-    this.popup.setProps({
-      getReferenceClientRect: props.clientRect
+    requestAnimationFrame(() => {
+      this.popup.setProps({
+        getReferenceClientRect: props.clientRect
+      });
+      this.popup.show();
+      this.svelteComponent?.onShow();
     });
-    this.popup.show();
-    this.svelteComponent?.onShow();
   }
 
   hide() {

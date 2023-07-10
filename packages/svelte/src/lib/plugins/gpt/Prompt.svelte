@@ -25,8 +25,9 @@
 
   // external access {{
   export const onShow = () => {
-    input.focus();
+    requestAnimationFrame(() => input.focus());
   };
+
   export const onHide = () => {
     prompt = '';
     completion = '';

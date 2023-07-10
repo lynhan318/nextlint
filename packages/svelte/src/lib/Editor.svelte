@@ -35,7 +35,6 @@
   export let onCreated = (editor: Editor) => {};
   export let plugins: PluginOptions = {};
   export let extensions: Extensions = [];
-
   const {render, ready} = createEditorContext({
     editable: true,
     content,
