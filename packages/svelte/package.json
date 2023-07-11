@@ -28,13 +28,13 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
-    "svelte": "^3.59.1",
-    "sass": "^1.63.6"
+    "sass": "^1.63.6",
+    "svelte": "^3.59.1"
   },
   "dependencies": {
+    "@nextlint/core": "workspace:*",
     "@svelteuidev/composables": "^0.13.0",
     "@svelteuidev/core": "^0.13.0",
-    "@nextlint/core": "workspace:*",
     "@tiptap/core": "^2.0.3",
     "@tiptap/extension-bubble-menu": "2.0.3",
     "@tiptap/extension-dropcursor": "^2.0.3",

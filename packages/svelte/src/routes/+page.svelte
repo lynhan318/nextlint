@@ -3,7 +3,9 @@
 
   import EditorTheme from '$lib/EditorTheme.svelte';
   import SvelteEditor from '$lib/Editor.svelte';
+
   import showcaseContent from './sveltor.json';
+  import {TestNode} from './test-plugin/test-node-plugin';
 
   import Devtool from './_components/Devtool.svelte';
 
@@ -36,6 +38,7 @@
     const previewUrl = URL.createObjectURL(blob);
     return previewUrl;
   };
+  const extensions = [TestNode];
 </script>
 
 <div class="editor">
@@ -43,7 +46,13 @@
     <div class="container">
       <div class="wrapper">
         <SvelteEditor
-          content={showcaseContent}
+          {extensions}
+          content={[
+            `<p data-align='left' style="text-align: left;">this is test thau</p>`,
+            `<div data-node-view-root="true">
+                <p>this is content haha</p>
+            </div>`
+          ].join('')}
           placeholder="Press 'space' GPT support, type '/' for help"
           onCreated={createdEditor => {
             editor = createdEditor;
