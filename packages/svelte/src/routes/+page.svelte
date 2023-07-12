@@ -49,9 +49,7 @@
           {extensions}
           content={[
             `<p data-align='left' style="text-align: left;">this is test thau</p>`,
-            `<div data-node-view-root="true">
-                <p>this is content haha</p>
-            </div>`
+            `<svelte-component><p>This is editable.</p></svelte-component>`
           ].join('')}
           placeholder="Press 'space' GPT support, type '/' for help"
           onCreated={createdEditor => {

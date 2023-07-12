@@ -1,1 +1,2 @@
-export * from './SvelteNodeView';
+export * from './SvelteNodeViewRenderer';
+export * from './SvelteRenderer';

@@ -1,43 +1,25 @@
 import {Node, mergeAttributes} from '@tiptap/core';
 
-import {SvelteNodeView} from '$lib/helpers';
+import {SvelteNodeViewRenderer} from '$lib/helpers';
 
 import TestNodePlugin from './TestNodePlugin.svelte';
 
 export const TestNode = Node.create({
-  name: 'testPlugin',
+  name: 'svelteComponent',
   group: 'block',
+  // atom: true,
   content: 'inline*',
   renderHTML({HTMLAttributes}) {
-    return [
-      'div',
-      mergeAttributes(HTMLAttributes, {
-        'data-node-view-root': true
-      }),
-      ['p', 0]
-    ];
+    return ['svelte-component', mergeAttributes(HTMLAttributes), 0];
   },
   parseHTML() {
     return [
       {
-        tag: 'div',
-        contentElement: 'p',
-        getAttrs: element => {
-          if (
-            typeof element === 'string' ||
-            !element.hasAttribute('data-node-view-root')
-          )
-            return false;
-          return {'data-node-view-root': true};
-        }
+        tag: 'svelte-component'
       }
     ];
   },
   addNodeView() {
-    return props =>
-      SvelteNodeView.create({
-        nodeViewProps: props,
-        component: TestNodePlugin
-      });
+    return SvelteNodeViewRenderer(TestNodePlugin);
   }
 });

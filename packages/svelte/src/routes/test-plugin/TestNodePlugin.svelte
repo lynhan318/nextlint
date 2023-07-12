@@ -5,6 +5,4 @@
   const contentRef = useContentRef();
 </script>
 
-<div>
-  <p use:contentRef />
-</div>
+<p use:contentRef>This is editable.</p>
