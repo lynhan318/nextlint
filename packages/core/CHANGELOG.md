@@ -1,5 +1,11 @@
 # @nextlint/core
 
+## 1.1.0
+
+### Minor Changes
+
+- [#24](https://github.com/sveltor/nextlint/pull/24) [`70b3d1f`](https://github.com/sveltor/nextlint/commit/70b3d1faf8fa1c6926e847a34af05d1b5e32f37a) Thanks [@lynhan318](https://github.com/lynhan318)! - feat: move component using svelte out of core
+
 ## 1.0.4
 
 ### Patch Changes
