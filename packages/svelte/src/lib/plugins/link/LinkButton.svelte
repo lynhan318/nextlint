@@ -1,11 +1,12 @@
 <script lang="ts">
-  import {useEditor} from '@nextlint/core';
   import {ActionIcon, Button, Input, Popper, Box} from '@svelteuidev/core';
   import {Link2, Check} from 'radix-icons-svelte';
   import {getMarkAttributes} from '@tiptap/core';
   import CommandButton from '$lib/components/CommandButton.svelte';
   import {getContext} from 'svelte';
+
   import type {PositionStore} from '$lib/components/Positioner';
+  import {useEditor} from '$lib/context';
 
   const editor = useEditor();
   const positioner = getContext('positioner');

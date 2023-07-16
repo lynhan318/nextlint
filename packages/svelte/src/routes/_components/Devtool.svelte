@@ -13,6 +13,7 @@
   import {renderHTML} from '@nextlint/core';
   import type {Editor} from '@tiptap/core';
   import {Gear, Cross1, EyeOpen, PinBottom, FileText} from 'radix-icons-svelte';
+  import {EditorTheme} from '$lib';
   export let editor: Editor;
   let show = false;
   let preview = false;

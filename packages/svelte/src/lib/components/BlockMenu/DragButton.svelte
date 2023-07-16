@@ -2,7 +2,9 @@
 
 <script lang="ts">
   import {setDragImage} from './DragHandler';
-  import {getRootNode, useEditor} from '@nextlint/core';
+  import {getRootNode} from '@nextlint/core';
+
+  import {useEditor} from '$lib/context';
   import {positionStore} from '$lib/components/Positioner';
 
   const editor = useEditor();

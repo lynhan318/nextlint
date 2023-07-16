@@ -1,54 +1,45 @@
-<svelte:options accessors={true} />
-
 <script lang="ts">
-  import {Box} from '@svelteuidev/core';
-  import type {NodeViewRendererProps} from '@tiptap/core';
-  import type {Node} from '@tiptap/pm/model';
+  import {useContentRef, useNodeViewProps} from '$lib/node-view';
 
-  export let nodeView: NodeViewRendererProps;
-  let attrs = nodeView.node.attrs;
-  let alt = nodeView.node.textContent;
+  export let contentAs = 'p';
 
-  //Implement node view interface {{
-  export let dom: HTMLElement;
-  export let contentDOM: HTMLElement;
+  const contentRef = useContentRef();
+  const props = useNodeViewProps();
 
-  export const update = (node: Node) => {
-    //TODO: workaround sync the image alt
-    if (nodeView.editor.state.tr.docChanged) {
-      queueMicrotask(() => {
-        nodeView.editor.commands.updateAttributes('figure', {
-          alt: node.textContent
-        });
-      });
-    }
-  };
+  let {node, selected, editor, getPos} = $props;
+  $: ({node, selected} = $props);
+  $: attrs = node.attrs;
 
-  const setFocus = e => {
-    e.preventDefault();
+  const onSelect = e => {
     e.stopPropagation();
-    const {editor, getPos} = nodeView;
-    if (typeof getPos === 'function') {
-      editor.commands.setNodeSelection(getPos());
-    }
+    editor.commands.setNodeSelection(getPos());
   };
 </script>
 
 <figure
-  bind:this={dom}
   data-node-type="figure"
   data-align={attrs.direction}
   style="position:relative;"
+  class="figure"
+  class:selected
 >
   <img
-    {alt}
+    alt={attrs.alt}
     src={attrs.src}
-    on:mousedown={setFocus}
-    style="object-fit: {attrs.fit};"
+    style="object-fit: {attrs.fit};cursor:pointer;"
+    on:mousedown={onSelect}
   />
-  <Box
-    root="figcaption"
-    css={{width: '100%', textAlign: 'center'}}
-    bind:element={contentDOM}
-  />
+  <svelte:element this={contentAs} use:contentRef
+    >{node.textContent}</svelte:element
+  >
 </figure>
+
+<style lang="scss">
+  .figure {
+    border: 2px solid transparent;
+    border-radius: 4px;
+  }
+  .selected {
+    border-color: var(--svelteui-colors-green300);
+  }
+</style>

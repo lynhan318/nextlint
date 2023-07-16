@@ -1,7 +1,7 @@
 import {getContext, setContext} from 'svelte';
 import {Editor} from '@tiptap/core';
 import {type Writable, writable} from 'svelte/store';
-import {createEditor, type EditorOptions} from './editor';
+import {createEditor, type EditorOptions} from '@nextlint/core';
 
 const EditorContextKey = Symbol.for('EditorContext');
 

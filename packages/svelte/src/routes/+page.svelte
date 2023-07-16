@@ -3,7 +3,9 @@
 
   import EditorTheme from '$lib/EditorTheme.svelte';
   import SvelteEditor from '$lib/Editor.svelte';
+
   import showcaseContent from './sveltor.json';
+  import {TestNode} from './test-plugin/test-node-plugin';
 
   import Devtool from './_components/Devtool.svelte';
 

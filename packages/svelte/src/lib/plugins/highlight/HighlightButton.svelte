@@ -1,8 +1,8 @@
 <script lang="ts">
-  import {useEditor} from '@nextlint/core';
   import {Popper, Group, Box} from '@svelteuidev/core';
   import {Pencil1} from 'radix-icons-svelte';
 
+  import {useEditor} from '$lib/context';
   import {CommandButton} from '$lib/components';
 
   import HighlightPresets from './HighlightPresets.svelte';

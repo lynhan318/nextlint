@@ -74,18 +74,17 @@ export const createImageSettingPlugin = (editor: Editor, extension: Node) => {
         ...transactions
       ]);
       const changeRanges = getChangedRanges(transform);
-
       let imageBlocks: NodeWithPos[] = [];
 
       changeRanges.forEach(({newRange}) => {
-        imageBlocks = findChildrenInRange(
-          newState.doc,
-          newRange,
-          node => node.type.name === 'paragraph'
-        );
+        imageBlocks = findChildrenInRange(newState.doc, newRange, node => {
+          return node.type.name === 'paragraph' || node.type.name === 'figure';
+        });
       });
       imageBlocks.forEach(({pos, node}) => {
-        if (
+        if (node.type.name === 'figure') {
+          tr.setNodeAttribute(tr.mapping.map(pos), 'alt', node.textContent);
+        } else if (
           node.type.name === 'paragraph' &&
           newState.doc
             .resolve(pos + 1)
