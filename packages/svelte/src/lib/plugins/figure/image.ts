@@ -3,6 +3,7 @@ import {Paragraph} from '@tiptap/extension-paragraph';
 
 import Figure from './Figure.svelte';
 import {createImageSettingPlugin} from './image-setting-plugin';
+import {SvelteNodeViewRenderer} from '$lib/node-view';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
@@ -26,7 +27,6 @@ export const FigureExtension = Node.create<FigureOptions>({
   name: 'figure',
   group: 'block',
   content: 'inline*',
-  draggable: false,
   isolating: true,
   addAttributes: () => ({
     src: {
@@ -58,7 +58,7 @@ export const FigureExtension = Node.create<FigureOptions>({
     return [
       {
         tag: 'figure',
-        contentElement: 'figcaption'
+        content: 'figcaption'
       }
     ];
   },
@@ -78,17 +78,10 @@ export const FigureExtension = Node.create<FigureOptions>({
   },
 
   addNodeView() {
-    return nodeView => {
-      const figureWrapper = document.createElement('div');
-      const figure = new Figure({
-        target: figureWrapper,
-        props: {
-          nodeView
-        }
-      });
-      figure.stopEvent = () => true;
-      return figure;
-    };
+    return SvelteNodeViewRenderer({
+      component: Figure,
+      contentAs: 'figcaption'
+    });
   },
 
   addKeyboardShortcuts() {

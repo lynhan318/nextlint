@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-  import {createEditorContext} from '@nextlint/core';
+  import {createEditorContext} from '$lib/context';
   import type {Content, Editor, Extensions} from '@tiptap/core';
   import {SvelteUIProvider} from '@svelteuidev/core';
 

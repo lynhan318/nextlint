@@ -1,7 +1,8 @@
 <script lang="ts">
-  import {createEditorContext} from '@nextlint/core';
   import type {Content, Editor} from '@tiptap/core';
   import {Stack, SvelteUIProvider} from '@svelteuidev/core';
+
+  import {createEditorContext} from '$lib/context';
 
   import FontStyleMenu from './components/BubbleMenu/FontStyleMenu.svelte';
 

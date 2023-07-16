@@ -2,7 +2,8 @@
   import {Menu, Group, Box, Text} from '@svelteuidev/core';
   import type {Node as PMNode} from '@tiptap/pm/model';
   import {CaretDown, Check} from 'radix-icons-svelte';
-  import {useEditor} from '@nextlint/core';
+
+  import {useEditor} from '$lib/context';
 
   import {BubbleMenuDropdownList} from './constants';
 

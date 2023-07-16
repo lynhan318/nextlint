@@ -169,7 +169,8 @@
               fontStyle: 'italic',
               fontSize: '15px',
               fontFamily: 'var(--editor-font)',
-              color: theme.colors.dark500.value
+              color: theme.colors.dark500.value,
+              textAlign: 'center'
             }
           },
           '& img': {
@@ -194,5 +195,7 @@
 </script>
 
 <div class={getStyles({css: override})}>
-  <slot />
+  <div class="ProseMirror">
+    <slot />
+  </div>
 </div>

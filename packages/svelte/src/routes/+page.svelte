@@ -47,10 +47,10 @@
       <div class="wrapper">
         <SvelteEditor
           {extensions}
-          content={[
-            `<p data-align='left' style="text-align: left;">this is test thau</p>`,
-            `<svelte-component><p>This is editable.</p></svelte-component>`
-          ].join('')}
+          content={`
+            <test-node><p>this is test</p></test-node>
+            <figure data-node-type="figure" class=" s-O76dyuuXWT-x" style="position: relative;"><img alt="image alt" src="https://znews-photo.zingcdn.me/w960/Uploaded/jatmtz/2023_07_13/Anh_ngay_dung_xuat_ban.jpg" class="s-O76dyuuXWT-x" style="object-fit: contain;"> <figcaption class="s-O76dyuuXWT-x" data-node-view-content="">image alt</figcaption></figure>
+          `}
           placeholder="Press 'space' GPT support, type '/' for help"
           onCreated={createdEditor => {
             editor = createdEditor;
