@@ -26,7 +26,7 @@
   <img
     alt={attrs.alt}
     src={attrs.src}
-    style="object-fit: {attrs.fit};"
+    style="object-fit: {attrs.fit};cursor:pointer;"
     on:mousedown={onSelect}
   />
   <svelte:element this={contentAs} use:contentRef

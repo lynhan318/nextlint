@@ -4,37 +4,30 @@ Headless editor with pre-existing plugins. Use by [@nextlint/svelte](https://www
 
 # Setup
 
-Create editor context
+Nextlint core with written in pure typescript, Can you nextlint core with any frontend framework you like.
 
-```typescript
-import {createEditorContext} from '@nextlint/core';
+In this example we create a `test-editor` vanilla project using vite:
 
-const {render, ready} = createEditorContext({
-  editable: true,
-  content,
-  onCreated,
-  onChange,
-  placeholder,
-  starterKit: {},
-  extensions: []
-});
+```
+pnpm create vite
+cd test-editor
+pnpm add @nextlint/core
+
 ```
 
-Bind editor to an element
+Setup editor:
 
-```svelte
-<div use:render />
-```
+```html
+<div id="editor" />
 
-Any svelte component under the Editor context can get the editor via the `useEditor` hook
-
-```svelte
-<script lang="ts">
-  import {useEditor} from '@nextlint/core';
-  const edtitor = useEditor();
+<script>
+  import {createEditor} from '@nextlint/core';
+  const editor = createEditor({
+    element: document.getElementById('editor'),
+    content: '',
+    placeholder: 'Start writing...'
+  });
 </script>
-
-<Button on:click={() => editor.commands.toggleBold()}>Toggle Bold</Button>
 ```
 
 # Contributing

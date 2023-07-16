@@ -38,7 +38,6 @@
     const previewUrl = URL.createObjectURL(blob);
     return previewUrl;
   };
-  const extensions = [TestNode];
 </script>
 
 <div class="editor">
@@ -46,11 +45,7 @@
     <div class="container">
       <div class="wrapper">
         <SvelteEditor
-          {extensions}
-          content={`
-            <test-node><p>this is test</p></test-node>
-            <figure data-node-type="figure" class=" s-O76dyuuXWT-x" style="position: relative;"><img alt="image alt" src="https://znews-photo.zingcdn.me/w960/Uploaded/jatmtz/2023_07_13/Anh_ngay_dung_xuat_ban.jpg" class="s-O76dyuuXWT-x" style="object-fit: contain;"> <figcaption class="s-O76dyuuXWT-x" data-node-view-content="">image alt</figcaption></figure>
-          `}
+          content={showcaseContent}
           placeholder="Press 'space' GPT support, type '/' for help"
           onCreated={createdEditor => {
             editor = createdEditor;
