@@ -15,7 +15,8 @@ import {
   TextAlignLeft,
   TextAlignRight
 } from 'radix-icons-svelte';
-import type {SlashMenuItem} from './slash-menu';
+import {getMarksBetween} from '@tiptap/core';
+
 import {
   BulletListIcon,
   CodeBlockIcon,
@@ -25,21 +26,26 @@ import {
   OrderListIcon
 } from '$lib/icons';
 
+import type {SlashMenuItem} from './slash-menu';
+
 const suggestionItem = [
   {
     title: 'Text',
     icon: Text,
     description: 'Start with plain text',
     command: ({editor, range}) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .insertContent(' ')
-        .setTextSelection({from: range.from, to: range.to + 1})
-        .unsetAllMarks()
-        .selectTextblockEnd()
-        .run();
+      const marks = getMarksBetween(range.from, range.to, editor.state.doc);
+      const chain = editor.chain();
+      if (marks.length > 0) {
+        chain
+          .setTextSelection(range)
+          .unsetAllMarks()
+          .insertContentAt(range, ' ');
+      } else {
+        chain.deleteRange(range);
+      }
+
+      chain.run();
     }
   },
   {
