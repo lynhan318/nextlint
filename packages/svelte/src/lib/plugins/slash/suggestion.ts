@@ -29,6 +29,7 @@ const suggestionItem = [
   {
     title: 'Text',
     icon: Text,
+    description: 'Start with plain text',
     command: ({editor, range}) => {
       editor
         .chain()
@@ -43,6 +44,7 @@ const suggestionItem = [
   },
   {
     title: 'Bold',
+    description: 'Start with bold text',
     icon: FontBold,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setBold().run();
@@ -50,6 +52,7 @@ const suggestionItem = [
   },
   {
     title: 'Italic',
+    description: 'Start with italic text',
     icon: FontItalic,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setItalic().run();
@@ -57,6 +60,7 @@ const suggestionItem = [
   },
   {
     title: 'Strikethrough',
+    description: 'Start with strikethrough text',
     icon: Strikethrough,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setStrike().run();
@@ -64,6 +68,7 @@ const suggestionItem = [
   },
   {
     title: 'Underline',
+    description: 'Start with underline text',
     icon: Underline,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setUnderline().run();
@@ -71,6 +76,7 @@ const suggestionItem = [
   },
   {
     title: 'Highlight',
+    description: 'Start with highlight text',
     icon: Pencil2,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setHighlight().run();
@@ -78,6 +84,7 @@ const suggestionItem = [
   },
   {
     title: 'Code',
+    description: 'Start with code text',
     icon: Code,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setCode().run();
@@ -85,6 +92,7 @@ const suggestionItem = [
   },
   {
     title: 'Heading 2',
+    description: 'Set current block text to heading 2',
     icon: H2Icon,
     command: ({editor, range}) => {
       editor
@@ -97,6 +105,7 @@ const suggestionItem = [
   },
   {
     title: 'Heading 3',
+    description: 'Set current block text to heading 3',
     icon: H3Icon,
     command: ({editor, range}) => {
       editor
@@ -109,6 +118,7 @@ const suggestionItem = [
   },
   {
     title: 'Heading 4',
+    description: 'Set current block text to heading 4',
     icon: H4Icon,
     command: ({editor, range}) => {
       editor
@@ -121,6 +131,7 @@ const suggestionItem = [
   },
   {
     title: 'CodeBlock',
+    description: 'Set current block text to CodeBlock',
     icon: CodeBlockIcon,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).toggleCodeBlock().run();
@@ -128,6 +139,7 @@ const suggestionItem = [
   },
   {
     title: 'BlockQuote',
+    description: 'Set current block text to BlockQuote',
     icon: Quote,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).toggleBlockquote().run();
@@ -135,6 +147,7 @@ const suggestionItem = [
   },
   {
     title: 'Divider',
+    description: 'Add Divider at current block',
     icon: DividerHorizontal,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setHorizontalRule().run();
@@ -142,6 +155,7 @@ const suggestionItem = [
   },
   {
     title: 'Bulleted List',
+    description: 'Create a bulleted list',
     icon: BulletListIcon,
     command({editor, range}) {
       return editor.chain().deleteRange(range).toggleBulletList().run();
@@ -149,6 +163,7 @@ const suggestionItem = [
   },
   {
     title: 'Numbered List',
+    description: 'Create a Numbererd list',
     icon: OrderListIcon,
     command({editor, range}) {
       return editor.chain().deleteRange(range).toggleOrderedList().run();
@@ -156,27 +171,31 @@ const suggestionItem = [
   },
   {
     title: 'Text Align Left',
+    description: 'Align current text block to Left',
     command: ({editor}) => {
-      return editor.commands.setTextAlign('left');
+      return editor.chain().setTextAlign('left').focus().run();
     },
     icon: TextAlignLeft
   },
   {
     title: 'Text Align Center',
+    description: 'Align current text block to Center',
     command: ({editor}) => {
-      return editor.commands.setTextAlign('center');
+      return editor.chain().setTextAlign('center').focus().run();
     },
     icon: TextAlignCenter
   },
   {
     title: 'Text Align Right',
+    description: 'Align current text block to Right',
     command: ({editor}) => {
-      return editor.commands.setTextAlign('right');
+      return editor.chain().setTextAlign('right').focus().run();
     },
     icon: TextAlignRight
   },
   {
     title: 'Image',
+    description: 'Add image, upload, or select from Unsplash',
     command: ({editor, range}) => {
       return editor.chain().deleteRange(range).toggleSelectImage().run();
     },
@@ -184,6 +203,7 @@ const suggestionItem = [
   },
   {
     title: 'RemoveBlock',
+    description: 'Remove current block',
     icon: Trash,
     command({editor}) {
       const {$anchor} = editor.state.selection;

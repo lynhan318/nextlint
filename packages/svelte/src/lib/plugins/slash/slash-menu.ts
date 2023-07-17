@@ -1,7 +1,6 @@
 import type {SvelteComponent} from 'svelte';
 import {Editor, Extension, isNodeSelection, type Range} from '@tiptap/core';
 import {type SuggestionOptions, Suggestion} from '@tiptap/suggestion';
-import {getRootNode} from '@nextlint/core';
 import {PluginKey} from '@tiptap/pm/state';
 
 import {slashRenderer} from './renderer';
@@ -14,6 +13,7 @@ export type TextAlignment = 'left' | 'center' | 'right';
 export type SlashMenuItem = {
   title: string;
   icon: SvelteComponent;
+  description: string;
   category: {type: string; text: string; desc?: string};
   command: (props: {editor: Editor; range: Range}) => void;
 };
