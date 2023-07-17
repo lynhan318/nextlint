@@ -34,7 +34,7 @@ export const createImageSettingPlugin = (editor: Editor, extension: Node) => {
           content.childCount === 1 &&
           content.firstChild;
 
-        if (nodeSelection) {
+        if (nodeSelection && tr.selection.node.type.name === 'figure') {
           const wrapper = document.createElement('div');
           const component = new FigureWidget({
             target: wrapper,
