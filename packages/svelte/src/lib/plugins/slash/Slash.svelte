@@ -46,7 +46,31 @@
     onSelect(selectedIndex);
   };
 
+  const onActiveChange = (element: CustomEvent<HTMLElement>) => {
+    const clientRect = element.detail.getBoundingClientRect();
+    console.log('clientRect', clientRect);
+    console.log('scrollHeight', element.detail.parentElement?.scrollTop);
+    //max slash menu scroll is 400
+    const parent = element.detail.parentElement!;
+    if (clientRect.y < 0) {
+      requestAnimationFrame(() => {
+        parent.scrollTo({
+          top: 400,
+          behavior: 'smooth'
+        });
+      });
+    } else if (clientRect.y > 400) {
+      requestAnimationFrame(() => {
+        parent.scrollTo({
+          top: parent.scrollTop + 300,
+          behavior: 'smooth'
+        });
+      });
+    }
+  };
+
   const onSelect = (idx: number) => {
+    console.log('onSelect', idx);
     const item = menus[idx];
     if (item) {
       props.command(item);
@@ -65,8 +89,10 @@
     <div class="extension scroll">
       {#each menus as item, idx}
         <Item
+          on:active={onActiveChange}
           text={item.title}
           icon={item.icon}
+          description={item.description}
           active={selectedIndex === idx}
           onClick={() => onSelect(idx)}
         />
@@ -80,7 +106,7 @@
     visibility: hidden;
   }
   .wrapper {
-    width: 320px;
+    width: 336px;
     max-height: 400px;
     height: 100%;
     display: flex;
