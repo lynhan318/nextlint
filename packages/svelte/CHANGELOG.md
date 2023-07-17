@@ -1,5 +1,15 @@
 # @nextlint/editor
 
+## 1.1.1
+
+### Patch Changes
+
+- [#29](https://github.com/sveltor/nextlint/pull/29) [`fefadc7`](https://github.com/sveltor/nextlint/commit/fefadc78de6aaeeeb22a4a6e653f18f491ff3adc) Thanks [@lynhan318](https://github.com/lynhan318)! - fix figure decorations
+
+- [#31](https://github.com/sveltor/nextlint/pull/31) [`0ebcab9`](https://github.com/sveltor/nextlint/commit/0ebcab9faa70a099ef8114710fe93500e2348f5a) Thanks [@lynhan318](https://github.com/lynhan318)! - refactor slash menu
+
+- [#32](https://github.com/sveltor/nextlint/pull/32) [`aec5542`](https://github.com/sveltor/nextlint/commit/aec5542e494afef15d0154097660af7a36bb136f) Thanks [@lynhan318](https://github.com/lynhan318)! - wrong position when select Text
+
 ## 1.1.0
 
 ### Minor Changes
