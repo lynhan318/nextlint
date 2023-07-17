@@ -57,7 +57,7 @@
 <div class="wrapper">
   {#if menus.length === 0}
     <p
-      style="width:320px;text-align: center;color:var(--svelteui-colors-dark300)"
+      style="width:100%;text-align: center;color:var(--svelteui-colors-dark300)"
     >
       No results
     </p>
@@ -80,29 +80,25 @@
     visibility: hidden;
   }
   .wrapper {
+    width: 320px;
     max-height: 400px;
     height: 100%;
     display: flex;
     flex-direction: row;
-    padding: 8px;
+    padding: 24px 8px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: 8px;
     z-index: 9;
     background: #fff;
     position: relative;
 
-    .category {
-      width: 140px;
-      display: flex;
-      flex-direction: column;
-    }
-
     .extension {
       overflow: auto;
       display: flex;
       flex-direction: column;
-      width: 180px;
       overscroll-behavior: contain;
+      width: 100%;
+      padding: 0 8px;
     }
   }
   .scroll {

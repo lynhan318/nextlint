@@ -11,10 +11,10 @@
   <div class="content">
     {#if icon}
       <span class="icon">
-        <svelte:component this={icon} />
+        <svelte:component this={icon} size={24} />
       </span>
     {/if}
-    <span style="margin-left:16px">
+    <span style="margin-left:48px">
       {text}
     </span>
   </div>
@@ -31,13 +31,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 0;
     width: 100%;
-    text-align: left;
     border-radius: 0.4rem;
     border: 1px solid transparent;
-    height: 40px;
-    padding: 0px 8px;
+    margin-bottom: 4px;
     cursor: pointer;
     &:hover {
       background-color: var(--svelteui-colors-gray300);
@@ -46,10 +43,9 @@
       background-color: var(--svelteui-colors-gray200);
     }
     .content {
-      padding: 8px;
       .icon {
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -57,9 +53,8 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-
       span {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         text-transform: capitalize;
       }
     }

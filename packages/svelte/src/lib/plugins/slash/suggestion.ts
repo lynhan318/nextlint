@@ -157,21 +157,21 @@ const suggestionItem = [
   {
     title: 'Text Align Left',
     command: ({editor}) => {
-      return editor.commands.setTextAlign('left');
+      return editor.chain().setTextAlign('left').focus().run();
     },
     icon: TextAlignLeft
   },
   {
     title: 'Text Align Center',
     command: ({editor}) => {
-      return editor.commands.setTextAlign('center');
+      return editor.chain().setTextAlign('center').focus().run();
     },
     icon: TextAlignCenter
   },
   {
     title: 'Text Align Right',
     command: ({editor}) => {
-      return editor.commands.setTextAlign('right');
+      return editor.chain().setTextAlign('right').focus().run();
     },
     icon: TextAlignRight
   },
