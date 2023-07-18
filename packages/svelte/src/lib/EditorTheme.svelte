@@ -60,6 +60,9 @@
               height: 0,
               pointerEvents: 'none'
             },
+            '&.is-block-empty[data-align="right"]:before': {
+              float: 'right'
+            },
             '& code': {
               backgroundColor: 'hsl(206, 44%, 93%)',
               padding: '2px',

@@ -178,24 +178,24 @@ const suggestionItem = [
   {
     title: 'Text Align Left',
     description: 'Align current text block to Left',
-    command: ({editor}) => {
-      return editor.chain().setTextAlign('left').focus().run();
+    command: ({editor, range}) => {
+      return editor.chain().setTextAlign('left').deleteRange(range).run();
     },
     icon: TextAlignLeft
   },
   {
     title: 'Text Align Center',
     description: 'Align current text block to Center',
-    command: ({editor}) => {
-      return editor.chain().setTextAlign('center').focus().run();
+    command: ({editor, range}) => {
+      return editor.chain().setTextAlign('center').deleteRange(range).run();
     },
     icon: TextAlignCenter
   },
   {
     title: 'Text Align Right',
     description: 'Align current text block to Right',
-    command: ({editor}) => {
-      return editor.chain().setTextAlign('right').focus().run();
+    command: ({editor, range}) => {
+      return editor.chain().setTextAlign('right').deleteRange(range).run();
     },
     icon: TextAlignRight
   },

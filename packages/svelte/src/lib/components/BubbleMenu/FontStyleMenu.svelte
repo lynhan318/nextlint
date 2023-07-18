@@ -11,7 +11,7 @@
     TextAlignRight
   } from 'radix-icons-svelte';
   import {onMount} from 'svelte';
-  import {getRootNode} from '@nextlint/core';
+  import {getRootNode, type TextAlignment} from '@nextlint/core';
 
   import {useEditor} from '$lib/context';
   import {CommandButton} from '$lib/components';
@@ -33,6 +33,7 @@
   const toggle = (style: string): boolean => {
     return $editor!.commands[`toggle${style}`]();
   };
+
   const setTextAlign = (direction: TextAlignment) => {
     $editor.chain().setTextAlign(direction).run();
   };

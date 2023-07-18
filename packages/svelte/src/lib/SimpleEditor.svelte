@@ -1,10 +1,11 @@
 <script lang="ts">
   import type {Content, Editor} from '@tiptap/core';
-  import {Stack, SvelteUIProvider} from '@svelteuidev/core';
+  import {Stack, SvelteUIProvider, Box} from '@svelteuidev/core';
 
   import {createEditorContext} from '$lib/context';
 
   import FontStyleMenu from './components/BubbleMenu/FontStyleMenu.svelte';
+  import {Positioner} from './components/Positioner';
 
   export let content: Content;
   export let placeholder = 'Share your thought...';
@@ -30,9 +31,21 @@
     <div use:render />
     {#if editable}
       {#await ready then _}
-        <div style="display:flex;height:32px;">
-          <FontStyleMenu />
-        </div>
+        <Positioner position="selection">
+          <Box
+            style="display:flex;height:32px;"
+            css={{
+              display: 'flex',
+              height: '32px',
+              background: 'white',
+              boxShadow: '0 0 2px 0 rgba(0, 0, 0, 0.1)',
+              borderRadius: '4px',
+              padding: 4
+            }}
+          >
+            <FontStyleMenu />
+          </Box>
+        </Positioner>
       {/await}
     {/if}
   </Stack>
