@@ -33,6 +33,8 @@ import {
   type PlaceholderOptions
 } from '@tiptap/extension-placeholder';
 
+import {CommonExtension} from '../plugins/common';
+
 import {nodeIdDecorator} from '../utils';
 
 export interface StarterKitOptions {
@@ -60,7 +62,7 @@ export interface StarterKitOptions {
 export const StarterKit = Extension.create<StarterKitOptions>({
   name: 'starterKit',
   addExtensions() {
-    const extensions: any = [];
+    const extensions: any = [CommonExtension.configure()];
 
     if (this.options.placeholder !== false) {
       extensions.push(Placeholder.configure(this.options?.placeholder));
