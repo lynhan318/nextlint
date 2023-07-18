@@ -1,5 +1,11 @@
 # @nextlint/core
 
+## 1.2.0
+
+### Minor Changes
+
+- [`465dba0`](https://github.com/sveltor/nextlint/commit/465dba081a8b36bd65b1447cd8a9b6f2d206c176) Thanks [@lynhan318](https://github.com/lynhan318)! - Create CommonExtension
+
 ## 1.1.0
 
 ### Minor Changes

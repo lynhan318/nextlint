@@ -1,5 +1,14 @@
 # @nextlint/editor
 
+## 1.1.2
+
+### Patch Changes
+
+- [`676b476`](https://github.com/sveltor/nextlint/commit/676b4760c57524dbd02e9e224fbf27d5ede422cb) Thanks [@lynhan318](https://github.com/lynhan318)! - fix setTextAlign command
+
+- Updated dependencies [[`465dba0`](https://github.com/sveltor/nextlint/commit/465dba081a8b36bd65b1447cd8a9b6f2d206c176)]:
+  - @nextlint/core@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes
