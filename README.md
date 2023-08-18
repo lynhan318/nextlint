@@ -33,6 +33,9 @@ Support upload/embed/unsplash api
 
 https://nextlint-editor.vercel.app/
 
+*You can find the implementation of the demo in the repostiory at:
+ https://github.com/sveltor/nextlint/blob/main/packages/svelte/src/routes/%2Bpage.svelte*
+
 ## Quick start
 
 Install the package:
