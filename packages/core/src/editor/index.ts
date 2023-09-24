@@ -1,7 +1,9 @@
-import {lowlight} from 'lowlight/lib/common';
+import {createLowlight, common} from 'lowlight';
 import {Editor, type Content, type Extensions} from '@tiptap/core';
 
 import {StarterKit, type StarterKitOptions} from './starterKit';
+
+const lowlight = createLowlight(common);
 
 export type EditorOptions = {
   content?: Content;
