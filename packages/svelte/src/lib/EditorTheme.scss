@@ -74,7 +74,7 @@
   }
 }
 .tiptap {
-  @apply outline-none text-primary;
+  @apply outline-none text-foreground;
 
   h1 {
     @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
@@ -103,11 +103,14 @@
     @apply my-6 ml-6 list-disc [&>li]:mt-2;
   }
 
-  :not(pre) > code {
+  code {
     @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
   }
   pre {
     @apply relative rounded bg-secondary px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
+    code {
+      @apply text-primary dark:text-secondary;
+    }
   }
 
   hr {
@@ -120,7 +123,7 @@
       @apply aspect-auto max-h-[800px] mx-auto rounded-md object-contain w-full;
     }
     figcaption {
-      @apply text-center text-muted-foreground;
+      @apply text-center text-muted-foreground text-sm;
     }
   }
 }

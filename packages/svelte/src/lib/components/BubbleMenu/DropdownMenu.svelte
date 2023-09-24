@@ -33,7 +33,7 @@
 
 <button
   use:melt={$trigger}
-  class="flex flex-row items-center px-4 text-muted-foreground"
+  class="flex flex-row items-center text-popover-foreground px-4"
 >
   <span class="">
     {currentNode.label}
@@ -43,7 +43,7 @@
 
 <div
   use:melt={$menu}
-  class="flex flex-col bg-background text-muted-foreground p-2 max-w-[280px] w-full rounded shadow-md mt-1"
+  class="flex flex-col bg-popover text-popover-foreground max-w-[280px] w-full rounded shadow-md mt-2"
 >
   {#each BubbleMenuDropdownList as i}
     <button

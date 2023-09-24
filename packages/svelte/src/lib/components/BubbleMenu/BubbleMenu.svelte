@@ -29,7 +29,7 @@
 </script>
 
 {#if !!visibleNode}
-  <div class="rounded py-[6px] px-2 bg-background border shadow-md">
+  <div class="rounded py-[6px] bg-popover border shadow-md pr-4">
     <div class="flex flex-row w-full justify-center">
       <DropdownMenu {visibleNode} />
       <FontStyleMenu />

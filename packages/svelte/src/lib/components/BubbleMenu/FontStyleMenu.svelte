@@ -110,7 +110,7 @@
       <svelte:component
         this={props.icon}
         size={18}
-        class={cn('text-muted-foreground', props.active && 'text-success')}
+        class={cn('text-popover-foreground', props.active && 'text-success')}
       />
     </CommandButton>
   {/each}
