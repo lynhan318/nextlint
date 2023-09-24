@@ -60,7 +60,7 @@
   });
 </script>
 
-<div use:render id="nextlint-editor" />
+<div use:render />
 
 {#await ready then _}
   <Positioner position="selection">

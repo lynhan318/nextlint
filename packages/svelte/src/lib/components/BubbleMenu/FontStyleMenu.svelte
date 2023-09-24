@@ -1,19 +1,20 @@
 <script lang="ts">
   import {Group} from '@svelteuidev/core';
   import {
-    Code,
-    FontItalic,
-    FontBold,
+    Bold,
     Strikethrough,
+    Italic,
     Underline,
-    TextAlignLeft,
-    TextAlignCenter,
-    TextAlignRight
-  } from 'radix-icons-svelte';
+    Code,
+    AlignLeft,
+    AlignRight,
+    AlignCenter
+  } from 'lucide-svelte';
   import {onMount} from 'svelte';
   import {getRootNode, type TextAlignment} from '@nextlint/core';
 
   import {useEditor} from '$lib/context';
+  import {cn} from '$lib/helpers';
   import {CommandButton} from '$lib/components';
 
   const editor = useEditor();
@@ -43,14 +44,14 @@
       label: 'Bold',
       cmd: 'Ctrl + B',
       toggle: () => toggle('Bold'),
-      icon: FontBold,
+      icon: Bold,
       active: isActive('bold')
     },
     {
       label: 'Italic',
       cmd: 'Ctrl + I',
       toggle: () => toggle('Italic'),
-      icon: FontItalic,
+      icon: Italic,
       active: isActive('italic')
     },
     {
@@ -76,19 +77,19 @@
     {
       label: 'Align Text Left',
       toggle: () => setTextAlign('left'),
-      icon: TextAlignLeft,
+      icon: AlignLeft,
       active: hasAlign('left')
     },
     {
       label: 'Align Text Center',
       toggle: () => setTextAlign('center'),
-      icon: TextAlignCenter,
+      icon: AlignCenter,
       active: hasAlign('center')
     },
     {
       label: 'Align Text Right',
       toggle: () => setTextAlign('right'),
-      icon: TextAlignRight,
+      icon: AlignRight,
       active: hasAlign('right')
     }
   ];
@@ -106,7 +107,11 @@
 <Group override={{gap: 4}}>
   {#each renderer as props}
     <CommandButton {...props}>
-      <svelte:component this={props.icon} size={20} />
+      <svelte:component
+        this={props.icon}
+        size={18}
+        class={cn('text-muted-foreground', props.active && 'text-success')}
+      />
     </CommandButton>
   {/each}
 </Group>

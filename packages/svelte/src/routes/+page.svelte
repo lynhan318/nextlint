@@ -45,27 +45,27 @@
 </script>
 
 <div class={'w-full p-4 mx-auto'} data-theme={theme}>
-  <!-- <EditorTheme {theme}> -->
-  <SvelteEditor
-    content={showcaseContent}
-    placeholder="Press 'space' GPT support, type '/' for help"
-    onCreated={createdEditor => {
-      editor = createdEditor;
-    }}
-    onChange={nextEditor => {
-      editor = nextEditor;
-    }}
-    plugins={{
-      selectImage: {
-        handleUpload,
-        unsplash: {
-          accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
-        }
-      },
-      gpt: {query: submitPromt}
-    }}
-  />
-  <!-- </EditorTheme> -->
+  <EditorTheme {theme}>
+    <SvelteEditor
+      content={showcaseContent}
+      placeholder="Press 'space' GPT support, type '/' for help"
+      onCreated={createdEditor => {
+        editor = createdEditor;
+      }}
+      onChange={nextEditor => {
+        editor = nextEditor;
+      }}
+      plugins={{
+        selectImage: {
+          handleUpload,
+          unsplash: {
+            accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
+          }
+        },
+        gpt: {query: submitPromt}
+      }}
+    />
+  </EditorTheme>
 </div>
 {#if editor}
   <Devtool {editor}>

@@ -244,6 +244,9 @@ importers:
       '@tiptap/suggestion':
         specifier: ^2.1.11
         version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      clsx:
+        specifier: ^2.0.0
+        version: 2.0.0
       hast-util-to-html:
         specifier: ^9.0.0
         version: 9.0.0
@@ -253,6 +256,9 @@ importers:
       lowlight:
         specifier: ^3.0.0
         version: 3.0.0
+      lucide-svelte:
+        specifier: ^0.279.0
+        version: 0.279.0(svelte@4.2.1)
       radash:
         specifier: ^11.0.0
         version: 11.0.0
@@ -262,6 +268,9 @@ importers:
       sass:
         specifier: ^1.63.6
         version: 1.63.6
+      tailwind-merge:
+        specifier: ^1.14.0
+        version: 1.14.0
       tailwind-variants:
         specifier: ^0.1.14
         version: 0.1.14(tailwindcss@3.3.3)
@@ -320,6 +329,9 @@ importers:
       postcss:
         specifier: ^8.4.30
         version: 8.4.30
+      postcss-nested:
+        specifier: ^6.0.1
+        version: 6.0.1(postcss@8.4.30)
       postcss-preset-env:
         specifier: ^9.1.4
         version: 9.1.4(postcss@8.4.30)
@@ -3102,6 +3114,11 @@ packages:
     engines: {node: '>=0.8'}
     dev: true
 
+  /clsx@2.0.0:
+    resolution: {integrity: sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==}
+    engines: {node: '>=6'}
+    dev: false
+
   /code-red@1.0.3:
     resolution: {integrity: sha512-kVwJELqiILQyG5aeuyKFbdsI1fmQy1Cmf7dQ8eGmVuJoaRVdwey7WaMknr2ZFeVSYSKT0rExsa8EGw0aoI/1QQ==}
     dependencies:
@@ -5185,6 +5202,14 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /lucide-svelte@0.279.0(svelte@4.2.1):
+    resolution: {integrity: sha512-u9j8tMPxWsv5iXJvrUU/jpyML/k49flr7440UE8QM9V3u0OZt5+qaY5TMiPDTVRMdEELBg4d4ueW1+3Mo3VT4A==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      svelte: 4.2.1
+    dev: false
 
   /magic-string@0.27.0:
     resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
