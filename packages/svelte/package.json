@@ -34,6 +34,7 @@
   "dependencies": {
     "@melt-ui/svelte": "^0.50.0",
     "@nextlint/core": "workspace:*",
+    "@svelte-put/lockscroll": "^1.0.0",
     "@svelteuidev/composables": "^0.15.3",
     "@svelteuidev/core": "^0.15.3",
     "@tiptap/core": "^2.1.11",

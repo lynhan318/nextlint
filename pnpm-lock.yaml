@@ -214,6 +214,9 @@ importers:
       '@nextlint/core':
         specifier: workspace:*
         version: link:../core
+      '@svelte-put/lockscroll':
+        specifier: ^1.0.0
+        version: 1.0.0
       '@svelteuidev/composables':
         specifier: ^0.15.3
         version: 0.15.3(svelte@4.2.1)
@@ -1981,6 +1984,10 @@ packages:
 
   /@stitches/core@1.2.8:
     resolution: {integrity: sha512-Gfkvwk9o9kE9r9XNBmJRfV8zONvXThnm1tcuojL04Uy5uRyqg93DC83lDebl0rocZCfKSjUv+fWYtMQmEDJldg==}
+    dev: false
+
+  /@svelte-put/lockscroll@1.0.0:
+    resolution: {integrity: sha512-K49+cpHlngDbBNn3BFEDKKjvSWqOG+JhFNjGyUcNEMrEmbGb97mDPVhdbw8OH0Wfx++ZPArcoxbcGg8w/0BRcg==}
     dev: false
 
   /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.25.0):
