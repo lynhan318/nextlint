@@ -2,9 +2,11 @@
   import DropdownMenu from './DropdownMenu.svelte';
   import FontStyleMenu from './FontStyleMenu.svelte';
   import CustomMenu from './CustomMenu.svelte';
-  import {positionStore} from '../Positioner';
   import {createToolbar, melt} from '@melt-ui/svelte';
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
+  import {diff} from 'radash';
+
+  import {positionStore} from '../Positioner';
 
   // Icons
   import {
@@ -13,21 +15,33 @@
     Strikethrough,
     AlignLeft,
     AlignCenter,
-    AlignRight
+    AlignRight,
+    Underline
   } from 'lucide-svelte';
+  import {useEditor} from '$lib/context';
+  import {onMount} from 'svelte';
+
+  const editor = useEditor();
 
   const {
     elements: {root, button, link, separator},
     builders: {createToolbarGroup}
   } = createToolbar();
   const {
-    elements: {group: fontGroup, item: fontItem}
+    elements: {group: fontGroup, item: fontItem},
+    states: {value}
   } = createToolbarGroup({
     type: 'multiple'
   });
+
+  $: {
+    console.log('$value', $value);
+  }
   const {
     elements: {group: alignGroup, item: alignItem}
   } = createToolbarGroup();
+
+  const locked = createLockScrollStore();
 
   const IGNORE_BLOCK_MENU = ['figure', 'codeBlock'];
 
@@ -52,10 +66,17 @@
     return node;
   })();
 
-  const locked = createLockScrollStore();
   $: {
     locked.set(!!visibleNode);
   }
+  onMount(() => {
+    $editor!.on('update', props => {
+      console.log('isActiveBold', props.editor.isActive('bold'));
+    });
+    $editor!.on('selectionUpdate', props => {
+      console.log('isActiveBold', props.editor.isActive('bold'));
+    });
+  });
 </script>
 
 <svelte:body use:lockscroll={locked} />
@@ -65,13 +86,16 @@
   class="flex min-w-max items-center gap-4 rounded-md bg-background px-2 py-1 text-neutral-700 dark:text-slate-800 shadow-md lg:w-[35rem]"
 >
   <div class="flex items-center gap-1" use:melt={$fontGroup}>
-    <button class="item" use:melt={$fontItem('bold')}>
+    <button class="item" use:melt={$fontItem('Bold')}>
       <Bold class="square-5" />
     </button>
-    <button class="item" use:melt={$fontItem('italic')}>
+    <button class="item" use:melt={$fontItem('Italic')}>
       <Italic class="square-5" />
     </button>
-    <button class="item" use:melt={$fontItem('strikethrough')}>
+    <button class="item" use:melt={$fontItem('Underline')}>
+      <Underline class="square-5" />
+    </button>
+    <button class="item" use:melt={$fontItem('Strikethrough')}>
       <Strikethrough class="square-5" />
     </button>
   </div>

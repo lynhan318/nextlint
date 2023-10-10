@@ -5,6 +5,7 @@
 <script lang="ts">
   import {useEditor} from '$lib/context';
   import tippy, {type Props, type SingleTarget} from 'tippy.js';
+  import {computePosition, type VirtualElement} from '@floating-ui/dom';
   import {onDestroy, setContext} from 'svelte';
 
   import {PositionProvider, positionStore, type Position} from './provider';
@@ -19,7 +20,7 @@
   provider ||= PositionProvider.create($editor!);
 
   let disposable = () => {};
-  const registerTippy = (element: HTMLDivElement) => {
+  const floatingUI = (element: HTMLDivElement) => {
     const instance = tippy(target, {
       ...tippyProps,
       getReferenceClientRect: null,
@@ -29,6 +30,19 @@
       maxWidth: '100%',
       trigger: 'manual'
     });
+    const originalSetProps = instance.setProps;
+
+    instance.setProps = (props: Partial<Props>) => {
+      const virtualElement: VirtualElement = {
+        getBoundingClientRect: () => props.getReferenceClientRect()
+      };
+      console.log('virtualElement', virtualElement.getBoundingClientRect());
+      computePosition(virtualElement, element).then(position => {
+        console.log('position', position);
+      });
+      originalSetProps(props);
+    };
+
     disposable = provider.register(position, instance);
   };
 
@@ -38,6 +52,6 @@
   });
 </script>
 
-<div use:registerTippy style="position: relative;">
+<div use:floatingUI style="position: relative;">
   <slot />
 </div>

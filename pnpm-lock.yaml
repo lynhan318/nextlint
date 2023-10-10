@@ -208,6 +208,9 @@ importers:
 
   packages/svelte:
     dependencies:
+      '@floating-ui/dom':
+        specifier: ^1.5.3
+        version: 1.5.3
       '@melt-ui/svelte':
         specifier: ^0.50.0
         version: 0.50.0(svelte@4.2.1)
@@ -215,8 +218,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@svelte-put/lockscroll':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.1
+        version: 1.0.1
       '@svelteuidev/composables':
         specifier: ^0.15.3
         version: 0.15.3(svelte@4.2.1)
@@ -1986,8 +1989,8 @@ packages:
     resolution: {integrity: sha512-Gfkvwk9o9kE9r9XNBmJRfV8zONvXThnm1tcuojL04Uy5uRyqg93DC83lDebl0rocZCfKSjUv+fWYtMQmEDJldg==}
     dev: false
 
-  /@svelte-put/lockscroll@1.0.0:
-    resolution: {integrity: sha512-K49+cpHlngDbBNn3BFEDKKjvSWqOG+JhFNjGyUcNEMrEmbGb97mDPVhdbw8OH0Wfx++ZPArcoxbcGg8w/0BRcg==}
+  /@svelte-put/lockscroll@1.0.1:
+    resolution: {integrity: sha512-b2whlOVtshrvfqhHLqi9DVU9Fzy3to4q/6MYRLc0HCJr7h0uFkksk7QZlDTxXYh//ey1UmQvQCeL51X/CkEu2w==}
     dev: false
 
   /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.25.0):
