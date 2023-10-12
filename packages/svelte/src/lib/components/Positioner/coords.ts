@@ -1,7 +1,6 @@
 import {isNodeSelection, isTextSelection} from '@tiptap/core';
 import type {EditorView} from '@tiptap/pm/view';
 import type {PositionData} from './provider';
-import type {Positioner} from '.';
 
 export type GetCoord = DOMRect | null;
 

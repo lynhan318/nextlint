@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
-    "@melt-ui/svelte": "^0.50.0",
+    "@melt-ui/svelte": "^0.54.1",
     "@nextlint/core": "workspace:*",
     "@svelte-put/lockscroll": "^1.0.1",
     "@svelteuidev/composables": "^0.15.3",

@@ -56,6 +56,17 @@
 >
   <Link2 size={20} />
 </CommandButton>
+<div bind:this={element}>
+  <slot
+    active={!!mark.href}
+    toggle={() => {
+      createLinkModal = !createLinkModal;
+      requestAnimationFrame(() => {
+        input.focus();
+      });
+    }}
+  />
+</div>
 <Popper reference={element} mounted={createLinkModal} override={{padding: 8}}>
   <Box
     css={{

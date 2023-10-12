@@ -30,19 +30,6 @@
       maxWidth: '100%',
       trigger: 'manual'
     });
-    const originalSetProps = instance.setProps;
-
-    instance.setProps = (props: Partial<Props>) => {
-      const virtualElement: VirtualElement = {
-        getBoundingClientRect: () => props.getReferenceClientRect()
-      };
-      console.log('virtualElement', virtualElement.getBoundingClientRect());
-      computePosition(virtualElement, element).then(position => {
-        console.log('position', position);
-      });
-      originalSetProps(props);
-    };
-
     disposable = provider.register(position, instance);
   };
 

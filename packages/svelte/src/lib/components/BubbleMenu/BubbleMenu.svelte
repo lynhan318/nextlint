@@ -1,10 +1,6 @@
 <script lang="ts">
-  import DropdownMenu from './DropdownMenu.svelte';
-  import FontStyleMenu from './FontStyleMenu.svelte';
-  import CustomMenu from './CustomMenu.svelte';
   import {createToolbar, melt} from '@melt-ui/svelte';
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
-  import {diff} from 'radash';
 
   import {positionStore} from '../Positioner';
 
@@ -16,10 +12,14 @@
     AlignLeft,
     AlignCenter,
     AlignRight,
-    Underline
+    Underline,
+    Code
   } from 'lucide-svelte';
   import {useEditor} from '$lib/context';
   import {onMount} from 'svelte';
+  import {writable} from 'svelte/store';
+  import type {Editor} from '@tiptap/core';
+  import {getRootNode} from '@nextlint/core';
 
   const editor = useEditor();
 
@@ -27,19 +27,29 @@
     elements: {root, button, link, separator},
     builders: {createToolbarGroup}
   } = createToolbar();
+
+  const fontValues = writable<string[]>([]);
   const {
-    elements: {group: fontGroup, item: fontItem},
-    states: {value}
+    elements: {group: fontGroup, item: fontItem}
   } = createToolbarGroup({
-    type: 'multiple'
+    type: 'multiple',
+    value: fontValues
   });
 
-  $: {
-    console.log('$value', $value);
-  }
+  const styleValues = writable<string[]>([]);
+  const {
+    elements: {group: styleGroup, item: styleItem}
+  } = createToolbarGroup({
+    type: 'multiple',
+    value: styleValues
+  });
+
+  const alignValues = writable<string>('');
   const {
     elements: {group: alignGroup, item: alignItem}
-  } = createToolbarGroup();
+  } = createToolbarGroup({
+    value: alignValues
+  });
 
   const locked = createLockScrollStore();
 
@@ -69,12 +79,52 @@
   $: {
     locked.set(!!visibleNode);
   }
+
+  const collectFontValues = (updatedEditor: Editor) => {
+    const values = [
+      updatedEditor.isActive('bold') && 'Bold',
+      updatedEditor.isActive('italic') && 'Italic',
+      updatedEditor.isActive('underline') && 'Underline',
+      updatedEditor.isActive('strike') && 'Strike',
+      updatedEditor.isActive('code') && 'Code'
+    ].filter(Boolean) as Array<string>;
+    console.log('updateFontvalues', values);
+    fontValues.set(values);
+  };
+
+  const collectStyleValues = (editor: Editor) => {
+    const values = [].filter(Boolean) as Array<string>;
+    fontValues.set(values);
+  };
+
+  const collectAlignValues = (editor: Editor) => {
+    let align = '';
+    const rootNode = getRootNode(editor);
+    if (rootNode) {
+      const {node} = rootNode;
+      align = node.attrs.align;
+    }
+    alignValues.set(align);
+  };
+
+  const keyPress = (cb: any) => (key: any) => {
+    const code = key.detail.originalEvent?.code;
+    if (code === 'Space') {
+      cb();
+    }
+  };
+
   onMount(() => {
     $editor!.on('update', props => {
-      console.log('isActiveBold', props.editor.isActive('bold'));
+      collectStyleValues(props.editor);
+      collectFontValues(props.editor);
+      collectAlignValues(props.editor);
     });
+
     $editor!.on('selectionUpdate', props => {
-      console.log('isActiveBold', props.editor.isActive('bold'));
+      collectStyleValues(props.editor);
+      collectFontValues(props.editor);
+      collectAlignValues(props.editor);
     });
   });
 </script>
@@ -86,28 +136,87 @@
   class="flex min-w-max items-center gap-4 rounded-md bg-background px-2 py-1 text-neutral-700 dark:text-slate-800 shadow-md lg:w-[35rem]"
 >
   <div class="flex items-center gap-1" use:melt={$fontGroup}>
-    <button class="item" use:melt={$fontItem('Bold')}>
+    <button
+      class="item"
+      use:melt={$fontItem('Bold')}
+      on:m-click={() => {
+        $editor.commands.toggleBold();
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.toggleBold())}
+    >
       <Bold class="square-5" />
     </button>
-    <button class="item" use:melt={$fontItem('Italic')}>
+    <button
+      class="item"
+      use:melt={$fontItem('Italic')}
+      on:m-click={() => {
+        $editor.commands.toggleItalic();
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.toggleItalic())}
+    >
       <Italic class="square-5" />
     </button>
-    <button class="item" use:melt={$fontItem('Underline')}>
+    <button
+      class="item"
+      use:melt={$fontItem('Underline')}
+      on:m-click={() => {
+        $editor.commands.toggleUnderline();
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.toggleUnderline())}
+    >
       <Underline class="square-5" />
     </button>
-    <button class="item" use:melt={$fontItem('Strikethrough')}>
+    <button
+      class="item"
+      use:melt={$fontItem('Strike')}
+      on:m-click={() => {
+        $editor.commands.toggleStrike();
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.toggleStrike())}
+    >
       <Strikethrough class="square-5" />
+    </button>
+    <button
+      class="item"
+      use:melt={$fontItem('Code')}
+      on:m-click={() => {
+        $editor.commands.toggleStrike();
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.toggleCode())}
+    >
+      <Code class="square-5" />
     </button>
   </div>
   <div class="separator" use:melt={$separator} />
   <div class="flex items-center gap-1" use:melt={$alignGroup}>
-    <button class="item" use:melt={$alignItem('left')}>
+    <button
+      class="item"
+      use:melt={$alignItem('left')}
+      on:m-click={() => {
+        $editor.commands.setTextAlign('left');
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.setTextAlign('left'))}
+    >
       <AlignLeft class="square-5" />
     </button>
-    <button class="item" use:melt={$alignItem('center')}>
+    <button
+      class="item"
+      use:melt={$alignItem('center')}
+      on:m-click={() => {
+        $editor.commands.setTextAlign('center');
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.setTextAlign('center'))}
+    >
       <AlignCenter class="square-5" />
     </button>
-    <button class="item" use:melt={$alignItem('right')}>
+    <button
+      class="item"
+      use:melt={$alignItem('right')}
+      on:m-click={() => {
+        $editor.commands.setTextAlign('right');
+      }}
+      on:m-keydown={keyPress(() => $editor.commands.setTextAlign('right'))}
+    >
       <AlignRight class="square-5" />
     </button>
   </div>
