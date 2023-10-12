@@ -2,6 +2,7 @@
   import {createToolbar, melt} from '@melt-ui/svelte';
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
   import {LinkButton} from '$lib/plugins/link';
+  import {HighlightButton} from '$lib/plugins/highlight';
 
   import {positionStore} from '../Positioner';
 
@@ -15,7 +16,8 @@
     AlignRight,
     Underline,
     Code,
-    Link
+    Link,
+    Pencil
   } from 'lucide-svelte';
   import {useEditor} from '$lib/context';
   import {onMount} from 'svelte';
@@ -90,7 +92,9 @@
       updatedEditor.isActive('italic') && 'Italic',
       updatedEditor.isActive('underline') && 'Underline',
       updatedEditor.isActive('strike') && 'Strike',
-      updatedEditor.isActive('code') && 'Code'
+      updatedEditor.isActive('code') && 'Code',
+      updatedEditor.isActive('link') && 'Link',
+      updatedEditor.isActive('highlight') && 'Highlight'
     ].filter(Boolean) as Array<string>;
     fontValues.set(values);
   };
@@ -199,10 +203,15 @@
       <Code class="square-5" />
     </button>
     <LinkButton let:toggle>
-      <button class="item" on:click={toggle} use:melt={$fontItem('link')}>
+      <button class="item" on:click={toggle} use:melt={$fontItem('Link')}>
         <Link class="square-5" />
       </button>
     </LinkButton>
+    <HighlightButton let:toggle>
+      <button class="item" on:click={toggle} use:melt={$fontItem('Highlight')}>
+        <Pencil class="square-5" />
+      </button>
+    </HighlightButton>
   </div>
   <div class="separator" use:melt={$separator} />
   <div class="flex items-center gap-1" use:melt={$alignGroup}>

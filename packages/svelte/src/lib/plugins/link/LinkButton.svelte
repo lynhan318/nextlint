@@ -1,11 +1,10 @@
 <script lang="ts">
-  import {Button, Input, Popper, Box} from '@svelteuidev/core';
-  import {Check} from 'radix-icons-svelte';
-  import {getMarkAttributes} from '@tiptap/core';
   import {getContext} from 'svelte';
+  import {Popover} from '$lib/components';
 
   import type {PositionStore} from '$lib/components/Positioner';
   import {useEditor} from '$lib/context';
+  import {Check} from 'lucide-svelte';
 
   const editor = useEditor();
   const positioner = getContext('positioner');
@@ -19,8 +18,6 @@
       createLinkModal = false;
     }
   });
-
-  $: mark = getMarkAttributes($editor!.state, 'link');
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -44,7 +41,6 @@
 
 <div bind:this={element}>
   <slot
-    active={!!mark.href}
     toggle={() => {
       createLinkModal = !createLinkModal;
       requestAnimationFrame(() => {
@@ -53,48 +49,14 @@
     }}
   />
 </div>
-<Popper reference={element} mounted={createLinkModal} override={{padding: 8}}>
-  <Box
-    css={{
-      backgroundColor: 'white',
-      borderRadius: 4,
-      boxShadow:
-        'rgb(223, 225, 230) 0px 4px 8px, rgb(223, 225, 230) 0px 0px 1px'
-    }}
-  >
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        boxSizing: 'border-box'
-      }}
-      root="form"
-      on:submit={onSubmit}
-    >
-      <Box
-        root="span"
-        css={{
-          paddingLeft: '12px',
-          color: '$dark300',
-          textAlign: 'right'
-        }}>https://</Box
-      >
-      <Input
-        placeholder="Link..."
-        variant="unstyled"
-        override={{width: 200}}
-        value={(mark || {}).href || ''}
-        bind:element={input}
-      />
-      <Button
-        variant="subtle"
-        type="submit"
-        color="teal"
-        override={{padding: 0, width: 28, height: 28}}
-      >
+<Popover>
+  <div>
+    <div on:submit={onSubmit}>
+      <div>https://</div>
+      <input placeholder="Link..." bind:element={input} />
+      <button type="submit" color="teal">
         <Check size={20} />
-      </Button>
-    </Box>
-  </Box>
-</Popper>
+      </button>
+    </div>
+  </div>
+</Popover>

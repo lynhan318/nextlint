@@ -1,13 +1,12 @@
 <script lang="ts">
-  import {Group, Center, Container, Box} from '@svelteuidev/core';
   import type {Editor} from '@tiptap/core';
-  import {Check} from 'radix-icons-svelte';
 
   import {
     HighlightExtension,
     type Preset,
     type HighlightProps
   } from './tiptap-highlight';
+  import {Check} from 'lucide-svelte';
 
   export let highlightProps: HighlightProps;
   export let editor: Editor;
@@ -27,7 +26,7 @@
           .unsetHighlight()
           .run()
       ) {
-        selectPreset = {};
+        selectPreset = {} as any;
       }
       return;
     }
@@ -53,45 +52,23 @@
   }));
 </script>
 
-<Container override={{padding: 16}}>
-  <Group
-    direction="row"
-    override={{
-      backgroundColor: 'white',
-      flexFlow: 'unset',
-      padding: 8,
-      borderRadius: 8,
-      gap: 8,
-      boxShadow:
-        'rgb(223, 225, 230) 0px 4px 8px, rgb(223, 225, 230) 0px 0px 1px'
-    }}
-  >
+<div class="p-4">
+  <div class="flex flex-row bg-background p-2 rounded-md gap-2 shadow-sm">
     {#each presets as preset (preset.backgroundColor)}
-      <Box
+      <div
         on:mousedown={e => {
           e.preventDefault();
           toggleColor(preset);
         }}
-        css={{
-          cursor: 'pointer',
-          backgroundColor: preset.backgroundColor,
-          color: preset.textColor,
-          width: 24,
-          height: 24,
-          borderRadius: '50%',
-          border: `2px solid transparent`,
-          '&:hover': {
-            borderColor: '#000',
-            transition: 'all 0.15s ease-in-out'
-          }
-        }}
+        class="pointer square-6 rounded-full"
+        style="background-color:{preset.backgroundColor}"
       >
         {#if preset.isSelect}
-          <Center override={{height: '100%'}}>
+          <div class="flex justify-center items-center h-full">
             <Check size={20} color={preset.textColor} />
-          </Center>
+          </div>
         {/if}
-      </Box>
+      </div>
     {/each}
-  </Group>
-</Container>
+  </div>
+</div>
