@@ -1,8 +1,7 @@
 <script lang="ts">
-  import {ActionIcon, Button, Input, Popper, Box} from '@svelteuidev/core';
-  import {Link2, Check} from 'radix-icons-svelte';
+  import {Button, Input, Popper, Box} from '@svelteuidev/core';
+  import {Check} from 'radix-icons-svelte';
   import {getMarkAttributes} from '@tiptap/core';
-  import CommandButton from '$lib/components/CommandButton.svelte';
   import {getContext} from 'svelte';
 
   import type {PositionStore} from '$lib/components/Positioner';
@@ -43,19 +42,6 @@
   };
 </script>
 
-<CommandButton
-  label="Add Link"
-  bind:element
-  active={!!mark.href}
-  toggle={() => {
-    createLinkModal = !createLinkModal;
-    requestAnimationFrame(() => {
-      input.focus();
-    });
-  }}
->
-  <Link2 size={20} />
-</CommandButton>
 <div bind:this={element}>
   <slot
     active={!!mark.href}

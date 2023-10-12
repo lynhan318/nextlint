@@ -1,6 +1,7 @@
 <script lang="ts">
   import {createToolbar, melt} from '@melt-ui/svelte';
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
+  import {LinkButton} from '$lib/plugins/link';
 
   import {positionStore} from '../Positioner';
 
@@ -13,7 +14,8 @@
     AlignCenter,
     AlignRight,
     Underline,
-    Code
+    Code,
+    Link
   } from 'lucide-svelte';
   import {useEditor} from '$lib/context';
   import {onMount} from 'svelte';
@@ -28,12 +30,11 @@
     builders: {createToolbarGroup}
   } = createToolbar();
 
-  const fontValues = writable<string[]>([]);
   const {
-    elements: {group: fontGroup, item: fontItem}
+    elements: {group: fontGroup, item: fontItem},
+    states: {value: fontValues}
   } = createToolbarGroup({
-    type: 'multiple',
-    value: fontValues
+    type: 'multiple'
   });
 
   const styleValues = writable<string[]>([]);
@@ -41,7 +42,10 @@
     elements: {group: styleGroup, item: styleItem}
   } = createToolbarGroup({
     type: 'multiple',
-    value: styleValues
+    value: styleValues,
+    onValueChange: ({curr}) => {
+      return curr;
+    }
   });
 
   const alignValues = writable<string>('');
@@ -88,13 +92,13 @@
       updatedEditor.isActive('strike') && 'Strike',
       updatedEditor.isActive('code') && 'Code'
     ].filter(Boolean) as Array<string>;
-    console.log('updateFontvalues', values);
     fontValues.set(values);
   };
 
   const collectStyleValues = (editor: Editor) => {
     const values = [].filter(Boolean) as Array<string>;
-    fontValues.set(values);
+    console.log('trigger when?');
+    styleValues.set(values);
   };
 
   const collectAlignValues = (editor: Editor) => {
@@ -116,15 +120,23 @@
 
   onMount(() => {
     $editor!.on('update', props => {
-      collectStyleValues(props.editor);
-      collectFontValues(props.editor);
-      collectAlignValues(props.editor);
+      // NOTED: this is a bit hacky way make sure the updated happend after
+      // toggle dont it behavior
+      requestAnimationFrame(() => {
+        collectStyleValues(props.editor);
+        collectFontValues(props.editor);
+        collectAlignValues(props.editor);
+      });
     });
 
     $editor!.on('selectionUpdate', props => {
-      collectStyleValues(props.editor);
-      collectFontValues(props.editor);
-      collectAlignValues(props.editor);
+      // NOTED: this is a bit hacky way make sure the updated happend after
+      // toggle dont it behavior
+      requestAnimationFrame(() => {
+        collectStyleValues(props.editor);
+        collectFontValues(props.editor);
+        collectAlignValues(props.editor);
+      });
     });
   });
 </script>
@@ -180,12 +192,17 @@
       class="item"
       use:melt={$fontItem('Code')}
       on:m-click={() => {
-        $editor.commands.toggleStrike();
+        $editor.commands.toggleCode();
       }}
       on:m-keydown={keyPress(() => $editor.commands.toggleCode())}
     >
       <Code class="square-5" />
     </button>
+    <LinkButton let:toggle>
+      <button class="item" on:click={toggle} use:melt={$fontItem('link')}>
+        <Link class="square-5" />
+      </button>
+    </LinkButton>
   </div>
   <div class="separator" use:melt={$separator} />
   <div class="flex items-center gap-1" use:melt={$alignGroup}>
@@ -220,6 +237,8 @@
       <AlignRight class="square-5" />
     </button>
   </div>
+  <div class="separator" use:melt={$separator} />
+  <div class="flex items-center gap-1" use:melt={$styleGroup}></div>
   <div class="separator" use:melt={$separator} />
   <a href="/" class="link nowrap flex-shrink-0" use:melt={$link}>
     Edited 2 hours ago
