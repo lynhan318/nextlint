@@ -8,15 +8,14 @@
 
   import HighlightPresets from './HighlightPresets.svelte';
   import type {HighlightProps} from './tiptap-highlight';
+  import {writable} from 'svelte/store';
 
   const editor = useEditor();
 
   let element: HTMLDivElement;
-  let mounted = false;
 
   const dispose = positionStore.subscribe(store => {
     if (!store.selection) {
-      mounted = false;
     }
   });
 
@@ -26,9 +25,9 @@
     pos: $editor!.state.selection.from
   } satisfies HighlightProps;
 
+  let open = writable(false);
   const toggle = () => {
     element?.focus();
-    mounted = !mounted;
   };
 
   onDestroy(() => {
@@ -36,7 +35,7 @@
   });
 </script>
 
-<Popover>
+<Popover {open}>
   <div slot="trigger">
     <slot {toggle} />
   </div>

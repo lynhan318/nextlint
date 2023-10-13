@@ -7,6 +7,9 @@
     type HighlightProps
   } from './tiptap-highlight';
   import {Check} from 'lucide-svelte';
+  import {createEventDispatcher} from 'svelte';
+
+  const dispatcher = createEventDispatcher<{toggle: void}>();
 
   export let highlightProps: HighlightProps;
   export let editor: Editor;
@@ -15,6 +18,7 @@
 
   const toggleColor = (preset: Preset) => {
     const {pos, node} = highlightProps;
+    dispatcher('toggle');
     if (preset.backgroundColor === selectPreset?.backgroundColor) {
       if (
         editor
@@ -30,6 +34,7 @@
       }
       return;
     }
+
     if (!editor.state.selection.empty) {
       editor?.commands.setHighlight({preset});
     } else {
@@ -55,12 +60,11 @@
 <div class="p-4">
   <div class="flex flex-row bg-background p-2 rounded-md gap-2 shadow-sm">
     {#each presets as preset (preset.backgroundColor)}
-      <div
-        on:mousedown={e => {
-          e.preventDefault();
+      <a
+        on:mousedown|stopPropagation={e => {
           toggleColor(preset);
         }}
-        class="pointer square-6 rounded-full"
+        class="cursor-pointer square-6 rounded-full"
         style="background-color:{preset.backgroundColor}"
       >
         {#if preset.isSelect}
@@ -68,7 +72,7 @@
             <Check size={20} color={preset.textColor} />
           </div>
         {/if}
-      </div>
+      </a>
     {/each}
   </div>
 </div>

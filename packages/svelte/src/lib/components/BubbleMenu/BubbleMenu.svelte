@@ -24,11 +24,12 @@
   import {writable} from 'svelte/store';
   import type {Editor} from '@tiptap/core';
   import {getRootNode} from '@nextlint/core';
+  import DropdownMenu from './DropdownMenu.svelte';
 
   const editor = useEditor();
 
   const {
-    elements: {root, button, link, separator},
+    elements: {root, separator, button},
     builders: {createToolbarGroup}
   } = createToolbar();
 
@@ -37,17 +38,6 @@
     states: {value: fontValues}
   } = createToolbarGroup({
     type: 'multiple'
-  });
-
-  const styleValues = writable<string[]>([]);
-  const {
-    elements: {group: styleGroup, item: styleItem}
-  } = createToolbarGroup({
-    type: 'multiple',
-    value: styleValues,
-    onValueChange: ({curr}) => {
-      return curr;
-    }
   });
 
   const alignValues = writable<string>('');
@@ -99,12 +89,6 @@
     fontValues.set(values);
   };
 
-  const collectStyleValues = (editor: Editor) => {
-    const values = [].filter(Boolean) as Array<string>;
-    console.log('trigger when?');
-    styleValues.set(values);
-  };
-
   const collectAlignValues = (editor: Editor) => {
     let align = '';
     const rootNode = getRootNode(editor);
@@ -127,7 +111,6 @@
       // NOTED: this is a bit hacky way make sure the updated happend after
       // toggle dont it behavior
       requestAnimationFrame(() => {
-        collectStyleValues(props.editor);
         collectFontValues(props.editor);
         collectAlignValues(props.editor);
       });
@@ -137,7 +120,6 @@
       // NOTED: this is a bit hacky way make sure the updated happend after
       // toggle dont it behavior
       requestAnimationFrame(() => {
-        collectStyleValues(props.editor);
         collectFontValues(props.editor);
         collectAlignValues(props.editor);
       });
@@ -149,7 +131,10 @@
 
 <div
   use:melt={$root}
-  class="flex min-w-max items-center gap-4 rounded-md bg-background px-2 py-1 text-neutral-700 dark:text-slate-800 shadow-md lg:w-[35rem]"
+  class="
+  border border-border
+  flex min-w-max items-center gap-4 rounded-md bg-background
+  px-2 py-1 text-neutral-700 dark:text-slate-800 shadow-md"
 >
   <div class="flex items-center gap-1" use:melt={$fontGroup}>
     <button
@@ -247,15 +232,9 @@
     </button>
   </div>
   <div class="separator" use:melt={$separator} />
-  <div class="flex items-center gap-1" use:melt={$styleGroup}></div>
-  <div class="separator" use:melt={$separator} />
-  <a href="/" class="link nowrap flex-shrink-0" use:melt={$link}>
-    Edited 2 hours ago
-  </a>
-  <button
-    class="ml-auto rounded-md bg-slate-600 px-2 py-2 font-medium text-slate-100 hover:opacity-75 active:opacity-50"
-    use:melt={$button}>Save</button
-  >
+  {#if visibleNode}
+    <DropdownMenu {visibleNode} {button} />
+  {/if}
 </div>
 
 <style lang="postcss">

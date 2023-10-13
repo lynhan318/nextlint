@@ -1,5 +1,4 @@
 <script lang="ts">
-  import {Box, Button, ActionIcon, Container} from '@svelteuidev/core';
   import {LinkBreak2, Check} from 'radix-icons-svelte';
   import type {LinkProps} from './tiptap-link-v2';
   import type {Editor} from '@tiptap/core';
@@ -55,56 +54,20 @@
   };
 </script>
 
-<Container override={{padding: 16}}>
-  <Box
-    css={{
-      padding: 4,
-      backgroundColor: 'white',
-      borderRadius: 4,
-      boxShadow:
-        'rgb(223, 225, 230) 0px 4px 8px, rgb(223, 225, 230) 0px 0px 1px'
-    }}
+<form
+  class="flex flex-row items-center py-1 px-2 pl-4 shadow-md z-10 rounded-md border-border border bg-background"
+  style="pointer-events: all;"
+>
+  <input
+    placeholder="Link..."
+    use:useInput
+    value={linkProps.mark.attrs.href}
+    class="outline-none"
+  />
+  <a
+    on:mousedown|stopPropagation={unsetLink}
+    class="w-8 h-8 flex items-center justify-center pointer text-red-500 hover:bg-red-100 transition-colors p-1 rounded-md"
   >
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: '0 8px',
-        '& input': {
-          outline: 'none',
-          border: 'none',
-          padding: '4px 8px'
-        }
-      }}
-      root="form"
-    >
-      <input
-        placeholder="Link..."
-        use:useInput
-        value={linkProps.mark.attrs.href}
-      />
-      <Button
-        variant="subtle"
-        color="teal"
-        type="submit"
-        on:click={onSubmit}
-        override={{width: 32, height: 32, padding: 0, cursor: 'pointer'}}
-      >
-        <Check size={20} />
-      </Button>
-      <ActionIcon
-        on:mousedown={unsetLink}
-        override={{
-          width: 32,
-          height: 32,
-          padding: 0,
-          cursor: 'pointer',
-          color: '$red500'
-        }}
-      >
-        <LinkBreak2 size={20} />
-      </ActionIcon>
-    </Box>
-  </Box>
-</Container>
+    <LinkBreak2 />
+  </a>
+</form>

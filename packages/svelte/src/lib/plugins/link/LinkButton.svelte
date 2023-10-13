@@ -1,27 +1,19 @@
 <script lang="ts">
-  import {getContext} from 'svelte';
   import {Popover} from '$lib/components';
 
-  import type {PositionStore} from '$lib/components/Positioner';
   import {useEditor} from '$lib/context';
   import {Check} from 'lucide-svelte';
+  import {writable} from 'svelte/store';
 
   const editor = useEditor();
-  const positioner = getContext('positioner');
 
   let input: HTMLInputElement;
-  let createLinkModal = false;
-  let element: HTMLElement;
 
-  positioner?.subscribe((value: PositionStore) => {
-    if (!value.selection) {
-      createLinkModal = false;
-    }
-  });
+  let open = writable(true);
 
-  const onSubmit = (e: any) => {
-    e.preventDefault();
+  const onSubmit = () => {
     if (
+      input.value &&
       $editor!
         .chain()
         .focus()
@@ -30,33 +22,34 @@
         })
         .run()
     ) {
-      createLinkModal = false;
-
       setTimeout(() => {
         input.value = '';
       }, 100);
+      $open = false;
     }
   };
 </script>
 
-<div bind:this={element}>
-  <slot
-    toggle={() => {
-      createLinkModal = !createLinkModal;
-      requestAnimationFrame(() => {
-        input.focus();
-      });
-    }}
-  />
-</div>
-<Popover>
-  <div>
-    <div on:submit={onSubmit}>
-      <div>https://</div>
-      <input placeholder="Link..." bind:element={input} />
-      <button type="submit" color="teal">
-        <Check size={20} />
-      </button>
-    </div>
+<Popover {open}>
+  <div slot="trigger">
+    <slot
+      toggle={() => {
+        setTimeout(() => {
+          input.focus();
+        }, 100);
+      }}
+    />
   </div>
+  <form
+    on:submit|preventDefault={onSubmit}
+    class="flex items-center bg-background rounded-md px-4 shadow-md relative top-2 border border-border leading-10"
+  >
+    <input placeholder="https://..." bind:this={input} class="outline-none" />
+    <button
+      type="submit"
+      class="hover:bg-secondary transition-colors p-1 rounded-md"
+    >
+      <Check size={20} />
+    </button>
+  </form>
 </Popover>

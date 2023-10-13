@@ -1,5 +1,4 @@
 <script lang="ts">
-  import {Menu, Group, Box, Text} from '@svelteuidev/core';
   import {createDropdownMenu, melt} from '@melt-ui/svelte';
   import type {Node as PMNode} from '@tiptap/pm/model';
   import {ChevronDown, Check} from 'lucide-svelte';
@@ -9,12 +8,16 @@
   import {BubbleMenuDropdownList} from './constants';
 
   const editor = useEditor();
+  export let button: any;
 
   const {
-    elements: {menu, item, trigger, arrow}
+    elements: {menu, item, trigger}
   } = createDropdownMenu({
     positioning: {
-      placement: 'bottom-start'
+      placement: 'bottom-end',
+      offset: {
+        mainAxis: 100
+      }
     }
   });
 
@@ -33,6 +36,7 @@
 
 <button
   use:melt={$trigger}
+  use:melt={$button}
   class="flex flex-row items-center text-popover-foreground px-4"
 >
   <span class="">
@@ -43,14 +47,16 @@
 
 <div
   use:melt={$menu}
-  class="flex flex-col bg-popover text-popover-foreground max-w-[280px] w-full rounded shadow-md mt-2"
+  class="flex flex-col bg-popover text-popover-foreground
+  max-w-[280px] w-full rounded shadow-md mt-2 mb-2 bord
+  border border-border
+  "
 >
   {#each BubbleMenuDropdownList as i}
     <button
       class="flex flex-row items-center px-2 py-2 hover:bg-secondary transition rounded-md"
       use:melt={$item}
-      on:click={e => {
-        e.stopPropagation();
+      on:click|stopPropagation={e => {
         i.toggle($editor);
       }}
     >
