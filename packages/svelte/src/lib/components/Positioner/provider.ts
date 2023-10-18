@@ -2,22 +2,22 @@ import type {Editor} from '@tiptap/core';
 import {Plugin, PluginKey} from '@tiptap/pm/state';
 import type {EditorView} from '@tiptap/pm/view';
 import {throttle} from 'radash';
-import type {Instance, Props} from 'tippy.js';
+import type {ResolvedPos} from '@tiptap/pm/model';
+import {get, writable} from 'svelte/store';
+
 import {
   emptyBlock,
   selectionCoords,
   blockHoverCoordinate,
   coordAtCursor
 } from './coords';
-import {get, writable} from 'svelte/store';
-import type {ResolvedPos} from '@tiptap/pm/model';
 
 export type Maybe<T> = T | null | undefined;
 
 export type Position = 'blockEmpty' | 'blockHover' | 'selection' | 'cursor';
 
 export type PositionMaps = {
-  [position in Position]: Instance<Props>[];
+  [position in Position]: Positioner[];
 };
 
 export type PrositionProvider = {
@@ -25,6 +25,11 @@ export type PrositionProvider = {
 };
 
 type Disposable = () => void;
+
+export interface Positioner {
+  onVisible(p: PositionData): void;
+  onHide(): void;
+}
 
 export type PositionData = {
   pos: number;
@@ -101,8 +106,8 @@ export class PositionProvider {
     return new PositionProvider(editor);
   }
 
-  register = (position: Position, popup: Instance<Props>): Disposable => {
-    const insertIdx = this.positioners[position].push(popup);
+  register = (position: Position, positioner: Positioner): Disposable => {
+    const insertIdx = this.positioners[position].push(positioner);
     return () => this.positioners[position].splice(insertIdx - 1, 1);
   };
 
@@ -111,17 +116,11 @@ export class PositionProvider {
     data: Maybe<PositionData>
   ) => {
     this.setState(position, data);
-    this.positioners[position].forEach(cb => {
+    this.positioners[position].forEach(positioner => {
       if (data) {
-        cb.setProps({
-          getReferenceClientRect: () => data.clientRects
-        });
-        return cb.show();
+        return positioner.onVisible(data);
       }
-      cb.hide();
-      cb.setProps({
-        getReferenceClientRect: () => new DOMRect(-9999, -9999)
-      });
+      positioner.onHide();
     });
   };
 
@@ -187,7 +186,7 @@ export class PositionProvider {
     });
   };
   //Handle 'SELECTION' position here
-  mouseup = event => {
+  mouseup = async () => {
     // ignore if event queue is empty
     if (this.positioners.selection.length === 0) return;
     setTimeout(() => {

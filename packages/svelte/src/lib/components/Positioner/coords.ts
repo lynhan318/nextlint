@@ -20,7 +20,7 @@ export const coordAtCursor = (
 };
 
 export const blockEndCoordinate = (view: EditorView) => {
-  const {selection, doc} = view.state;
+  const {selection} = view.state;
   const editorBox = (
     view.dom.firstChild as HTMLElement
   ).getBoundingClientRect();
@@ -35,8 +35,6 @@ export const blockHoverCoordinate = (
   const editorBox = (
     view.dom.firstChild as HTMLElement
   ).getBoundingClientRect();
-
-  console.log('editorBox', editorBox);
 
   const pos = view.posAtCoords({
     left: editorBox.right / 2,
