@@ -6,8 +6,9 @@
   import {useEditor} from '$lib/context';
   import {
     computePosition,
-    autoPlacement,
+    flip,
     offset,
+    shift,
     type VirtualElement
   } from '@floating-ui/dom';
   import {onDestroy, setContext} from 'svelte';
@@ -33,13 +34,12 @@
         computing = true;
         const virtualEle: VirtualElement = {
           getBoundingClientRect() {
-            console.log('data.clientRects', data.clientRects);
             return data.clientRects;
           }
         };
         domPosition = await computePosition(virtualEle, element, {
-          placement: 'top'
-          // middleware: [offset(-50), autoPlacement({autoAlignment: false})]
+          placement: 'top',
+          middleware: [offset(10), flip(), shift()]
         });
         Object.assign(element.style, {
           left: `${domPosition.x}px`,

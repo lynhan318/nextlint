@@ -1,6 +1,7 @@
 import {Editor, Mark, mergeAttributes} from '@tiptap/core';
 import type {Mark as PMMark, Node} from '@tiptap/pm/model';
 import {Plugin, PluginKey, type PluginView} from '@tiptap/pm/state';
+import {computePosition} from '@floating-ui/dom';
 import HighlightPresets from './HighlightPresets.svelte';
 import tippy, {type Instance, type Props} from 'tippy.js';
 import type {EditorView} from '@tiptap/pm/view';
@@ -153,7 +154,6 @@ export type Coordinate = {
 class HighlightPluginView implements PluginView {
   private previewComponent: HighlightPresets | null = null;
   private tippyContent: HTMLDivElement | null = null;
-  popup: Instance<Props>;
   showing = false;
 
   constructor(
@@ -168,7 +168,6 @@ class HighlightPluginView implements PluginView {
 
   show(highlightProps: HighlightProps) {
     this.tippyContent ||= document.createElement('div');
-
     this.previewComponent ||= new HighlightPresets({
       target: this.tippyContent,
       props: {
@@ -178,16 +177,6 @@ class HighlightPluginView implements PluginView {
       }
     });
 
-    this.popup ||= tippy('body', {
-      offset: [0, -10],
-      getReferenceClientRect: () => highlightProps.dom!.getBoundingClientRect(),
-      content: this.tippyContent,
-      appendTo: () => document.body,
-      showOnCreate: false,
-      animation: 'fade',
-      interactive: true
-    })[0];
-
     //do not show when selection range is visible
     if (get(positionStore).selection) {
       this.hide();
@@ -195,23 +184,27 @@ class HighlightPluginView implements PluginView {
     }
 
     this.previewComponent.$set({highlightProps});
-    this.popup.setProps({
-      getReferenceClientRect: () => highlightProps.dom!.getBoundingClientRect()
-    });
-    this.popup.show();
-    this.showing = true;
+
+    computePosition(highlightProps.dom as Element, this.tippyContent).then(
+      ({x, y}) => {
+        console.log('x,y', x, y);
+        Object.assign(this.tippyContent.style, {
+          top: `${y}px`,
+          left: `${x}px`,
+          position: 'absolute',
+          zIndex: 999,
+          backgroundColor: 'white'
+        });
+        this.showing = true;
+      }
+    );
   }
 
   hide = () => {
     this.showing = false;
-    this.popup?.setProps({
-      getReferenceClientRect: null
-    });
-    this.popup?.hide();
   };
 
   destroy() {
-    this.popup?.destroy();
     this.previewComponent?.$destroy();
     this.tippyContent?.remove();
   }
