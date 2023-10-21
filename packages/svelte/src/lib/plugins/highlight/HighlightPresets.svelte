@@ -57,7 +57,7 @@
   }));
 </script>
 
-<div class="p-4">
+<div class="p-4" data-testid="highlight">
   <div class="flex flex-row bg-background p-2 rounded-md gap-2 shadow-sm">
     {#each presets as preset (preset.backgroundColor)}
       <a

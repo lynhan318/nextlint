@@ -13,8 +13,9 @@
   } from '@floating-ui/dom';
   import {onDestroy, setContext} from 'svelte';
 
-  import {PositionProvider, positionStore, type Position} from './provider';
   import {cn} from '$lib/helpers';
+
+  import {PositionProvider, positionStore, type Position} from './provider';
 
   setContext('positioner', positionStore);
 
@@ -49,7 +50,6 @@
       },
       onHide() {
         domPosition = null;
-        console.log('onHide');
       }
     });
   };

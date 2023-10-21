@@ -1,9 +1,8 @@
 import {Editor, Mark, mergeAttributes} from '@tiptap/core';
 import type {Mark as PMMark, Node} from '@tiptap/pm/model';
 import {Plugin, PluginKey, type PluginView} from '@tiptap/pm/state';
-import {computePosition} from '@floating-ui/dom';
+import {computePosition, flip, shift, offset} from '@floating-ui/dom';
 import HighlightPresets from './HighlightPresets.svelte';
-import tippy, {type Instance, type Props} from 'tippy.js';
 import type {EditorView} from '@tiptap/pm/view';
 import {get} from 'svelte/store';
 
@@ -153,7 +152,7 @@ export type Coordinate = {
 };
 class HighlightPluginView implements PluginView {
   private previewComponent: HighlightPresets | null = null;
-  private tippyContent: HTMLDivElement | null = null;
+  private tippyContent: HTMLDivElement;
   showing = false;
 
   constructor(
@@ -164,10 +163,14 @@ class HighlightPluginView implements PluginView {
     editor.on('blur', () => {
       this.hide();
     });
+
+    this.tippyContent = document.createElement('div');
+    this.tippyContent.style.opacity = '0';
+    this.tippyContent.style.transition = 'all 0.2s ease-in-out';
+    document.body.appendChild(this.tippyContent);
   }
 
   show(highlightProps: HighlightProps) {
-    this.tippyContent ||= document.createElement('div');
     this.previewComponent ||= new HighlightPresets({
       target: this.tippyContent,
       props: {
@@ -185,22 +188,27 @@ class HighlightPluginView implements PluginView {
 
     this.previewComponent.$set({highlightProps});
 
-    computePosition(highlightProps.dom as Element, this.tippyContent).then(
-      ({x, y}) => {
-        console.log('x,y', x, y);
-        Object.assign(this.tippyContent.style, {
-          top: `${y}px`,
-          left: `${x}px`,
-          position: 'absolute',
-          zIndex: 999,
-          backgroundColor: 'white'
-        });
-        this.showing = true;
-      }
-    );
+    computePosition(highlightProps.dom as Element, this.tippyContent, {
+      placement: 'top',
+      middleware: [flip(), shift()]
+    }).then(({x, y}) => {
+      document.body.appendChild(this.tippyContent);
+      Object.assign(this.tippyContent.style, {
+        top: `${y}px`,
+        left: `${x}px`,
+        position: 'absolute',
+        opacity: 1,
+        zIndex: 1
+      });
+
+      this.showing = true;
+    });
   }
 
   hide = () => {
+    Object.assign(this.tippyContent.style, {
+      opacity: 0
+    });
     this.showing = false;
   };
 
