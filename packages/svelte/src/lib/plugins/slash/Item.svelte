@@ -1,6 +1,6 @@
 <script lang="ts">
+  import {cn} from '$lib/helpers';
   import {type ComponentType, createEventDispatcher} from 'svelte';
-  import {Text, Box, Center} from '@svelteuidev/core';
 
   const dispatcher = createEventDispatcher<{
     active: HTMLElement;
@@ -14,68 +14,31 @@
   $: {
     if (active) {
       // wait for next tick make sure layout is ready
-      queueMicrotask(() => {
+      setTimeout(() => {
         dispatcher('active', element);
       });
     }
   }
-  $: cls = active ? 'slash-item-actived' : '';
 </script>
 
-<Box
+<button
   on:click={onClick}
-  class={cls}
-  bind:element
-  root="button"
-  css={{
-    display: 'flex',
-    alignItems: 'center',
-    outline: 'none',
-    border: 'none',
-    width: '100%',
-    cursor: 'pointer',
-    backgroundColor: 'unset',
-    color: '$dark500',
-    borderRadius: 4,
-    marginBottom: 8,
-    '&:hover': {
-      backgroundColor: '$gray200'
-    }
-  }}
+  bind:this={element}
+  class={cn(
+    `grid grid-cols-[40px,auto] outline-none w-full cursor-pointer 
+     border-none bg-none h-[60px] items-center rounded-lg`,
+    active && 'bg-secondary'
+  )}
 >
-  {#if icon}
-    <Box
-      css={{
-        width: 40,
-        height: 40,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: '4px',
-        border: '1px solid $gray300'
-      }}
-    >
-      <Center override={{width: 40, height: 40}}>
-        <svelte:component this={icon} size={24} />
-      </Center>
-    </Box>
-  {/if}
-  <div style="margin-left:12px;padding:4px;width:100%">
-    <Text
-      color="$dark500"
-      override={{fontFamily: 'var(--editor-font)'}}
-      size="md"
-    >
-      {text}
-    </Text>
-    <Text color="$dark300" size="xs" override={{marginTop: 8}}>
-      {description}
-    </Text>
+  <div class="pl-4 w-10 h-10 flex items-center justify-center">
+    <svelte:component this={icon} size={24} />
   </div>
-</Box>
-
-<style lang="scss">
-  :global(.slash-item-actived) {
-    background-color: var(--svelteui-colors-gray200) !important;
-  }
-</style>
+  <div class="w-full text-left ml-4">
+    <p class="text-base font-medium">
+      {text}
+    </p>
+    <p class="text-sm">
+      {description}
+    </p>
+  </div>
+</button>

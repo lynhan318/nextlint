@@ -201,7 +201,7 @@ const suggestionItem = [
   },
   {
     title: 'Image',
-    description: 'Add image, upload, or select from Unsplash',
+    description: 'Insert an image block',
     command: ({editor, range}) => {
       return editor.chain().deleteRange(range).toggleSelectImage().run();
     },
