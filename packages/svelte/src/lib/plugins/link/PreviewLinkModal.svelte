@@ -1,7 +1,8 @@
 <script lang="ts">
-  import {LinkBreak2, Check} from 'radix-icons-svelte';
-  import type {LinkProps} from './tiptap-link-v2';
   import type {Editor} from '@tiptap/core';
+  import {Link2Off} from 'lucide-svelte';
+
+  import type {LinkProps} from './tiptap-link-v2';
 
   // PreviewModal init via svelte component constructor,
   // it's not in svelte context
@@ -66,8 +67,8 @@
   />
   <a
     on:mousedown|stopPropagation={unsetLink}
-    class="w-8 h-8 flex items-center justify-center pointer text-red-500 hover:bg-red-100 transition-colors p-1 rounded-md"
+    class="w-8 h-8 flex items-center justify-center pointer text-red-500 hover:bg-red-100 transition-colors p-1 rounded-md ml-2"
   >
-    <LinkBreak2 />
+    <Link2Off size={16} />
   </a>
 </form>

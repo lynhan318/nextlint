@@ -9,7 +9,7 @@
 
   let input: HTMLInputElement;
 
-  let open = writable(true);
+  let open = writable(false);
 
   const onSubmit = () => {
     if (

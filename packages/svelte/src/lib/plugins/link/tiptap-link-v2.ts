@@ -38,7 +38,12 @@ class TooltipView implements PluginView {
     readonly editor: Editor
   ) {
     this.wrapper = document.createElement('div');
-    this.wrapper.style.cssText = 'position: absolute; z-index: 1;opacity:0';
+    Object.assign(this.wrapper.style, {
+      position: 'absolute',
+      zIndex: 1,
+      opacity: 0,
+      transition: 'opacity 0.2s ease-in-out'
+    });
     document.body.appendChild(this.wrapper);
 
     editor.on('blur', () => {

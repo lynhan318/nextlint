@@ -1,7 +1,7 @@
 import {Editor, Mark, mergeAttributes} from '@tiptap/core';
 import type {Mark as PMMark, Node} from '@tiptap/pm/model';
 import {Plugin, PluginKey, type PluginView} from '@tiptap/pm/state';
-import {computePosition, flip, shift, offset} from '@floating-ui/dom';
+import {computePosition, flip, shift} from '@floating-ui/dom';
 import HighlightPresets from './HighlightPresets.svelte';
 import type {EditorView} from '@tiptap/pm/view';
 import {get} from 'svelte/store';
@@ -165,8 +165,10 @@ class HighlightPluginView implements PluginView {
     });
 
     this.tippyContent = document.createElement('div');
-    this.tippyContent.style.opacity = '0';
-    this.tippyContent.style.transition = 'all 0.2s ease-in-out';
+    Object.assign(this.tippyContent.style, {
+      opacity: 0,
+      transition: 'opacity 0.2s ease-in-out'
+    });
     document.body.appendChild(this.tippyContent);
   }
 
@@ -175,7 +177,6 @@ class HighlightPluginView implements PluginView {
       target: this.tippyContent,
       props: {
         editor: this.editor,
-        onHide: () => this.hide(),
         highlightProps: {}
       }
     });
@@ -192,7 +193,6 @@ class HighlightPluginView implements PluginView {
       placement: 'top',
       middleware: [flip(), shift()]
     }).then(({x, y}) => {
-      document.body.appendChild(this.tippyContent);
       Object.assign(this.tippyContent.style, {
         top: `${y}px`,
         left: `${x}px`,
