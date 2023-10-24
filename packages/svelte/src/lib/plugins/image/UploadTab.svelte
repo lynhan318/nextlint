@@ -1,6 +1,4 @@
 <script lang="ts">
-  import {Tabs, Container, Input, Button, Text} from '@svelteuidev/core';
-
   export let onInsert = (url: string, alt: string) => {};
 
   export let onUploadFile = async (file: File) => {
@@ -22,19 +20,19 @@
   };
 </script>
 
-<Container override={{height: '100px'}}>
-  <Button
+<div class="flex w-full h-full">
+  <button
     on:click={() => input.click()}
-    size="xs"
     disabled={uploading}
-    override={{width: '100%', margin: '16px 0'}}
-    variant="outline">Upload</Button
+    class="w-full bg-slate-100 hover:bg-slate-200/80 transition-all rounded-md"
   >
-  <Input
+    Upload
+    <span class="block">Max upload size: 5MB</span>
+  </button>
+  <input
     type="file"
     style="display:none"
-    bind:element={input}
+    bind:this={input}
     on:change={onFileChange}
   />
-  <Text size="sm" align="center" my="8px">Max upload size: 5MB</Text>
-</Container>
+</div>

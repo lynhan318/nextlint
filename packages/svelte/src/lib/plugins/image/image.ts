@@ -1,4 +1,5 @@
-import Styles from './Style.module.scss';
+import './Style.scss';
+
 import {Node, mergeAttributes, type NodeViewRendererProps} from '@tiptap/core';
 import {writable} from 'svelte/store';
 import {
@@ -36,25 +37,6 @@ document.body.appendChild(wrapper);
 
 let component: SelectImage | null;
 const imageStore = writable<NodeViewRendererProps | null>(null);
-function createImageModal(options: SelectImageOptions) {
-  component ||= new SelectImage({
-    target: wrapper,
-    props: {
-      onHide: () => {
-        Object.assign(wrapper.style, {
-          opacity: 0
-        });
-        component?.$destroy();
-        component = null;
-      }
-    },
-    context: new Map().set('options', options).set('store', imageStore)
-  });
-  return () => {
-    component?.$destroy();
-    component = null;
-  };
-}
 
 export const SelectImageExtension = Node.create<SelectImageOptions>({
   name: 'selectImage',
@@ -84,7 +66,6 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
     return (props: NodeViewRendererProps) => {
       const sveltorImage = document.createElement('select-image');
       sveltorImage.setAttribute('data-node-type', this.name);
-      sveltorImage.classList.add(Styles.selectImage);
 
       const placeholder = new Placeholder({
         target: sveltorImage,

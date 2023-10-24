@@ -4,7 +4,7 @@ import plugin from 'tailwindcss/plugin';
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ['class'],
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ['./src/**/*.{html,scss,js,svelte,ts}'],
   theme: {
     container: {
       center: true,

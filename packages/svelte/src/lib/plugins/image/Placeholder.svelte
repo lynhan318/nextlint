@@ -1,7 +1,7 @@
 <script lang="ts">
   import type {NodeViewRendererProps} from '@tiptap/core';
   import {ImageIcon} from 'lucide-svelte';
-  import {onMount, setContext} from 'svelte';
+  import {onMount} from 'svelte';
 
   export let props: NodeViewRendererProps;
   export let triggerOnMount = false;
@@ -27,9 +27,8 @@
     onOpen(element.getBoundingClientRect());
   }}
   bind:this={element}
+  class="h-[100px] w-full flex flex-row justify-center items-center text-muted-foreground"
 >
-  <div class="h-full w-full flex flex-row">
-    <ImageIcon />
-    <span>Add an image</span>
-  </div>
+  <ImageIcon class="mr-2" />
+  <span>Add an image</span>
 </button>

@@ -21,17 +21,15 @@
   export let onHide = () => {};
 
   const triggers = [
-    {id: 'tab-1', title: 'Upload'},
+    options.handleUpload && {id: 'tab-1', title: 'Upload'},
     {id: 'tab-2', title: 'From URL'},
-    {id: 'tab-3', title: 'Unsplash'}
-  ];
+    options.unsplash && {id: 'tab-3', title: 'Unsplash'}
+  ].filter(Boolean) as any;
 
   const {
     elements: {root, list, content, trigger},
     states: {value}
-  } = createTabs({
-    defaultValue: 'tab-1'
-  });
+  } = createTabs();
 
   const [send, receive] = crossfade({
     duration: 250,
@@ -99,15 +97,19 @@
     {/each}
   </div>
 
-  <div use:melt={$content('tab-1')} class="grow bg-white p-5">
-    <UploadTab {onInsert} onUploadFile={options.handleUpload} />
-  </div>
+  {#if options.handleUpload}
+    <div use:melt={$content('tab-1')} class="grow bg-white p-5">
+      <UploadTab {onInsert} onUploadFile={options.handleUpload} />
+    </div>
+  {/if}
   <div use:melt={$content('tab-2')} class="grow bg-white p-5">
     <EmbedTab {onInsert} />
   </div>
-  <div use:melt={$content('tab-3')} class="grow bg-white p-5">
-    <UnplashTab {onInsert} unsplash={options.unsplash} />
-  </div>
+  {#if options.unsplash}
+    <div use:melt={$content('tab-3')} class="grow bg-white p-5">
+      <UnplashTab {onInsert} unsplash={options.unsplash} />
+    </div>
+  {/if}
 </div>
 
 <style lang="postcss">

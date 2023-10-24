@@ -1,9 +1,0 @@
-.selectImage {
-  display: flex;
-  background-color: var(--svelteui-colors-gray100);
-  border-radius: 8px;
-  margin-bottom: 16px;
-  &.ProseMirror-selectednode {
-    outline: 2px solid var(--svelteui-colors-teal200);
-  }
-}
