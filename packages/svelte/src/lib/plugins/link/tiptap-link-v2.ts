@@ -72,10 +72,12 @@ class TooltipView implements PluginView {
       placement: 'top',
       middleware: [shift(), flip()]
     }).then(({x, y}) => {
-      Object.assign(this.wrapper.style, {
-        top: `${y}px`,
-        left: `${x}px`,
-        opacity: 1
+      requestAnimationFrame(() => {
+        Object.assign(this.wrapper.style, {
+          top: `${y}px`,
+          left: `${x}px`,
+          opacity: 1
+        });
       });
       this.component?.$set({linkProps});
       this.showing = true;

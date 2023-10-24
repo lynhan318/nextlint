@@ -12,11 +12,7 @@
   export let linkProps: LinkProps;
 
   let input: HTMLInputElement;
-  const useInput = (inputEle: HTMLInputElement) => {
-    input = inputEle;
-    input.value = linkProps.mark.attrs.href;
-    input.focus();
-  };
+
   const onSubmit = e => {
     e.preventDefault();
     const {pos, node} = linkProps;
@@ -61,7 +57,7 @@
 >
   <input
     placeholder="Link..."
-    use:useInput
+    bind:this={input}
     value={linkProps.mark.attrs.href}
     class="outline-none"
   />

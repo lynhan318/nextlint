@@ -193,14 +193,15 @@ class HighlightPluginView implements PluginView {
       placement: 'top',
       middleware: [flip(), shift()]
     }).then(({x, y}) => {
-      Object.assign(this.tippyContent.style, {
-        top: `${y}px`,
-        left: `${x}px`,
-        position: 'absolute',
-        opacity: 1,
-        zIndex: 1
+      requestAnimationFrame(() => {
+        Object.assign(this.tippyContent.style, {
+          top: `${y}px`,
+          left: `${x}px`,
+          position: 'absolute',
+          opacity: 1,
+          zIndex: 1
+        });
       });
-
       this.showing = true;
     });
   }
