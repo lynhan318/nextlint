@@ -64,8 +64,8 @@
   use:floating
   class={cn(
     'absolute transition-opacity',
-    domPosition ? 'visible' : 'invisible'
+    domPosition ? 'visible' : 'invisible pointer-events-none'
   )}
 >
-  <slot />
+  <slot visible={Boolean(domPosition)} />
 </div>

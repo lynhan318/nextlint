@@ -166,6 +166,7 @@ class HighlightPluginView implements PluginView {
 
     this.tippyContent = document.createElement('div');
     Object.assign(this.tippyContent.style, {
+      position: 'absolute',
       opacity: 0,
       transition: 'opacity 0.2s ease-in-out'
     });
@@ -193,13 +194,13 @@ class HighlightPluginView implements PluginView {
       placement: 'top',
       middleware: [flip(), shift()]
     }).then(({x, y}) => {
+      Object.assign(this.tippyContent.style, {
+        top: `${y}px`,
+        left: `${x}px`
+      });
       requestAnimationFrame(() => {
         Object.assign(this.tippyContent.style, {
-          top: `${y}px`,
-          left: `${x}px`,
-          position: 'absolute',
-          opacity: 1,
-          zIndex: 1
+          opacity: 1
         });
       });
       this.showing = true;
@@ -210,6 +211,8 @@ class HighlightPluginView implements PluginView {
     Object.assign(this.tippyContent.style, {
       opacity: 0
     });
+    this.previewComponent?.$destroy();
+    this.previewComponent = null;
     this.showing = false;
   };
 
