@@ -22,21 +22,19 @@
   };
 </script>
 
-<Tabs.Tab label="Upload">
-  <Container override={{height: '100px'}}>
-    <Button
-      on:click={() => input.click()}
-      size="xs"
-      disabled={uploading}
-      override={{width: '100%', margin: '16px 0'}}
-      variant="outline">Upload</Button
-    >
-    <Input
-      type="file"
-      style="display:none"
-      bind:element={input}
-      on:change={onFileChange}
-    />
-    <Text size="sm" align="center" my="8px">Max upload size: 5MB</Text>
-  </Container>
-</Tabs.Tab>
+<Container override={{height: '100px'}}>
+  <Button
+    on:click={() => input.click()}
+    size="xs"
+    disabled={uploading}
+    override={{width: '100%', margin: '16px 0'}}
+    variant="outline">Upload</Button
+  >
+  <Input
+    type="file"
+    style="display:none"
+    bind:element={input}
+    on:change={onFileChange}
+  />
+  <Text size="sm" align="center" my="8px">Max upload size: 5MB</Text>
+</Container>

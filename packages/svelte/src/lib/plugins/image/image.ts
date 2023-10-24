@@ -10,7 +10,6 @@ import {
 
 import SelectImage from './SelectImage.svelte';
 import Placeholder from './Placeholder.svelte';
-import {ImportIcon, LucideImport} from 'lucide-svelte';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -27,9 +26,36 @@ export interface SelectImageOptions {
   };
 }
 
-let wrapper: HTMLElement;
-let component: SelectImage;
-export const imageStore = writable<NodeViewRendererProps | null>(null);
+const wrapper = document.createElement('div');
+Object.assign(wrapper.style, {
+  position: 'absolute',
+  opacity: 0,
+  transition: 'opacity 0.2s ease-in-out'
+});
+document.body.appendChild(wrapper);
+
+let component: SelectImage | null;
+const imageStore = writable<NodeViewRendererProps | null>(null);
+function createImageModal(options: SelectImageOptions) {
+  component ||= new SelectImage({
+    target: wrapper,
+    props: {
+      onHide: () => {
+        Object.assign(wrapper.style, {
+          opacity: 0
+        });
+        component?.$destroy();
+        component = null;
+      }
+    },
+    context: new Map().set('options', options).set('store', imageStore)
+  });
+  return () => {
+    component?.$destroy();
+    component = null;
+  };
+}
+
 export const SelectImageExtension = Node.create<SelectImageOptions>({
   name: 'selectImage',
   group: 'block',
@@ -55,29 +81,7 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   },
 
   addNodeView() {
-    wrapper ||= (() => {
-      const element = document.createElement('div');
-      Object.assign(element.style, {
-        position: 'absolute',
-        opacity: 0,
-        transition: 'opacity 0.2s ease-in-out'
-      });
-      component = new SelectImage({
-        target: element,
-        props: {
-          onHide: () => {
-            component.$destroy();
-            Object.assign(wrapper.style, {
-              opacity: 0
-            });
-          }
-        },
-        context: new Map().set('options', this.options).set('store', imageStore)
-      });
-      document.body.appendChild(element);
-      return element;
-    })();
-
+    const destroyModal = createImageModal(this.options);
     return (props: NodeViewRendererProps) => {
       const sveltorImage = document.createElement('select-image');
       sveltorImage.setAttribute('data-node-type', this.name);
@@ -118,7 +122,7 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   onDestroy: () => {
     wrapper?.remove?.();
     component?.$destroy?.();
-    popup?.destroy?.();
+    component = null;
   },
 
   addCommands() {
@@ -134,3 +138,4 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
     };
   }
 });
+export {imageStore};

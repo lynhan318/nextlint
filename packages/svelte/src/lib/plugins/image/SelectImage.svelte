@@ -1,18 +1,17 @@
 <script lang="ts">
-  import {Tabs} from '@svelteuidev/core';
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
+  import {clickoutside} from '@svelte-put/clickoutside';
   import {createTabs, melt} from '@melt-ui/svelte';
   import {cubicInOut} from 'svelte/easing';
   import {crossfade} from 'svelte/transition';
+  import {getContext, onDestroy, onMount} from 'svelte';
+  import type {Writable} from 'svelte/store';
+  import type {NodeViewRendererProps} from '@tiptap/core';
 
   import UploadTab from './UploadTab.svelte';
   import EmbedTab from './EmbedTab.svelte';
   import UnplashTab from './UnplashTab.svelte';
-  import {getContext, onDestroy, onMount} from 'svelte';
-  import type {Writable} from 'svelte/store';
-  import type {NodeViewRendererProps} from '@tiptap/core';
   import type {SelectImageOptions} from './image';
-  import {X} from 'lucide-svelte';
 
   const store = getContext<Writable<NodeViewRendererProps>>('store');
   const options = getContext<SelectImageOptions>('options');
@@ -60,11 +59,9 @@
   const locked = createLockScrollStore();
 
   onMount(() => {
-    console.log('onMount');
     $locked = true;
   });
   onDestroy(() => {
-    console.log('onDestroy');
     $locked = false;
   });
 </script>
@@ -73,50 +70,107 @@
 
 <div
   use:melt={$root}
-  class="w-[480px] bg-background rounded-lg border border-border shadow-md z-10"
+  use:clickoutside
+  on:clickoutside={onHide}
+  class="flex w-[460px] flex-col overflow-hidden rounded-xl shadow-lg data-[orientation=vertical]:flex-row border border-border"
 >
-  <button
-    on:click={() => onHide()}
-    class="absolute top-[2px] right-[2px] hover:bg-secondary rounded-lg p-2"
-  >
-    <X size={16} />
-  </button>
   <div
     use:melt={$list}
     class="flex shrink-0 overflow-x-auto bg-neutral-100
     data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-r"
     aria-label="Manage your account"
   >
-    <button use:melt={$trigger('tab-1')} class="trigger relative">
-      {#if $value === 'tab-1'}
-        <div
-          in:send={{key: 'trigger'}}
-          out:receive={{key: 'trigger'}}
-          class="absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full bg-magnum-400"
-        >
-          Hello
-        </div>
-      {/if}
-    </button>
-    <button use:melt={$trigger('tab-2')} class="trigger relative">
-      {#if $value === 'tab-2'}
-        <div
-          in:send={{key: 'trigger'}}
-          out:receive={{key: 'trigger'}}
-          class="absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full bg-magnum-400"
-        >
-          Hello
-        </div>
-      {/if}
-    </button>
+    {#each triggers as triggerItem}
+      <button use:melt={$trigger(triggerItem.id)} class="trigger relative">
+        {triggerItem.title}
+        {#if $value === triggerItem.id}
+          <div
+            in:send={{key: 'trigger'}}
+            out:receive={{key: 'trigger'}}
+            class="absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full bg-slate-400"
+          />
+        {/if}
+      </button>
+    {/each}
   </div>
-  <!-- <Tabs override={{color: 'teal'}}> -->
-  <!--   {#if options.handleUpload} -->
-  <!--     <UploadTab {onInsert} onUploadFile={options.handleUpload} /> -->
-  <!--   {/if} -->
-  <!--   <EmbedTab {onInsert} /> -->
-  <!--   {#if options.unsplash} -->
-  <!--     <UnplashTab {onInsert} unsplash={options.unsplash} /> -->
-  <!--   {/if} -->
-  <!-- </Tabs> -->
+
+  <div use:melt={$content('tab-1')} class="grow bg-white p-5">
+    <UploadTab {onInsert} onUploadFile={options.handleUpload} />
+  </div>
+  <div use:melt={$content('tab-2')} class="grow bg-white p-5">
+    <EmbedTab {onInsert} />
+  </div>
+  <div use:melt={$content('tab-3')} class="grow bg-white p-5">
+    <UnplashTab {onInsert} unsplash={options.unsplash} />
+  </div>
 </div>
+
+<style lang="postcss">
+  .trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: default;
+    user-select: none;
+
+    border-radius: 0;
+    background-color: theme(colors.neutral.100);
+
+    color: theme(colors.neutral.900);
+    font-weight: 500;
+    line-height: 1;
+
+    flex: 1;
+    height: theme(spacing.12);
+    padding-inline: theme(spacing.2);
+
+    &:focus {
+      position: relative;
+    }
+
+    &:focus-visible {
+      @apply z-10 ring-2;
+    }
+
+    &[data-state='active'] {
+      @apply focus:relative;
+      background-color: white;
+      color: theme('colors.slate.900');
+    }
+  }
+
+  input {
+    height: theme(spacing.8);
+    flex-shrink: 0;
+    flex-grow: 1;
+    border-radius: theme(borderRadius.md);
+    border: 1px solid theme(colors.neutral.200);
+    padding-inline: theme(spacing[2.5]);
+    line-height: 1;
+    color: theme(colors.neutral.900);
+  }
+
+  .save {
+    display: inline-flex;
+    height: theme(spacing.8);
+    cursor: default;
+    align-items: center;
+    justify-content: center;
+    border-radius: theme(borderRadius.md);
+    background-color: theme(colors.slate.200);
+    padding-inline: theme(spacing.4);
+    line-height: 1;
+    font-weight: theme(fontWeight.semibold);
+    color: theme(colors.slate.900);
+    @apply transition;
+
+    &:hover {
+      opacity: 0.75;
+    }
+
+    &:focus {
+      @apply !ring-green-600;
+    }
+  }
+</style>

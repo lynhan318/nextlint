@@ -26,7 +26,7 @@
   bind:this={element}
   class={cn(
     `grid grid-cols-[40px,auto] outline-none w-full cursor-pointer 
-     border-none bg-none h-[60px] items-center rounded-lg`,
+     border-none h-[60px] items-center rounded-lg hover:bg-muted/70`,
     active && 'bg-secondary'
   )}
 >

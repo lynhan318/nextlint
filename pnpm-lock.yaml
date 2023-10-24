@@ -217,6 +217,9 @@ importers:
       '@nextlint/core':
         specifier: workspace:*
         version: link:../core
+      '@svelte-put/clickoutside':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@svelte-put/lockscroll':
         specifier: ^1.0.1
         version: 1.0.1
@@ -355,10 +358,10 @@ importers:
         version: 4.2.2
       svelte-check:
         specifier: ^3.5.2
-        version: 3.5.2(@babel/core@7.22.5)(postcss@8.4.31)(sass@1.63.6)(svelte@4.2.2)
+        version: 3.5.2(@babel/core@7.22.5)(postcss@8.4.31)(svelte@4.2.2)
       svelte-preprocess:
         specifier: 5.0.4
-        version: 5.0.4(@babel/core@7.22.5)(postcss@8.4.31)(sass@1.63.6)(svelte@4.2.2)(typescript@5.2.2)
+        version: 5.0.4(@babel/core@7.22.5)(postcss@8.4.31)(svelte@4.2.2)(typescript@5.2.2)
       svelte-sequential-preprocessor:
         specifier: ^2.0.1
         version: 2.0.1
@@ -376,7 +379,7 @@ importers:
         version: 5.2.2
       vite:
         specifier: ^4.5.0
-        version: 4.5.0(lightningcss@1.22.0)(sass@1.63.6)
+        version: 4.5.0(lightningcss@1.22.0)
 
 packages:
 
@@ -2011,6 +2014,10 @@ packages:
     resolution: {integrity: sha512-Gfkvwk9o9kE9r9XNBmJRfV8zONvXThnm1tcuojL04Uy5uRyqg93DC83lDebl0rocZCfKSjUv+fWYtMQmEDJldg==}
     dev: false
 
+  /@svelte-put/clickoutside@3.0.0:
+    resolution: {integrity: sha512-a2aA0+uMo2LGK4bwQE+etra57cJuqQsXRkI0IM+cPzjIowqUg5CMSSeQ6YsXBJUdtzm/s6WQKcmoswK/875wtA==}
+    dev: false
+
   /@svelte-put/lockscroll@1.0.1:
     resolution: {integrity: sha512-b2whlOVtshrvfqhHLqi9DVU9Fzy3to4q/6MYRLc0HCJr7h0uFkksk7QZlDTxXYh//ey1UmQvQCeL51X/CkEu2w==}
     dev: false
@@ -2046,7 +2053,7 @@ packages:
       svelte: 4.2.2
       tiny-glob: 0.2.9
       undici: 5.26.5
-      vite: 4.5.0(lightningcss@1.22.0)(sass@1.63.6)
+      vite: 4.5.0(lightningcss@1.22.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2079,7 +2086,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 2.4.2(svelte@4.2.2)(vite@4.5.0)
       debug: 4.3.4
       svelte: 4.2.2
-      vite: 4.5.0(lightningcss@1.22.0)(sass@1.63.6)
+      vite: 4.5.0(lightningcss@1.22.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2098,7 +2105,7 @@ packages:
       magic-string: 0.30.0
       svelte: 4.2.2
       svelte-hmr: 0.15.2(svelte@4.2.2)
-      vite: 4.5.0(lightningcss@1.22.0)(sass@1.63.6)
+      vite: 4.5.0(lightningcss@1.22.0)
       vitefu: 0.2.4(vite@4.5.0)
     transitivePeerDependencies:
       - supports-color
@@ -4592,6 +4599,7 @@ packages:
 
   /immutable@4.3.0:
     resolution: {integrity: sha512-0AOCmOip+xgJwEVTQj1EfiDDOkPmuyllDuTuEX+DDXUgapLAsBIfkg3sxCYyCEA8mQqZrrxPUGjcOQ2JS3WLkg==}
+    dev: false
 
   /import-cwd@3.0.0:
     resolution: {integrity: sha512-4pnzH16plW+hgvRECbDWpQl3cqtvSofHWh44met7ESfZ8UZOWWddm8hEyDTqREJ9RbYHY8gi8DqmaelApoOGMg==}
@@ -7075,6 +7083,7 @@ packages:
       chokidar: 3.5.3
       immutable: 4.3.0
       source-map-js: 1.0.2
+    dev: false
 
   /semver@5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
@@ -7365,7 +7374,7 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte-check@3.5.2(@babel/core@7.22.5)(postcss@8.4.31)(sass@1.63.6)(svelte@4.2.2):
+  /svelte-check@3.5.2(@babel/core@7.22.5)(postcss@8.4.31)(svelte@4.2.2):
     resolution: {integrity: sha512-5a/YWbiH4c+AqAUP+0VneiV5bP8YOk9JL3jwvN+k2PEPLgpu85bjQc5eE67+eIZBBwUEJzmO3I92OqKcqbp3fw==}
     hasBin: true
     peerDependencies:
@@ -7378,7 +7387,7 @@ packages:
       picocolors: 1.0.0
       sade: 1.8.1
       svelte: 4.2.2
-      svelte-preprocess: 5.0.4(@babel/core@7.22.5)(postcss@8.4.31)(sass@1.63.6)(svelte@4.2.2)(typescript@5.2.2)
+      svelte-preprocess: 5.0.4(@babel/core@7.22.5)(postcss@8.4.31)(svelte@4.2.2)(typescript@5.2.2)
       typescript: 5.2.2
     transitivePeerDependencies:
       - '@babel/core'
@@ -7387,7 +7396,6 @@ packages:
       - postcss
       - postcss-load-config
       - pug
-      - sass
       - stylus
       - sugarss
     dev: true
@@ -7414,56 +7422,6 @@ packages:
       svelte: ^3.19.0 || ^4.0.0-next.0
     dependencies:
       svelte: 4.2.2
-    dev: true
-
-  /svelte-preprocess@5.0.4(@babel/core@7.22.5)(postcss@8.4.31)(sass@1.63.6)(svelte@4.2.2)(typescript@5.2.2):
-    resolution: {integrity: sha512-ABia2QegosxOGsVlsSBJvoWeXy1wUKSfF7SWJdTjLAbx/Y3SrVevvvbFNQqrSJw89+lNSsM58SipmZJ5SRi5iw==}
-    engines: {node: '>= 14.10.0'}
-    requiresBuild: true
-    peerDependencies:
-      '@babel/core': ^7.10.2
-      coffeescript: ^2.5.1
-      less: ^3.11.3 || ^4.0.0
-      postcss: ^7 || ^8
-      postcss-load-config: ^2.1.0 || ^3.0.0 || ^4.0.0
-      pug: ^3.0.0
-      sass: ^1.26.8
-      stylus: ^0.55.0
-      sugarss: ^2.0.0 || ^3.0.0 || ^4.0.0
-      svelte: ^3.23.0 || ^4.0.0-next.0 || ^4.0.0
-      typescript: '>=3.9.5 || ^4.0.0 || ^5.0.0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      coffeescript:
-        optional: true
-      less:
-        optional: true
-      postcss:
-        optional: true
-      postcss-load-config:
-        optional: true
-      pug:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      typescript:
-        optional: true
-    dependencies:
-      '@babel/core': 7.22.5
-      '@types/pug': 2.0.6
-      detect-indent: 6.1.0
-      magic-string: 0.27.0
-      postcss: 8.4.31
-      sass: 1.63.6
-      sorcery: 0.11.0
-      strip-indent: 3.0.0
-      svelte: 4.2.2
-      typescript: 5.2.2
     dev: true
 
   /svelte-preprocess@5.0.4(@babel/core@7.22.5)(postcss@8.4.31)(svelte@4.0.0-next.3)(typescript@5.2.2):
@@ -7515,6 +7473,55 @@ packages:
       typescript: 5.2.2
     dev: true
 
+  /svelte-preprocess@5.0.4(@babel/core@7.22.5)(postcss@8.4.31)(svelte@4.2.2)(typescript@5.2.2):
+    resolution: {integrity: sha512-ABia2QegosxOGsVlsSBJvoWeXy1wUKSfF7SWJdTjLAbx/Y3SrVevvvbFNQqrSJw89+lNSsM58SipmZJ5SRi5iw==}
+    engines: {node: '>= 14.10.0'}
+    requiresBuild: true
+    peerDependencies:
+      '@babel/core': ^7.10.2
+      coffeescript: ^2.5.1
+      less: ^3.11.3 || ^4.0.0
+      postcss: ^7 || ^8
+      postcss-load-config: ^2.1.0 || ^3.0.0 || ^4.0.0
+      pug: ^3.0.0
+      sass: ^1.26.8
+      stylus: ^0.55.0
+      sugarss: ^2.0.0 || ^3.0.0 || ^4.0.0
+      svelte: ^3.23.0 || ^4.0.0-next.0 || ^4.0.0
+      typescript: '>=3.9.5 || ^4.0.0 || ^5.0.0'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      coffeescript:
+        optional: true
+      less:
+        optional: true
+      postcss:
+        optional: true
+      postcss-load-config:
+        optional: true
+      pug:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@babel/core': 7.22.5
+      '@types/pug': 2.0.6
+      detect-indent: 6.1.0
+      magic-string: 0.27.0
+      postcss: 8.4.31
+      sorcery: 0.11.0
+      strip-indent: 3.0.0
+      svelte: 4.2.2
+      typescript: 5.2.2
+    dev: true
+
   /svelte-sequential-preprocessor@2.0.1:
     resolution: {integrity: sha512-N5JqlBni6BzElxmuFrOPxOJnjsxh1cFDACLEVKs8OHBcx8ZNRO1p5SxuQex1m3qbLzAC8G99EHeWcxGkjyKjLQ==}
     engines: {node: '>=16'}
@@ -7550,7 +7557,7 @@ packages:
       estree-walker: 3.0.3
       is-reference: 3.0.1
       locate-character: 3.0.0
-      magic-string: 0.30.0
+      magic-string: 0.30.5
       periscopic: 3.1.0
     dev: true
 
@@ -8088,7 +8095,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite@4.5.0(lightningcss@1.22.0)(sass@1.63.6):
+  /vite@4.5.0(lightningcss@1.22.0):
     resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -8120,7 +8127,6 @@ packages:
       lightningcss: 1.22.0
       postcss: 8.4.31
       rollup: 3.29.2
-      sass: 1.63.6
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -8133,7 +8139,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.5.0(lightningcss@1.22.0)(sass@1.63.6)
+      vite: 4.5.0(lightningcss@1.22.0)
     dev: true
 
   /w3c-keyname@2.2.8:

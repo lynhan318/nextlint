@@ -1,37 +1,33 @@
 import {
-  Code,
-  DividerHorizontal,
-  FontBold,
-  Trash,
-  FontItalic,
-  Image,
-  Quote,
+  CurlyBraces,
+  Type,
+  Bold,
+  Italic,
   Strikethrough,
-  Text,
-  Pencil2,
   Underline,
+  Heading2,
+  Heading3,
+  Heading4,
+  Quote,
+  Pencil,
+  SeparatorHorizontal,
+  List,
+  Trash,
+  Code,
+  Image,
+  ListOrdered,
   AlignLeft,
-  TextAlignCenter,
-  TextAlignLeft,
-  TextAlignRight
-} from 'radix-icons-svelte';
+  AlignRight,
+  AlignCenter
+} from 'lucide-svelte';
 import {getMarksBetween} from '@tiptap/core';
-
-import {
-  BulletListIcon,
-  CodeBlockIcon,
-  H2Icon,
-  H3Icon,
-  H4Icon,
-  OrderListIcon
-} from '$lib/icons';
 
 import type {SlashMenuItem} from './slash-menu';
 
 const suggestionItem = [
   {
     title: 'Text',
-    icon: Text,
+    icon: Type,
     description: 'Start with plain text',
     command: ({editor, range}) => {
       const marks = getMarksBetween(range.from, range.to, editor.state.doc);
@@ -51,7 +47,7 @@ const suggestionItem = [
   {
     title: 'Bold',
     description: 'Start with bold text',
-    icon: FontBold,
+    icon: Bold,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setBold().run();
     }
@@ -59,7 +55,7 @@ const suggestionItem = [
   {
     title: 'Italic',
     description: 'Start with italic text',
-    icon: FontItalic,
+    icon: Italic,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setItalic().run();
     }
@@ -83,7 +79,7 @@ const suggestionItem = [
   {
     title: 'Highlight',
     description: 'Start with highlight text',
-    icon: Pencil2,
+    icon: Pencil,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setHighlight().run();
     }
@@ -99,7 +95,7 @@ const suggestionItem = [
   {
     title: 'Heading 2',
     description: 'Set current block text to heading 2',
-    icon: H2Icon,
+    icon: Heading2,
     command: ({editor, range}) => {
       editor
         .chain()
@@ -112,7 +108,7 @@ const suggestionItem = [
   {
     title: 'Heading 3',
     description: 'Set current block text to heading 3',
-    icon: H3Icon,
+    icon: Heading3,
     command: ({editor, range}) => {
       editor
         .chain()
@@ -125,7 +121,7 @@ const suggestionItem = [
   {
     title: 'Heading 4',
     description: 'Set current block text to heading 4',
-    icon: H4Icon,
+    icon: Heading4,
     command: ({editor, range}) => {
       editor
         .chain()
@@ -138,7 +134,7 @@ const suggestionItem = [
   {
     title: 'CodeBlock',
     description: 'Set current block text to CodeBlock',
-    icon: CodeBlockIcon,
+    icon: CurlyBraces,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).toggleCodeBlock().run();
     }
@@ -154,7 +150,7 @@ const suggestionItem = [
   {
     title: 'Divider',
     description: 'Add Divider at current block',
-    icon: DividerHorizontal,
+    icon: SeparatorHorizontal,
     command: ({editor, range}) => {
       editor.chain().focus().deleteRange(range).setHorizontalRule().run();
     }
@@ -162,7 +158,7 @@ const suggestionItem = [
   {
     title: 'Bulleted List',
     description: 'Create a bulleted list',
-    icon: BulletListIcon,
+    icon: List,
     command({editor, range}) {
       return editor.chain().deleteRange(range).toggleBulletList().run();
     }
@@ -170,7 +166,7 @@ const suggestionItem = [
   {
     title: 'Numbered List',
     description: 'Create a Numbererd list',
-    icon: OrderListIcon,
+    icon: ListOrdered,
     command({editor, range}) {
       return editor.chain().deleteRange(range).toggleOrderedList().run();
     }
@@ -181,7 +177,7 @@ const suggestionItem = [
     command: ({editor, range}) => {
       return editor.chain().setTextAlign('left').deleteRange(range).run();
     },
-    icon: TextAlignLeft
+    icon: AlignLeft
   },
   {
     title: 'Text Align Center',
@@ -189,7 +185,7 @@ const suggestionItem = [
     command: ({editor, range}) => {
       return editor.chain().setTextAlign('center').deleteRange(range).run();
     },
-    icon: TextAlignCenter
+    icon: AlignCenter
   },
   {
     title: 'Text Align Right',
@@ -197,7 +193,7 @@ const suggestionItem = [
     command: ({editor, range}) => {
       return editor.chain().setTextAlign('right').deleteRange(range).run();
     },
-    icon: TextAlignRight
+    icon: AlignRight
   },
   {
     title: 'Image',
