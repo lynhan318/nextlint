@@ -1,6 +1,6 @@
 <script lang="ts">
   import type {NodeViewRendererProps} from '@tiptap/core';
-  import {Image} from 'lucide-svelte';
+  import {ImageIcon} from 'lucide-svelte';
   import {onMount, setContext} from 'svelte';
 
   export let props: NodeViewRendererProps;
@@ -22,13 +22,14 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <button
-  on:mousedown={e => {
+  on:click={e => {
+    e.stopPropagation();
     onOpen(element.getBoundingClientRect());
   }}
   bind:this={element}
 >
   <div class="h-full w-full flex flex-row">
-    <Image />
+    <ImageIcon />
     <span>Add an image</span>
   </div>
 </button>

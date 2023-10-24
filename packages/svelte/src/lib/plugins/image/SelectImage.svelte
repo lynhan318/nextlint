@@ -5,6 +5,8 @@
   import {cubicInOut} from 'svelte/easing';
   import {crossfade} from 'svelte/transition';
   import {getContext, onDestroy, onMount} from 'svelte';
+  import {X} from 'lucide-svelte';
+
   import type {Writable} from 'svelte/store';
   import type {NodeViewRendererProps} from '@tiptap/core';
 
@@ -19,9 +21,9 @@
   export let onHide = () => {};
 
   const triggers = [
-    {id: 'tab-1', title: 'Account'},
-    {id: 'tab-2', title: 'Password'},
-    {id: 'tab-3', title: 'Settings'}
+    {id: 'tab-1', title: 'Upload'},
+    {id: 'tab-2', title: 'From URL'},
+    {id: 'tab-3', title: 'Unsplash'}
   ];
 
   const {
@@ -72,11 +74,14 @@
   use:melt={$root}
   use:clickoutside
   on:clickoutside={onHide}
-  class="flex w-[460px] flex-col overflow-hidden rounded-xl shadow-lg data-[orientation=vertical]:flex-row border border-border"
+  class="flex w-[460px] h-[400px] flex-col overflow-hidden rounded-xl shadow-lg data-[orientation=vertical]:flex-row border border-border"
 >
+  <button on:click={onHide} class="absolute w-8 h-8 top-[1px] right-[1px]">
+    <X size={24} />
+  </button>
   <div
     use:melt={$list}
-    class="flex shrink-0 overflow-x-auto bg-neutral-100
+    class="flex shrink-0 overflow-x-auto bg-neutral-100 relative
     data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-r"
     aria-label="Manage your account"
   >

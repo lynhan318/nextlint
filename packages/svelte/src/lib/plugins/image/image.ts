@@ -81,7 +81,6 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   },
 
   addNodeView() {
-    const destroyModal = createImageModal(this.options);
     return (props: NodeViewRendererProps) => {
       const sveltorImage = document.createElement('select-image');
       sveltorImage.setAttribute('data-node-type', this.name);
@@ -92,12 +91,29 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
         context: new Map().set('options', this.options),
         props: {
           props,
-          triggerOnMount: props.HTMLAttributes.triggerOnMount || false,
+          triggerOnMount: Boolean(props.HTMLAttributes.triggerOnMount),
           onOpen: (domRect: DOMRect) => {
             imageStore.set(props);
+            component?.$destroy();
+            component = new SelectImage({
+              target: wrapper,
+              props: {
+                onHide: () => {
+                  Object.assign(wrapper.style, {
+                    opacity: 0
+                  });
+                  component?.$destroy();
+                }
+              },
+              context: new Map()
+                .set('options', this.options)
+                .set('store', imageStore)
+            });
+
             const virtualElement: VirtualElement = {
               getBoundingClientRect: () => domRect
             };
+
             computePosition(virtualElement, wrapper, {
               placement: 'top',
               middleware: [shift(), flip()]
