@@ -64,6 +64,6 @@
 
 {#await ready then _}
   <Positioner position="selection" let:visible>
-    <BubbleMenu />
+    <BubbleMenu {visible} />
   </Positioner>
 {/await}

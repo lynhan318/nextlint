@@ -19,11 +19,14 @@
     Link,
     Pencil
   } from 'lucide-svelte';
-  import {useEditor} from '$lib/context';
   import {onMount} from 'svelte';
   import {writable} from 'svelte/store';
+
+  import {useEditor} from '$lib/context';
+  import {cn} from '$lib/helpers';
   import type {Editor} from '@tiptap/core';
   import {getRootNode} from '@nextlint/core';
+
   import DropdownMenu from './DropdownMenu.svelte';
 
   const editor = useEditor();
@@ -131,10 +134,9 @@
 
 <div
   use:melt={$root}
-  class="
-  border border-border
-  flex min-w-max items-center gap-4 rounded-md bg-background
-  px-2 py-1 text-neutral-700 dark:text-slate-800 shadow-md"
+  class={cn(`border border-border
+    flex min-w-max items-center gap-4 rounded-md bg-background
+    px-2 py-1 text-neutral-700 dark:text-slate-800 shadow-md`)}
 >
   <div class="flex items-center gap-1" use:melt={$fontGroup}>
     <button

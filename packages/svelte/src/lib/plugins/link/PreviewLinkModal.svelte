@@ -53,10 +53,11 @@
 
 <form
   class="flex flex-row items-center py-1 px-2 pl-4 shadow-md z-10 rounded-md border-border border bg-background"
-  style="pointer-events: all;"
+  on:submit|preventDefault={onSubmit}
 >
   <input
     placeholder="Link..."
+    on:click={e => e.stopPropagation()}
     bind:this={input}
     value={linkProps.mark.attrs.href}
     class="outline-none"

@@ -26,7 +26,6 @@
     disabled={uploading}
     class="w-full bg-slate-100 hover:bg-slate-200/80 transition-all rounded-md"
   >
-    Upload
     <span class="block">Max upload size: 5MB</span>
   </button>
   <input
