@@ -27,13 +27,17 @@ export interface SelectImageOptions {
   };
 }
 
-const wrapper = document.createElement('div');
-Object.assign(wrapper.style, {
-  position: 'absolute',
-  opacity: 0,
-  transition: 'opacity 0.2s ease-in-out'
-});
-document.body.appendChild(wrapper);
+let wrapper;
+if (typeof document !== 'undefined') {
+  wrapper = document.createElement('div');
+  document.body.appendChild(wrapper);
+  Object.assign(wrapper.style, {
+    position: 'absolute',
+    opacity: 0,
+    transition: 'opacity 0.2s ease-in-out'
+  });
+  document.body.appendChild(wrapper);
+}
 
 let component: SelectImage | null;
 const imageStore = writable<NodeViewRendererProps | null>(null);

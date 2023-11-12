@@ -58,7 +58,7 @@
     "lowlight": "^3.1.0",
     "radash": "^11.0.0",
     "radix-icons-svelte": "^1.2.1",
-    "svelte": "^4.2.2",
+    "svelte": "^4.2.3",
     "tippy.js": "^6.3.7",
     "vite-plugin-lightningcss": "^0.0.5",
     "zeed-dom": "^0.10.9"
