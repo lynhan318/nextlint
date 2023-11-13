@@ -1,6 +1,5 @@
 <script lang="ts">
-  import {Tabs, Input, Container, Button} from '@svelteuidev/core';
-  import {getContext} from 'svelte';
+  import {Input, Container, Button} from '@svelteuidev/core';
 
   export let onInsert = (url: string, alt: string) => {};
   let value = '';

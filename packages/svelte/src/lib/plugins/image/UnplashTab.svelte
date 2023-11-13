@@ -1,13 +1,4 @@
 <script lang="ts">
-  import {
-    Tabs,
-    Box,
-    Text,
-    Input,
-    Container,
-    Loader,
-    Anchor
-  } from '@svelteuidev/core';
   import {getContext, onMount} from 'svelte';
   import {createApi} from 'unsplash-js';
 
@@ -41,7 +32,7 @@
   });
 </script>
 
-<div class="h-[400px] overflow-y-auto">
+<div class="h-[400px] overflow-y-auto bg-background">
   <form
     style="position: relative;"
     on:submit={e => {
@@ -49,16 +40,15 @@
       onSearch();
     }}
   >
-    <Input
+    <input
       placeholder="Search on unsplash..."
-      override={{marginBottom: 16}}
       disabled={loading}
       bind:value={query}
     />
     {#if loading}
-      <Box css={{top: 8, right: 8, position: 'absolute'}}>
-        <Loader size="sm" />
-      </Box>
+      <div>
+        <Spinner size="sm" />
+      </div>
     {/if}
   </form>
   <div class="grid grid-cols-3 gap-4 grid-flow-row-dense">
@@ -76,13 +66,6 @@
         </figcaption>
       </figure>
     {/each}
-    <Text
-      override={{
-        textAlign: 'center',
-        padding: '16px 0',
-        color: '$gray600',
-        width: '100%'
-      }}>Search for more results</Text
-    >
+    <span> Search for more results </span>
   </div>
 </div>

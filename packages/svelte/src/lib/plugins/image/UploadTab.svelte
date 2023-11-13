@@ -24,7 +24,7 @@
   <button
     on:click={() => input.click()}
     disabled={uploading}
-    class="w-full bg-slate-100 hover:bg-slate-200/80 transition-all rounded-md"
+    class="w-full bg-secondary transition-all rounded-md"
   >
     <span class="block">Max upload size: 5MB</span>
   </button>

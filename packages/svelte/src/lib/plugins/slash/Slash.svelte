@@ -74,15 +74,11 @@
 
 <div
   class="w-[336px] border border-border h-full flex flex-row
-  shadow-lg bg-background relative overflow-y-auto
+  shadow-lg bg-background text-foreground relative overflow-y-auto
   overflow-x-hidden rounded-lg px-4 py-4"
 >
   {#if menus.length === 0}
-    <p
-      style="width:100%;text-align: center;color:var(--svelteui-colors-dark300)"
-    >
-      No results
-    </p>
+    <p style="width:100%;text-align: center">No results</p>
   {:else}
     <div class="w-full" style="max-height:{SCROLL_HEIGHT}px">
       {#each menus as item, idx}

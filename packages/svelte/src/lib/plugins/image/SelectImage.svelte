@@ -72,14 +72,16 @@
   use:melt={$root}
   use:clickoutside
   on:clickoutside={onHide}
-  class="flex w-[460px] h-[400px] flex-col overflow-hidden rounded-xl shadow-lg data-[orientation=vertical]:flex-row border border-border"
+  class="flex w-[460px] h-[400px] flex-col overflow-hidden
+  shadow-lg data-[orientation=vertical]:flex-row
+  border border-border rounded-xl bg-background text-foreground"
 >
   <button on:click={onHide} class="absolute w-8 h-8 top-[1px] right-[1px]">
     <X size={24} />
   </button>
   <div
     use:melt={$list}
-    class="flex shrink-0 overflow-x-auto bg-neutral-100 relative
+    class="flex shrink-0 overflow-x-auto relative bg-background
     data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-r"
     aria-label="Manage your account"
   >
@@ -90,7 +92,7 @@
           <div
             in:send={{key: 'trigger'}}
             out:receive={{key: 'trigger'}}
-            class="absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full bg-slate-400"
+            class="absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full"
           />
         {/if}
       </button>
@@ -98,7 +100,7 @@
   </div>
 
   {#if options.handleUpload}
-    <div use:melt={$content('tab-1')} class="grow bg-white p-5">
+    <div use:melt={$content('tab-1')} class="grow p-5">
       <UploadTab {onInsert} onUploadFile={options.handleUpload} />
     </div>
   {/if}
@@ -122,9 +124,9 @@
     user-select: none;
 
     border-radius: 0;
-    background-color: theme(colors.neutral.100);
+    background-color: theme(colors.background);
 
-    color: theme(colors.neutral.900);
+    color: theme(colors.foreground);
     font-weight: 500;
     line-height: 1;
 
@@ -142,8 +144,8 @@
 
     &[data-state='active'] {
       @apply focus:relative;
-      background-color: white;
-      color: theme('colors.slate.900');
+      background-color: theme('colors.secondary.DEFAULT');
+      color: theme('colors.secondary.foreground');
     }
   }
 
@@ -152,10 +154,10 @@
     flex-shrink: 0;
     flex-grow: 1;
     border-radius: theme(borderRadius.md);
-    border: 1px solid theme(colors.neutral.200);
+    border: 1px solid theme(colors.border);
     padding-inline: theme(spacing[2.5]);
     line-height: 1;
-    color: theme(colors.neutral.900);
+    color: theme(colors.foreground);
   }
 
   .save {
@@ -165,13 +167,12 @@
     align-items: center;
     justify-content: center;
     border-radius: theme(borderRadius.md);
-    background-color: theme(colors.slate.200);
+    background-color: theme(colors.background);
     padding-inline: theme(spacing.4);
     line-height: 1;
     font-weight: theme(fontWeight.semibold);
-    color: theme(colors.slate.900);
+    color: theme(colors.foreground);
     @apply transition;
-
     &:hover {
       opacity: 0.75;
     }
