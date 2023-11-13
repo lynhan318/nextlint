@@ -15,7 +15,7 @@
   import {Gear, Cross1, EyeOpen, PinBottom, FileText} from 'radix-icons-svelte';
   import {EditorTheme} from '$lib';
   export let editor: Editor;
-  let show = false;
+  let show = true;
   let preview = false;
   let element: HTMLElement;
   const downloadHTML = () => {
@@ -50,7 +50,12 @@
       {/if}
     </ActionIcon>
     {#if show}
-      <Popper mounted={show} reference={element} position="left">
+      <Popper
+        mounted={show}
+        reference={element}
+        position="left"
+        override={{background: 'white'}}
+      >
         <Group>
           <Tooltip label="Preview">
             <ActionIcon on:click={() => (preview = !preview)}>
@@ -69,6 +74,7 @@
           </Tooltip>
           <a id="download_json" />
           <a id="download_html" />
+          <slot />
         </Group>
       </Popper>
     {/if}

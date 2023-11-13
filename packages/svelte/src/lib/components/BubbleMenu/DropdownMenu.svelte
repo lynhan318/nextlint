@@ -1,13 +1,25 @@
 <script lang="ts">
-  import {Menu, Group, Box, Text} from '@svelteuidev/core';
+  import {createDropdownMenu, melt} from '@melt-ui/svelte';
   import type {Node as PMNode} from '@tiptap/pm/model';
-  import {CaretDown, Check} from 'radix-icons-svelte';
+  import {ChevronDown, Check} from 'lucide-svelte';
 
   import {useEditor} from '$lib/context';
 
   import {BubbleMenuDropdownList} from './constants';
 
   const editor = useEditor();
+  export let button: any;
+
+  const {
+    elements: {menu, item, trigger}
+  } = createDropdownMenu({
+    positioning: {
+      placement: 'bottom-end',
+      offset: {
+        mainAxis: 100
+      }
+    }
+  });
 
   export let visibleNode: PMNode;
 
@@ -22,79 +34,43 @@
     ) || BubbleMenuDropdownList[0];
 </script>
 
-<Menu
-  opened={false}
-  override={{
-    display: 'flex'
-  }}
+<button
+  use:melt={$trigger}
+  use:melt={$button}
+  class="flex flex-row items-center text-popover-foreground px-4"
 >
-  <Group
-    spacing="xs"
-    slot="control"
-    override={{
-      fontSize: '14px',
-      fontWeight: 600,
-      color: '$dark400',
-      cursor: 'pointer',
-      borderRadius: 4,
-      '&:hover': {
-        backgroundColor: '$gray100'
-      }
-    }}
-  >
-    <Group override={{padding: 4}}>
-      <Text
-        override={{
-          fontFamily: 'var(--editor-font-heading)',
-          fontSize: '14px',
-          fontWeight: 'bold',
-          color: '$dark300'
-        }}>{currentNode.label}</Text
-      >
-      <CaretDown />
-    </Group>
-  </Group>
-  {#each BubbleMenuDropdownList as item}
-    <Menu.Item
-      override={{
-        fontSize: '14px',
-        position: 'relative',
-        fontWeight: 600,
-        color: '$dark400',
-        cursor: 'pointer',
-        padding: '8px',
-        borderRadius: 4,
-        '&:hover': {
-          backgroundColor: '$gray100'
-        }
-      }}
-      on:click={e => {
-        e.stopPropagation();
-        item.toggle($editor);
+  <span class="">
+    {currentNode.label}
+  </span>
+  <ChevronDown class="ml-2" size={16} />
+</button>
+
+<div
+  use:melt={$menu}
+  class="flex flex-col bg-popover text-popover-foreground
+  max-w-[280px] w-full rounded shadow-md mt-2 mb-2 bord
+  border border-border
+  "
+>
+  {#each BubbleMenuDropdownList as i}
+    <button
+      class="flex flex-row items-center px-2 py-2 hover:bg-secondary transition rounded-md"
+      use:melt={$item}
+      on:click|stopPropagation={e => {
+        i.toggle($editor);
       }}
     >
-      <Group
-        override={{
-          padding: 0
-        }}
-      >
-        <svelte:component this={item.icon} style="width: 24px; height: 24px" />
-        <Text
-          override={{
-            fontFamily: 'var(--editor-font-heading)',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            color: '$dark300'
-          }}
-        >
-          {item.label}
-        </Text>
-        {#if formatHeadingSlug(visibleNode) === item.type}
-          <Box css={{position: 'absolute', right: 4}}>
-            <Check />
-          </Box>
-        {/if}
-      </Group>
-    </Menu.Item>
+      <span class="w-6 h-6 p-1">
+        <svelte:component this={i.icon} size={20} />
+      </span>
+      <span class="px-4">
+        {i.label}
+      </span>
+      {#if formatHeadingSlug(visibleNode) === i.type}
+        <div class="absolute right-4">
+          <Check size={20} />
+        </div>
+      {/if}
+    </button>
   {/each}
-</Menu>
+</div>

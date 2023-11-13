@@ -1,43 +1,19 @@
 <script lang="ts">
-  import {Box, ActionIcon, Tooltip} from '@svelteuidev/core';
-  export let element: HTMLElement;
-  export let toggle = () => {};
-  export let active = false;
-  export let label = '';
-  export let cmd = '';
+  import {createToggle, melt} from '@melt-ui/svelte';
+  import {Italic} from 'lucide-svelte';
+
+  const {
+    elements: {root}
+  } = createToggle();
 </script>
 
-<Tooltip wrapLines override={{display: 'flex', '& span': {display: 'flex'}}}>
-  <Box
-    slot="label"
-    css={{
-      fontSize: '12px',
-      fontFamily: 'var(--editor-font-heading)',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-      width: 100
-    }}
-  >
-    <Box css={{color: '$gray300'}} root="span">{label}</Box>
-    {#if cmd}
-      <Box css={{color: '$gray600', fontWeight: 'bold'}} root="span">{cmd}</Box>
-    {/if}
-  </Box>
-  <ActionIcon
-    bind:element
-    color={active ? 'teal' : ''}
-    on:click={e => {
-      toggle();
-    }}
-    override={{
-      display: 'flex',
-      '&:hover': {
-        transition: 'all 0.15s ease-in-out',
-        backgroundColor: '$gray300'
-      }
-    }}
-  >
-    <slot />
-  </ActionIcon>
-</Tooltip>
+<button
+  use:melt={$root}
+  aria-label="Toggle italic"
+  class="grid h-9 w-9 place-items-center items-center justify-center rounded-md
+    bg-background text-base leading-4 text-slate-800 hover:bg-slate-100
+    data-[disabled]:cursor-not-allowed data-[state=on]:bg-slate-200
+    data-[state=on]:text-slate-900"
+>
+  <Italic class="square-4" />
+</button>

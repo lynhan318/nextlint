@@ -1,31 +1,19 @@
 <script lang="ts">
-  import {ActionIcon, Button, Input, Popper, Box} from '@svelteuidev/core';
-  import {Link2, Check} from 'radix-icons-svelte';
-  import {getMarkAttributes} from '@tiptap/core';
-  import CommandButton from '$lib/components/CommandButton.svelte';
-  import {getContext} from 'svelte';
+  import {Popover} from '$lib/components';
 
-  import type {PositionStore} from '$lib/components/Positioner';
   import {useEditor} from '$lib/context';
+  import {Check} from 'lucide-svelte';
+  import {writable} from 'svelte/store';
 
   const editor = useEditor();
-  const positioner = getContext('positioner');
 
   let input: HTMLInputElement;
-  let createLinkModal = false;
-  let element: HTMLElement;
 
-  positioner?.subscribe((value: PositionStore) => {
-    if (!value.selection) {
-      createLinkModal = false;
-    }
-  });
+  let open = writable(false);
 
-  $: mark = getMarkAttributes($editor!.state, 'link');
-
-  const onSubmit = (e: any) => {
-    e.preventDefault();
+  const onSubmit = () => {
     if (
+      input.value &&
       $editor!
         .chain()
         .focus()
@@ -34,70 +22,34 @@
         })
         .run()
     ) {
-      createLinkModal = false;
-
       setTimeout(() => {
         input.value = '';
       }, 100);
+      $open = false;
     }
   };
 </script>
 
-<CommandButton
-  label="Add Link"
-  bind:element
-  active={!!mark.href}
-  toggle={() => {
-    createLinkModal = !createLinkModal;
-    requestAnimationFrame(() => {
-      input.focus();
-    });
-  }}
->
-  <Link2 size={20} />
-</CommandButton>
-<Popper reference={element} mounted={createLinkModal} override={{padding: 8}}>
-  <Box
-    css={{
-      backgroundColor: 'white',
-      borderRadius: 4,
-      boxShadow:
-        'rgb(223, 225, 230) 0px 4px 8px, rgb(223, 225, 230) 0px 0px 1px'
-    }}
-  >
-    <Box
-      css={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        boxSizing: 'border-box'
+<Popover {open}>
+  <div slot="trigger">
+    <slot
+      toggle={() => {
+        setTimeout(() => {
+          input.focus();
+        }, 100);
       }}
-      root="form"
-      on:submit={onSubmit}
+    />
+  </div>
+  <form
+    on:submit|preventDefault={onSubmit}
+    class="flex items-center bg-background rounded-md px-4 shadow-md relative top-2 border border-border leading-10"
+  >
+    <input placeholder="https://..." bind:this={input} class="outline-none" />
+    <button
+      type="submit"
+      class="hover:bg-secondary transition-colors p-1 rounded-md"
     >
-      <Box
-        root="span"
-        css={{
-          paddingLeft: '12px',
-          color: '$dark300',
-          textAlign: 'right'
-        }}>https://</Box
-      >
-      <Input
-        placeholder="Link..."
-        variant="unstyled"
-        override={{width: 200}}
-        value={(mark || {}).href || ''}
-        bind:element={input}
-      />
-      <Button
-        variant="subtle"
-        type="submit"
-        color="teal"
-        override={{padding: 0, width: 28, height: 28}}
-      >
-        <Check size={20} />
-      </Button>
-    </Box>
-  </Box>
-</Popper>
+      <Check size={20} />
+    </button>
+  </form>
+</Popover>

@@ -1,12 +1,12 @@
 import {Editor, mergeAttributes} from '@tiptap/core';
 import {Plugin, PluginKey, type PluginView} from '@tiptap/pm/state';
 import TiptapLinkExtension, {type LinkOptions} from '@tiptap/extension-link';
-import tippy, {type Instance, type Props} from 'tippy.js';
 import type {Mark, Node} from '@tiptap/pm/model';
+import {get} from 'svelte/store';
+import {computePosition, flip, shift} from '@floating-ui/dom';
 import type {EditorView} from '@tiptap/pm/view';
 
 import PreviewLinkModal from './PreviewLinkModal.svelte';
-import {get} from 'svelte/store';
 import {positionStore} from '$lib/components/Positioner';
 
 export type NextLinkOptions = LinkOptions;
@@ -29,49 +29,38 @@ export type Coordinate = {
 };
 
 class TooltipView implements PluginView {
-  svelteComponent: PreviewLinkModal | null = null;
-  tooltipContent: HTMLDivElement | null = null;
-  popup: Instance<Props> | null = null;
+  wrapper: HTMLDivElement;
+  component: PreviewLinkModal | null = null;
   showing = false;
 
-  constructor(readonly view: EditorView, readonly editor: Editor) {
+  constructor(
+    readonly view: EditorView,
+    readonly editor: Editor
+  ) {
+    this.wrapper = document.createElement('div');
+    Object.assign(this.wrapper.style, {
+      position: 'absolute',
+      zIndex: 1,
+      opacity: 0,
+      transition: 'opacity 0.2s ease-in-out'
+    });
+    document.body.appendChild(this.wrapper);
+
     editor.on('blur', () => {
       this.hide();
     });
   }
 
   clean() {
-    if (this.popup) {
-      this.popup?.destroy();
-      this.popup = null;
-    }
-    if (this.tooltipContent) {
-      this.tooltipContent.remove();
-      this.tooltipContent = null;
-    }
-    if (this.svelteComponent) {
-      this.svelteComponent?.$destroy();
-      this.svelteComponent = null;
-    }
+    this.wrapper?.remove();
+    this.component?.$destroy();
   }
 
   show(linkProps: LinkProps) {
-    this.tooltipContent ||= document.createElement('div');
-
-    this.svelteComponent ||= new PreviewLinkModal({
-      target: this.tooltipContent,
+    this.component ||= new PreviewLinkModal({
+      target: this.wrapper,
       props: {linkProps, editor: this.editor, onHide: () => this.hide()}
     });
-
-    this.popup ||= tippy('body', {
-      offset: [0, -10],
-      getReferenceClientRect: () => linkProps.dom.getBoundingClientRect(),
-      content: this.tooltipContent,
-      appendTo: () => document.body,
-      interactive: true,
-      animation: 'fade',
-      showOnCreate: true
-    })[0];
 
     //Do not shot preview popup when selection position is visible
     if (get(positionStore).selection) {
@@ -79,20 +68,29 @@ class TooltipView implements PluginView {
       return;
     }
 
-    this.svelteComponent.$set({linkProps});
-    this.popup.setProps({
-      getReferenceClientRect: () => linkProps.dom.getBoundingClientRect()
+    computePosition(linkProps.dom, this.wrapper, {
+      placement: 'top',
+      middleware: [shift(), flip()]
+    }).then(({x, y}) => {
+      requestAnimationFrame(() => {
+        Object.assign(this.wrapper.style, {
+          top: `${y}px`,
+          left: `${x}px`,
+          opacity: 1
+        });
+      });
+      this.component?.$set({linkProps});
+      this.showing = true;
     });
-    this.popup.show();
-    this.showing = true;
   }
+
   hide() {
+    if (this.wrapper) {
+      this.wrapper.style.opacity = '0';
+    }
     this.showing = false;
-    this.popup?.setProps({
-      getReferenceClientRect: null
-    });
-    this.popup?.hide();
   }
+
   destroy() {
     this.clean();
   }

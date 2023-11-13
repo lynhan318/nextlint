@@ -1,8 +1,8 @@
 import {Editor, Mark, mergeAttributes} from '@tiptap/core';
 import type {Mark as PMMark, Node} from '@tiptap/pm/model';
 import {Plugin, PluginKey, type PluginView} from '@tiptap/pm/state';
+import {computePosition, flip, shift} from '@floating-ui/dom';
 import HighlightPresets from './HighlightPresets.svelte';
-import tippy, {type Instance, type Props} from 'tippy.js';
 import type {EditorView} from '@tiptap/pm/view';
 import {get} from 'svelte/store';
 
@@ -152,8 +152,7 @@ export type Coordinate = {
 };
 class HighlightPluginView implements PluginView {
   private previewComponent: HighlightPresets | null = null;
-  private tippyContent: HTMLDivElement | null = null;
-  popup: Instance<Props>;
+  private tippyContent: HTMLDivElement;
   showing = false;
 
   constructor(
@@ -164,29 +163,24 @@ class HighlightPluginView implements PluginView {
     editor.on('blur', () => {
       this.hide();
     });
+
+    this.tippyContent = document.createElement('div');
+    Object.assign(this.tippyContent.style, {
+      position: 'absolute',
+      opacity: 0,
+      transition: 'opacity 0.2s ease-in-out'
+    });
+    document.body.appendChild(this.tippyContent);
   }
 
   show(highlightProps: HighlightProps) {
-    this.tippyContent ||= document.createElement('div');
-
     this.previewComponent ||= new HighlightPresets({
       target: this.tippyContent,
       props: {
         editor: this.editor,
-        onHide: () => this.hide(),
         highlightProps: {}
       }
     });
-
-    this.popup ||= tippy('body', {
-      offset: [0, -10],
-      getReferenceClientRect: () => highlightProps.dom!.getBoundingClientRect(),
-      content: this.tippyContent,
-      appendTo: () => document.body,
-      showOnCreate: false,
-      animation: 'fade',
-      interactive: true
-    })[0];
 
     //do not show when selection range is visible
     if (get(positionStore).selection) {
@@ -195,23 +189,34 @@ class HighlightPluginView implements PluginView {
     }
 
     this.previewComponent.$set({highlightProps});
-    this.popup.setProps({
-      getReferenceClientRect: () => highlightProps.dom!.getBoundingClientRect()
+
+    computePosition(highlightProps.dom as Element, this.tippyContent, {
+      placement: 'top',
+      middleware: [flip(), shift()]
+    }).then(({x, y}) => {
+      Object.assign(this.tippyContent.style, {
+        top: `${y}px`,
+        left: `${x}px`
+      });
+      requestAnimationFrame(() => {
+        Object.assign(this.tippyContent.style, {
+          opacity: 1
+        });
+      });
+      this.showing = true;
     });
-    this.popup.show();
-    this.showing = true;
   }
 
   hide = () => {
-    this.showing = false;
-    this.popup?.setProps({
-      getReferenceClientRect: null
+    Object.assign(this.tippyContent.style, {
+      opacity: 0
     });
-    this.popup?.hide();
+    this.previewComponent?.$destroy();
+    this.previewComponent = null;
+    this.showing = false;
   };
 
   destroy() {
-    this.popup?.destroy();
     this.previewComponent?.$destroy();
     this.tippyContent?.remove();
   }

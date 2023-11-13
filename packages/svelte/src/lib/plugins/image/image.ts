@@ -1,7 +1,13 @@
-import Styles from './Style.module.scss';
+import './Style.scss';
+
 import {Node, mergeAttributes, type NodeViewRendererProps} from '@tiptap/core';
-import tippy, {type Instance, type Props} from 'tippy.js';
 import {writable} from 'svelte/store';
+import {
+  computePosition,
+  flip,
+  shift,
+  type VirtualElement
+} from '@floating-ui/dom';
 
 import SelectImage from './SelectImage.svelte';
 import Placeholder from './Placeholder.svelte';
@@ -21,10 +27,21 @@ export interface SelectImageOptions {
   };
 }
 
-let popup: Instance<Props>;
-let wrapper: HTMLElement;
-let component: SelectImage;
-export const imageStore = writable<NodeViewRendererProps | null>(null);
+let wrapper;
+if (typeof document !== 'undefined') {
+  wrapper = document.createElement('div');
+  document.body.appendChild(wrapper);
+  Object.assign(wrapper.style, {
+    position: 'absolute',
+    opacity: 0,
+    transition: 'opacity 0.2s ease-in-out'
+  });
+  document.body.appendChild(wrapper);
+}
+
+let component: SelectImage | null;
+const imageStore = writable<NodeViewRendererProps | null>(null);
+
 export const SelectImageExtension = Node.create<SelectImageOptions>({
   name: 'selectImage',
   group: 'block',
@@ -50,44 +67,48 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   },
 
   addNodeView() {
-    wrapper ||= (() => {
-      const element = document.createElement('div');
-      component = new SelectImage({
-        target: element,
-        props: {
-          onHide: () => {
-            popup.hide();
-          }
-        },
-        context: new Map().set('options', this.options).set('store', imageStore)
-      });
-      return element;
-    })();
-    popup ||= tippy('body', {
-      getReferenceClientRect: null,
-      animation: 'fade',
-      interactive: true,
-      trigger: 'manual',
-      content: wrapper
-    })[0];
-
     return (props: NodeViewRendererProps) => {
       const sveltorImage = document.createElement('select-image');
       sveltorImage.setAttribute('data-node-type', this.name);
-      sveltorImage.classList.add(Styles.selectImage);
 
       const placeholder = new Placeholder({
         target: sveltorImage,
         context: new Map().set('options', this.options),
         props: {
           props,
-          triggerOnMount: props.HTMLAttributes.triggerOnMount || false,
+          triggerOnMount: Boolean(props.HTMLAttributes.triggerOnMount),
           onOpen: (domRect: DOMRect) => {
-            popup.setProps({
-              getReferenceClientRect: () => domRect
-            });
             imageStore.set(props);
-            popup.show();
+            component?.$destroy();
+            component = new SelectImage({
+              target: wrapper,
+              props: {
+                onHide: () => {
+                  Object.assign(wrapper.style, {
+                    opacity: 0
+                  });
+                  component?.$destroy();
+                }
+              },
+              context: new Map()
+                .set('options', this.options)
+                .set('store', imageStore)
+            });
+
+            const virtualElement: VirtualElement = {
+              getBoundingClientRect: () => domRect
+            };
+
+            computePosition(virtualElement, wrapper, {
+              placement: 'top',
+              middleware: [shift(), flip()]
+            }).then(({x, y}) => {
+              Object.assign(wrapper.style, {
+                top: `${y}px`,
+                left: `${x}px`,
+                opacity: 1
+              });
+            });
           }
         }
       });
@@ -102,7 +123,7 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   onDestroy: () => {
     wrapper?.remove?.();
     component?.$destroy?.();
-    popup?.destroy?.();
+    component = null;
   },
 
   addCommands() {
@@ -118,3 +139,4 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
     };
   }
 });
+export {imageStore};

@@ -4,7 +4,6 @@
 
   import {createEditorContext} from '$lib/context';
 
-  import FontStyleMenu from './components/BubbleMenu/FontStyleMenu.svelte';
   import {Positioner} from './components/Positioner';
 
   export let content: Content;
@@ -42,9 +41,7 @@
               borderRadius: '4px',
               padding: 4
             }}
-          >
-            <FontStyleMenu />
-          </Box>
+          ></Box>
         </Positioner>
       {/await}
     {/if}

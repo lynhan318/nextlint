@@ -9,7 +9,6 @@
 <script lang="ts">
   import {createEditorContext} from '$lib/context';
   import type {Content, Editor, Extensions} from '@tiptap/core';
-  import {SvelteUIProvider} from '@svelteuidev/core';
 
   import {LinkExtension} from '$lib/plugins/link';
   import {PluginGPT, type GPTOptions} from '$lib/plugins/gpt';
@@ -61,11 +60,10 @@
   });
 </script>
 
-<SvelteUIProvider>
-  <div use:render id="nextlint-editor" />
-  {#await ready then _}
-    <Positioner position="selection">
-      <BubbleMenu />
-    </Positioner>
-  {/await}
-</SvelteUIProvider>
+<div use:render />
+
+{#await ready then _}
+  <Positioner position="selection" let:visible>
+    <BubbleMenu {visible} />
+  </Positioner>
+{/await}
