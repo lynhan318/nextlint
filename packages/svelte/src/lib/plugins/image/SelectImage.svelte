@@ -29,7 +29,7 @@
   const {
     elements: {root, list, content, trigger},
     states: {value}
-  } = createTabs();
+  } = createTabs({orientation: 'horizontal'});
 
   const [send, receive] = crossfade({
     duration: 250,
@@ -83,7 +83,7 @@
     use:melt={$list}
     class="flex shrink-0 overflow-x-auto relative bg-background
     data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-r"
-    aria-label="Manage your account"
+    aria-label="Upload image plugin"
   >
     {#each triggers as triggerItem}
       <button use:melt={$trigger(triggerItem.id)} class="trigger relative">
@@ -92,7 +92,7 @@
           <div
             in:send={{key: 'trigger'}}
             out:receive={{key: 'trigger'}}
-            class="absolute bottom-1 left-1/2 h-1 w-6 -translate-x-1/2 rounded-full"
+            class="absolute bottom-1 bg-primary left-1/2 h-1 w-6 -translate-x-1/2 rounded-full"
           />
         {/if}
       </button>
@@ -104,11 +104,11 @@
       <UploadTab {onInsert} onUploadFile={options.handleUpload} />
     </div>
   {/if}
-  <div use:melt={$content('tab-2')} class="grow bg-white p-5">
+  <div use:melt={$content('tab-2')} class="grow p-5">
     <EmbedTab {onInsert} />
   </div>
   {#if options.unsplash}
-    <div use:melt={$content('tab-3')} class="grow bg-white p-5">
+    <div use:melt={$content('tab-3')} class="grow p-5">
       <UnplashTab {onInsert} unsplash={options.unsplash} />
     </div>
   {/if}

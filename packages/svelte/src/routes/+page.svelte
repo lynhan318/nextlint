@@ -9,10 +9,11 @@
   import {EditorTheme} from '$lib';
 
   let editor: Editor;
-  let theme: 'dark' | 'light' = 'light';
+  let theme: 'dark' | 'light' = 'dark';
 
   const changeTheme = () => {
     theme = theme === 'light' ? 'dark' : 'light';
+    document.body.classList.toggle('dark', theme === 'dark');
   };
 
   const onSave = () => {
