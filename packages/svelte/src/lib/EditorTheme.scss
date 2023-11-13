@@ -137,3 +137,9 @@
     @apply dark:text-blue-400;
   }
 }
+
+.dark {
+  .tiptap {
+    @apply text-foreground bg-background;
+  }
+}

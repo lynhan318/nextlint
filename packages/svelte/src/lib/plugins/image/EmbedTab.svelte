@@ -1,23 +1,23 @@
 <script lang="ts">
-  import {Tabs, Input, Container, Button} from '@svelteuidev/core';
-  import {getContext} from 'svelte';
-
   export let onInsert = (url: string, alt: string) => {};
   let value = '';
 </script>
 
-<Container override={{height: '100px'}}>
-  <Input
+<div class="bg-background text-foreground">
+  <input
     on:paste={e => {
       //prevent paste fire in editor
       e.stopPropagation();
     }}
+    class="w-full px-4 py-2 border-input border rounded-md bg-secondary text-foreground"
+    type="text"
     bind:value
     placeholder="Paste link here..."
   />
-  <Button
+  <button
+    class="w-full bg-secondary mt-4 py-2 rounded-md"
     on:click={() => onInsert(value, 'image alt')}
-    override={{marginTop: 16, width: '100%'}}
-    size="sm">Submit</Button
   >
-</Container>
+    Submit
+  </button>
+</div>

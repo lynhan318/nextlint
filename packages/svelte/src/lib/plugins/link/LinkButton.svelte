@@ -44,7 +44,11 @@
     on:submit|preventDefault={onSubmit}
     class="flex items-center bg-background rounded-md px-4 shadow-md relative top-2 border border-border leading-10"
   >
-    <input placeholder="https://..." bind:this={input} class="outline-none" />
+    <input
+      placeholder="https://..."
+      bind:this={input}
+      class="outline-none bg-background text-foreground"
+    />
     <button
       type="submit"
       class="hover:bg-secondary transition-colors p-1 rounded-md"

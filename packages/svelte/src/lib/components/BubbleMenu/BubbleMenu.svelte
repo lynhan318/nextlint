@@ -135,8 +135,8 @@
 <div
   use:melt={$root}
   class={cn(`border border-border
-    flex min-w-max items-center gap-4 rounded-md bg-background
-    px-2 py-1 text-neutral-700 dark:text-slate-800 shadow-md`)}
+    flex min-w-max items-center gap-4 rounded-md bg-background text-foreground
+    px-2 py-1 shadow-md`)}
 >
   <div class="flex items-center gap-1" use:melt={$fontGroup}>
     <button
@@ -245,7 +245,7 @@
     border-radius: theme('borderRadius.md');
 
     &:hover {
-      background-color: theme('colors.slate.200');
+      background-color: theme('colors.secondary.DEFAULT');
     }
 
     &[data-state='on'] {
