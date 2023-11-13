@@ -1,4 +1,5 @@
-import tippy, {type Instance, type Props} from 'tippy.js';
+import {computePosition, flip, hide, shift} from '@floating-ui/dom';
+
 import type {EditorView} from '@tiptap/pm/view';
 import type {Editor, Content} from '@tiptap/core';
 
@@ -29,7 +30,6 @@ const createHidePlugin = (editor: Editor) => ({
 export class Renderer {
   private svelteComponent: PromtComponent | null = null;
   private tooltipWrapper: HTMLDivElement | null = null;
-  popup: Instance<Props>;
   constructor(
     readonly view: EditorView,
     readonly editor: Editor,
@@ -38,6 +38,11 @@ export class Renderer {
     const editorDOM = view.dom.parentNode as HTMLElement;
     if (editorDOM) {
       this.tooltipWrapper = document.createElement('div');
+      Object.assign(this.tooltipWrapper.style, {
+        position: 'absolute',
+        opacity: 0,
+        transition: 'opacity 0.2s ease-in-out'
+      });
       this.svelteComponent = new PromtComponent({
         target: this.tooltipWrapper,
         context: new Map([['options', options]]),
@@ -66,34 +71,44 @@ export class Renderer {
         }
       });
       editorDOM.appendChild(this.tooltipWrapper);
-      this.popup ||= tippy('body', {
-        getReferenceClientRect: () => new DOMRect(-9999, -9999),
-        content: this.tooltipWrapper,
-        showOnCreate: false,
-        hideOnClick: true,
-        interactive: true,
-        trigger: 'manual',
-        placement: 'top-start',
-        plugins: [createHidePlugin(this.editor)]
-      })[0];
     }
   }
-  show(props: any) {
-    requestAnimationFrame(() => {
-      this.popup.setProps({
-        getReferenceClientRect: props.clientRect
+  show(props: {node: HTMLElement}) {
+    if (this.tooltipWrapper) {
+      computePosition(props.node, this.tooltipWrapper, {
+        placement: 'left',
+        middleware: [
+          flip(),
+          shift(),
+          hide({
+            strategy: 'escaped'
+          })
+        ]
+      }).then(({x, y}) => {
+        Object.assign(this.tooltipWrapper!.style, {
+          top: `${y}px`,
+          left: `${x}px`
+        });
+        requestAnimationFrame(() => {
+          Object.assign(this.tooltipWrapper!.style, {
+            opacity: 1
+          });
+          this.tooltipWrapper?.querySelector('textarea')?.focus();
+        });
       });
-      this.popup.show();
-      this.svelteComponent?.onShow();
-    });
+    }
   }
 
   hide() {
-    this.popup?.hide();
-    this.svelteComponent?.onHide();
+    if (this.tooltipWrapper) {
+      Object.assign(this.tooltipWrapper.style, {
+        opacity: 0
+      });
+      this.svelteComponent?.onHide();
+    }
   }
   destroy() {
     this.svelteComponent?.$destroy();
-    this.popup?.destroy();
+    this.tooltipWrapper?.remove();
   }
 }

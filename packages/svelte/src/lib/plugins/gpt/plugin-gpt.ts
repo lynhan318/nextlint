@@ -32,8 +32,7 @@ export const PluginGPT = Node.create<GPTOptions>({
 
               if (domAtNode && domAtNode.node) {
                 renderer.show({
-                  clientRect: () =>
-                    (domAtNode.node as HTMLElement).getBoundingClientRect()
+                  node: domAtNode.node as HTMLElement
                 });
                 requestAnimationFrame(() => {
                   this.editor.commands.deleteRange({
