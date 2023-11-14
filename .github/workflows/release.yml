@@ -26,7 +26,7 @@ jobs:
         uses: pnpm/action-setup@cd2af74528f644555073f1e24557b269d7e03a8d #v2
         id: pnpm-install
         with:
-          version: 8.5.1
+          version: 8.10.2
           run_install: false
 
       - name: Get pnpm store directory
