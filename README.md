@@ -95,57 +95,6 @@ npm add @nextlint/svelte
 </EditorTheme>
 
 ```
-## Customize EditorTheme
-Nextlint use [svelteui](https://www.svelteui.org/) to implement node view and editor components so we recommend using SvelteUI to implement a custom node view for a more consistent user interface.
-Default editor tokens.
-```css
-:root {
-      '--editor-font': "'Literata', serif",
-      '--editor-font-heading': "'Bitter', serif",
-      '--editor-font-code': "'Fira Code', monospace",
-      '--editor-font-size': '1.1rem',
-      '--editor-font-height': '1.7rem',
-      '--editor-block-gap': '16px'
-}
-```
-You can customize your content style by overriding the `EditorTheme` style via `override` props. The implementation can be found at.[EditorTheme.svelte](https://github.com/sveltor/nextlint/blob/main/packages/svelte/src/lib/EditorTheme.svelte)
-Default editor tokens
-
-**Override Editor Font**
-
-```svelte
-    <EditorTheme
-      override={{
-        '--editor-font': "'Roboto'",
-        '--editor-font-size': '15px',
-        '--editor-font-height': '22px',
-        '--editor-block-gap': '8px',
-      }}
-    >
-     <Editor/>
-  </EditorTheme>
-```
-**Override Editor Style**
-```svelte
-    <EditorTheme
-      override={{
-        '& .ProseMirror': {
-           // customize blockquote
-          '& blockquote':{
-              backgroundColor:'teal',
-              boxShadow:'...'
-          },
-           // customize block code
-          '& pre':{
-              backgroundColor:'#000',
-              fontFamily:'FiraCode'
-          }
-        }
-      }}
-    >
-     <Editor/>
-  </EditorTheme>
-```
 
 ## Contributing
 Please follow the [contribute guideline](https://github.com/sveltor/nextlint/blob/main/CONTRIBUTING.md)
