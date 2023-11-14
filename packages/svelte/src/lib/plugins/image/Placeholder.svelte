@@ -27,7 +27,7 @@
     onOpen(element.getBoundingClientRect());
   }}
   bind:this={element}
-  class="h-[100px] w-full flex flex-row justify-center items-center text-muted-foreground"
+  class="h-[100px] w-full flex flex-row justify-center items-center bg-secondary text-secondary-foreground"
 >
   <ImageIcon class="mr-2" />
   <span>Add an image</span>

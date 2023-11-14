@@ -47,7 +47,7 @@
       class="w-full outline-none bg-background text-foreground"
       rows="3"
       bind:this={input}
-      placeholder="Hi there! How can I help you?"
+      placeholder="Hi there! How can I help you? 👋👋👋 "
       bind:value={prompt}
       on:keypress={e => {
         if (e.key === 'Enter') {

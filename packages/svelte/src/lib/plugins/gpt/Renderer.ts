@@ -5,28 +5,6 @@ import type {Editor, Content} from '@tiptap/core';
 
 import PromtComponent from './Prompt.svelte';
 
-const createHidePlugin = (editor: Editor) => ({
-  name: 'hideOnEsc',
-  defaultValue: true,
-  fn({hide}) {
-    function onKeyDown(event) {
-      if (event.keyCode === 27) {
-        hide();
-        editor.commands.focus();
-      }
-    }
-
-    return {
-      onShow() {
-        document.addEventListener('keydown', onKeyDown);
-      },
-      onHide() {
-        document.removeEventListener('keydown', onKeyDown);
-      }
-    };
-  }
-});
-
 export class Renderer {
   private svelteComponent: PromtComponent | null = null;
   private tooltipWrapper: HTMLDivElement | null = null;
