@@ -12,18 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout Repo'
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab #v3.0.3
+        uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd #2.2.4
+      - uses: pnpm/action-setup@v2
         with:
-          version: 8.5.1
+          version: 8.10.2
 
       - name: 'Setup Node runtime'
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c #v3.4.1
+        uses: actions/setup-node@v3
         with:
           node-version: 18
       - name: Install pnpm
-        uses: pnpm/action-setup@cd2af74528f644555073f1e24557b269d7e03a8d #v2
+        uses: pnpm/action-setup@v2
         id: pnpm-install
         with:
           version: 8.10.2
@@ -36,7 +36,7 @@ jobs:
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm cache
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 #v3.3.1
+        uses: actions/cache@v3
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -56,7 +56,7 @@ jobs:
       - name: Create Release Pull Request
         if: github.event_name == 'push'
         id: changesets
-        uses: changesets/action@62a9eee638c4655e15f69233d6dbe447a8654921 #v1.4.2
+        uses: changesets/action@v1
         with:
           publish: pnpm release
         env:

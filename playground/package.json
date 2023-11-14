@@ -29,12 +29,12 @@
     "@sveltejs/adapter-auto": "^2.1.1",
     "@sveltejs/kit": "^1.27.5",
     "@sveltejs/package": "^2.2.2",
-    "publint": "^0.1.16",
-    "svelte": "^3.59.2",
+    "publint": "^0.2.5",
+    "svelte": "^5.0.0-next.2",
     "svelte-check": "^3.6.0",
     "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
-    "vite": "^4.5.0"
+    "typescript": "^5.4.0-dev.20231113",
+    "vite": "^5.0.0-beta.18"
   },
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
