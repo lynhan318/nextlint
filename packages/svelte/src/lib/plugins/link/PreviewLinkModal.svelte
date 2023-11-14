@@ -60,7 +60,7 @@
     on:click={e => e.stopPropagation()}
     bind:this={input}
     value={linkProps.mark.attrs.href}
-    class="outline-none"
+    class="bg-background text-foreground rounded-md w-full focus:outline-none"
   />
   <a
     on:mousedown|stopPropagation={unsetLink}

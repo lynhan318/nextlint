@@ -63,7 +63,7 @@
 <div use:render />
 
 {#await ready then _}
-  <Positioner position="selection" let:visible>
-    <BubbleMenu {visible} />
+  <Positioner position="selection">
+    <BubbleMenu />
   </Positioner>
 {/await}
