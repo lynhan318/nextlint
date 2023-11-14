@@ -6,7 +6,7 @@
     "dev": "pnpm dev:package",
     "dev:package": "pnpm package -w",
     "build": "pnpm package",
-    "deploy": "vite build",
+    "deploy": "vite build --output build",
     "preview": "vite preview",
     "package": "svelte-kit sync && svelte-package",
     "prepublishOnly": "npm run package",
