@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.0.0
+
+### Major Changes
+
+- [#45](https://github.com/sveltor/nextlint/pull/45) [`cd7832e`](https://github.com/sveltor/nextlint/commit/cd7832e00360313aa1bef2ec5edfdfe65fdef490) Thanks [@lynhan318](https://github.com/lynhan318)! - Refactor UI design system
+
 ## 1.1.2
 
 ### Patch Changes
