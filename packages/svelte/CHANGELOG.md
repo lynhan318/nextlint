@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.0.1
+
+### Patch Changes
+
+- [`8bbe0ca`](https://github.com/sveltor/nextlint/commit/8bbe0ca9fd206d36c4f18d1c8e7f50b463340c41) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix hiding position when init
+
 ## 2.0.0
 
 ### Major Changes
