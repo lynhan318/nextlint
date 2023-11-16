@@ -29,6 +29,10 @@
 
   let disposable = () => {};
   const floating = (element: HTMLDivElement) => {
+    Object.assign(element.style, {
+      opacity: 0,
+      transition: 'opacity 0.2s ease-in-out'
+    });
     disposable = provider.register(position, {
       async onVisible(data) {
         if (computing) return;
@@ -45,6 +49,9 @@
         Object.assign(element.style, {
           left: `${domPosition.x}px`,
           top: `${domPosition.y}px`
+        });
+        requestAnimationFrame(() => {
+          element.style.opacity = '1';
         });
         computing = false;
       },
