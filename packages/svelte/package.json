@@ -6,6 +6,7 @@
     "dev": "pnpm dev:package",
     "dev:package": "pnpm package -w",
     "build": "pnpm package",
+    "build:css": "vite build",
     "deploy": "vite build",
     "preview": "vite preview",
     "package": "svelte-kit sync && svelte-package",
@@ -24,12 +25,13 @@
   },
   "files": [
     "dist",
+    "build",
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
     "sass": "^1.63.6",
-    "svelte": "^3.59.1"
+    "svelte": "*"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
@@ -37,8 +39,6 @@
     "@nextlint/core": "workspace:*",
     "@svelte-put/clickoutside": "^3.0.0",
     "@svelte-put/lockscroll": "^1.0.1",
-    "@svelteuidev/composables": "^0.15.3",
-    "@svelteuidev/core": "^0.15.3",
     "@tiptap/core": "^2.1.12",
     "@tiptap/extension-bubble-menu": "2.1.12",
     "@tiptap/extension-dropcursor": "^2.1.12",
@@ -71,14 +71,13 @@
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "init": "^0.1.2",
-    "lightningcss": "^1.22.1",
     "postcss": "^8.4.31",
     "postcss-nested": "^6.0.1",
     "postcss-preset-env": "^9.3.0",
     "prettier": "^3.1.0",
     "prettier-plugin-svelte": "^3.1.0",
     "publint": "^0.2.5",
+    "sass": "^1.69.5",
     "svelte": "4.2.3",
     "svelte-check": "^3.6.0",
     "svelte-preprocess": "5.1.0",

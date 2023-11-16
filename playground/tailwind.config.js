@@ -70,5 +70,20 @@ export default {
       }
     }
   },
-  plugins: [animate]
+  plugins: [
+    animate,
+    plugin(function ({addVariant, matchUtilities, theme}) {
+      addVariant('hocus', ['&:hover', '&:focus']);
+      // Square utility
+      matchUtilities(
+        {
+          square: value => ({
+            width: value,
+            height: value
+          })
+        },
+        {values: theme('spacing')}
+      );
+    })
+  ]
 };

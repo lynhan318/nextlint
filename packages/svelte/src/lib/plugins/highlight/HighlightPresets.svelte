@@ -64,7 +64,7 @@
         on:mousedown|stopPropagation={e => {
           toggleColor(preset);
         }}
-        class="cursor-pointer square-6 rounded-full"
+        class="cursor-pointer w-6 h-6 rounded-full"
         style="background-color:{preset.backgroundColor}"
       >
         {#if preset.isSelect}

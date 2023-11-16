@@ -274,9 +274,6 @@ importers:
       radix-icons-svelte:
         specifier: ^1.2.1
         version: 1.2.1
-      sass:
-        specifier: ^1.63.6
-        version: 1.69.5
       tailwind-merge:
         specifier: ^2.0.0
         version: 2.0.0
@@ -347,6 +344,105 @@ importers:
       publint:
         specifier: ^0.2.5
         version: 0.2.5
+      sass:
+        specifier: ^1.69.5
+        version: 1.69.5
+      svelte:
+        specifier: 4.2.3
+        version: 4.2.3
+      svelte-check:
+        specifier: ^3.6.0
+        version: 3.6.0(@babel/core@7.23.3)(postcss@8.4.31)(sass@1.69.5)(svelte@4.2.3)
+      svelte-preprocess:
+        specifier: 5.1.0
+        version: 5.1.0(@babel/core@7.23.3)(postcss@8.4.31)(sass@1.69.5)(svelte@4.2.3)(typescript@5.2.2)
+      svelte-sequential-preprocessor:
+        specifier: ^2.0.1
+        version: 2.0.1
+      tailwindcss:
+        specifier: ^3.3.5
+        version: 3.3.5
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.3.5)
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+      vite:
+        specifier: 4.5.0
+        version: 4.5.0(lightningcss@1.22.1)(sass@1.69.5)
+
+  playground:
+    devDependencies:
+      '@melt-ui/pp':
+        specifier: ^0.1.4
+        version: 0.1.4(@melt-ui/svelte@0.61.1)(svelte@4.2.3)
+      '@nextlint/svelte':
+        specifier: workspace:*
+        version: link:../packages/svelte
+      '@sveltejs/adapter-auto':
+        specifier: ^2.1.1
+        version: 2.1.1(@sveltejs/kit@1.27.5)
+      '@sveltejs/adapter-static':
+        specifier: ^2.0.3
+        version: 2.0.3(@sveltejs/kit@1.27.5)
+      '@sveltejs/kit':
+        specifier: ^1.27.5
+        version: 1.27.5(svelte@4.2.3)(vite@4.5.0)
+      '@sveltejs/package':
+        specifier: ^2.2.2
+        version: 2.2.2(svelte@4.2.3)(typescript@5.2.2)
+      '@tailwindcss/typography':
+        specifier: ^0.5.10
+        version: 0.5.10(tailwindcss@3.3.5)
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.11.1-alpha.12
+        version: 6.11.1-alpha.12(@typescript-eslint/parser@6.11.1-alpha.12)(eslint@8.53.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^6.11.1-alpha.12
+        version: 6.11.1-alpha.12(eslint@8.53.0)(typescript@5.2.2)
+      autoprefixer:
+        specifier: ^10.4.16
+        version: 10.4.16(postcss@8.4.31)
+      eslint:
+        specifier: ^8.53.0
+        version: 8.53.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.0.0(eslint@8.53.0)
+      eslint-plugin-svelte3:
+        specifier: ^4.0.0
+        version: 4.0.0(eslint@8.53.0)(svelte@4.2.3)
+      init:
+        specifier: ^0.1.2
+        version: 0.1.2
+      lightningcss:
+        specifier: ^1.22.1
+        version: 1.22.1
+      postcss:
+        specifier: ^8.4.31
+        version: 8.4.31
+      postcss-nested:
+        specifier: ^6.0.1
+        version: 6.0.1(postcss@8.4.31)
+      postcss-preset-env:
+        specifier: ^9.3.0
+        version: 9.3.0(postcss@8.4.31)
+      prettier:
+        specifier: ^3.1.0
+        version: 3.1.0
+      prettier-plugin-svelte:
+        specifier: ^3.1.0
+        version: 3.1.0(prettier@3.1.0)(svelte@4.2.3)
+      publint:
+        specifier: ^0.2.5
+        version: 0.2.5
+      sass:
+        specifier: ^1.69.5
+        version: 1.69.5
       svelte:
         specifier: 4.2.3
         version: 4.2.3
@@ -1991,6 +2087,15 @@ packages:
   /@svelte-put/lockscroll@1.0.1:
     resolution: {integrity: sha512-b2whlOVtshrvfqhHLqi9DVU9Fzy3to4q/6MYRLc0HCJr7h0uFkksk7QZlDTxXYh//ey1UmQvQCeL51X/CkEu2w==}
     dev: false
+
+  /@sveltejs/adapter-auto@2.1.1(@sveltejs/kit@1.27.5):
+    resolution: {integrity: sha512-nzi6x/7/3Axh5VKQ8Eed3pYxastxoa06Y/bFhWb7h3Nu+nGRVxKAy3+hBJgmPCwWScy8n0TsstZjSVKfyrIHkg==}
+    peerDependencies:
+      '@sveltejs/kit': ^1.0.0
+    dependencies:
+      '@sveltejs/kit': 1.27.5(svelte@4.2.3)(vite@4.5.0)
+      import-meta-resolve: 4.0.0
+    dev: true
 
   /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.27.5):
     resolution: {integrity: sha512-VUqTfXsxYGugCpMqQv1U0LIdbR3S5nBkMMDmpjGVJyM6Q2jHVMFtdWJCkeHMySc6mZxJ+0eZK3T7IgmUCDrcUQ==}
@@ -4394,6 +4499,7 @@ packages:
 
   /immutable@4.3.4:
     resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
+    dev: true
 
   /import-cwd@3.0.0:
     resolution: {integrity: sha512-4pnzH16plW+hgvRECbDWpQl3cqtvSofHWh44met7ESfZ8UZOWWddm8hEyDTqREJ9RbYHY8gi8DqmaelApoOGMg==}
@@ -4415,6 +4521,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       resolve-from: 5.0.0
+    dev: true
+
+  /import-meta-resolve@4.0.0:
+    resolution: {integrity: sha512-okYUR7ZQPH+efeuMJGlq4f8ubUgO50kByRPyt/Cy1Io4PSRsPjxME+YlVaCOx+NIToW7hCsZNFJyTPFFKepRSA==}
     dev: true
 
   /imurmurhash@0.1.4:
@@ -6827,6 +6937,7 @@ packages:
       chokidar: 3.5.3
       immutable: 4.3.4
       source-map-js: 1.0.2
+    dev: true
 
   /semver@5.7.2:
     resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}

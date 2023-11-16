@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {CommentEditor, Editor, EditorTheme} from '@nextlint/editor';
+  import {EditorTheme, SvelteEditor} from '@nextlint/svelte';
 
   const onEditorChange = () => {};
 
@@ -8,11 +8,10 @@
 
 <div>
   <EditorTheme>
-    <Editor
+    <SvelteEditor
       onChange={onEditorChange}
       {onCreated}
       placeholder="Start writing..."
-      openAI
       content=""
     />
   </EditorTheme>
