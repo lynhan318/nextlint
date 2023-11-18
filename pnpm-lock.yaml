@@ -223,12 +223,6 @@ importers:
       '@svelte-put/lockscroll':
         specifier: ^1.0.1
         version: 1.0.1
-      '@svelteuidev/composables':
-        specifier: ^0.15.3
-        version: 0.15.3(svelte@4.2.3)
-      '@svelteuidev/core':
-        specifier: ^0.15.3
-        version: 0.15.3(@svelteuidev/composables@0.15.3)(svelte@4.2.3)
       '@tiptap/core':
         specifier: ^2.1.12
         version: 2.1.12(@tiptap/pm@2.1.12)
@@ -320,12 +314,6 @@ importers:
       eslint-plugin-svelte3:
         specifier: ^4.0.0
         version: 4.0.0(eslint@8.53.0)(svelte@4.2.3)
-      init:
-        specifier: ^0.1.2
-        version: 0.1.2
-      lightningcss:
-        specifier: ^1.22.1
-        version: 1.22.1
       postcss:
         specifier: ^8.4.31
         version: 8.4.31
@@ -373,7 +361,7 @@ importers:
         version: 5.2.2
       vite:
         specifier: 4.5.0
-        version: 4.5.0(lightningcss@1.22.1)(sass@1.69.5)
+        version: 4.5.0(sass@1.69.5)
 
   playground:
     devDependencies:
@@ -2128,7 +2116,7 @@ packages:
       svelte: 4.2.3
       tiny-glob: 0.2.9
       undici: 5.26.5
-      vite: 4.5.0(lightningcss@1.22.1)(sass@1.69.5)
+      vite: 4.5.0(sass@1.69.5)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2161,7 +2149,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 2.5.2(svelte@4.2.3)(vite@4.5.0)
       debug: 4.3.4
       svelte: 4.2.3
-      vite: 4.5.0(lightningcss@1.22.1)(sass@1.69.5)
+      vite: 4.5.0(sass@1.69.5)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2180,19 +2168,11 @@ packages:
       magic-string: 0.30.5
       svelte: 4.2.3
       svelte-hmr: 0.15.3(svelte@4.2.3)
-      vite: 4.5.0(lightningcss@1.22.1)(sass@1.69.5)
+      vite: 4.5.0(sass@1.69.5)
       vitefu: 0.2.5(vite@4.5.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@svelteuidev/composables@0.15.3(svelte@4.2.3):
-    resolution: {integrity: sha512-Koa8oFH/jXXKeNqPxB56fvYBHBcCYgmC2jzKv826z6IAugMMBnc0w//nSmPLQUnhL60jg/5DbS5jzpofVnrR8w==}
-    peerDependencies:
-      svelte: '>=3.55.0'
-    dependencies:
-      svelte: 4.2.3
-    dev: false
 
   /@svelteuidev/composables@0.15.3(svelte@5.0.0-next.2):
     resolution: {integrity: sha512-Koa8oFH/jXXKeNqPxB56fvYBHBcCYgmC2jzKv826z6IAugMMBnc0w//nSmPLQUnhL60jg/5DbS5jzpofVnrR8w==}
@@ -2200,18 +2180,6 @@ packages:
       svelte: '>=3.55.0'
     dependencies:
       svelte: 5.0.0-next.2
-    dev: false
-
-  /@svelteuidev/core@0.15.3(@svelteuidev/composables@0.15.3)(svelte@4.2.3):
-    resolution: {integrity: sha512-9Gg8UsWKptq0vN+w87MI4vgowd1W4w9YB0OB9hk3iBH0AoCMh/R0hwTwLOV3/arFnf+YHZp99nzfj86GEnA0LQ==}
-    peerDependencies:
-      '@svelteuidev/composables': 0.15.3
-      svelte: '>=3.55.0'
-    dependencies:
-      '@floating-ui/dom': 1.2.8
-      '@stitches/core': 1.2.8
-      '@svelteuidev/composables': 0.15.3(svelte@4.2.3)
-      svelte: 4.2.3
     dev: false
 
   /@svelteuidev/core@0.15.3(@svelteuidev/composables@0.15.3)(svelte@5.0.0-next.2):
@@ -7994,6 +7962,42 @@ packages:
       fsevents: 2.3.3
     dev: true
 
+  /vite@4.5.0(sass@1.69.5):
+    resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.18.20
+      postcss: 8.4.31
+      rollup: 3.29.4
+      sass: 1.69.5
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
   /vite@5.0.0-beta.18:
     resolution: {integrity: sha512-5QAi3LFP+l5NC890ywGe8HeWlmgd7F6d7VA+ZosCSWDr1WZ30YUJjVkwdVcJR+znBCeV0joEiXO6S+Yqp2qsIA==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -8037,7 +8041,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.5.0(lightningcss@1.22.1)(sass@1.69.5)
+      vite: 4.5.0(sass@1.69.5)
     dev: true
 
   /w3c-keyname@2.2.8:
