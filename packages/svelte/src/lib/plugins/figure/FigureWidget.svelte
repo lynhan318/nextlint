@@ -1,7 +1,6 @@
 <script lang="ts">
-  import {ActionIcon, Box, Group} from '@svelteuidev/core';
   import type {Editor} from '@tiptap/core';
-  import {TrashIcon} from '$lib/icons';
+  import {Trash2} from 'lucide-svelte';
 
   export let editor: Editor;
   const removeBlock = () => {
@@ -9,21 +8,10 @@
   };
 </script>
 
-<Box
-  css={{
-    position: 'absolute',
-    top: -44,
-    left: '50%',
-    translate: '-50% 0',
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: 4,
-    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
-  }}
+<div
+  class="absolute top-[-44px] left-1/2 -translate-x-1/2 rounded-md bg-background text-foreground shadow-md p-1"
 >
-  <Group>
-    <ActionIcon color="red" on:mousedown={removeBlock}>
-      <TrashIcon />
-    </ActionIcon>
-  </Group>
-</Box>
+  <button color="red" on:mousedown={removeBlock} class="p-1 text-destructive">
+    <Trash2 size={20} />
+  </button>
+</div>
