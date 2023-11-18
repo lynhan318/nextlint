@@ -1,5 +1,13 @@
 # @nextlint/editor
 
+## 2.0.2
+
+### Patch Changes
+
+- [#52](https://github.com/sveltor/nextlint/pull/52) [`11d97fd`](https://github.com/sveltor/nextlint/commit/11d97fd252e6969f24683824a68dada6cba4dcc9) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix code darktheme background
+
+- [#50](https://github.com/sveltor/nextlint/pull/50) [`3589e99`](https://github.com/sveltor/nextlint/commit/3589e992dd23baccc99392ae82978f747a53971b) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix tailwindcss
+
 ## 2.0.1
 
 ### Patch Changes
