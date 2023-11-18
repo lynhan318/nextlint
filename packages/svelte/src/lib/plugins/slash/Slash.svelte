@@ -2,9 +2,11 @@
 
 <script lang="ts">
   import type {SuggestionProps} from '@tiptap/suggestion';
+  import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
 
   import Item from './Item.svelte';
   import type {SlashMenuItem} from './slash-menu';
+  import {onDestroy, onMount} from 'svelte';
 
   export let props: SuggestionProps<SlashMenuItem>;
   const SCROLL_HEIGHT = 400;
@@ -70,7 +72,18 @@
       props.command(item);
     }
   };
+
+  const locked = createLockScrollStore();
+
+  onMount(() => {
+    $locked = true;
+  });
+  onDestroy(() => {
+    $locked = false;
+  });
 </script>
+
+<svelte:body use:lockscroll={locked} />
 
 <div
   class="w-[336px] border border-border h-full flex flex-row
