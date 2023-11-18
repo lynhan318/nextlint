@@ -113,9 +113,12 @@
     @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
   }
   pre {
-    @apply relative rounded bg-secondary px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
+    @apply relative rounded bg-secondary px-4 py-3 font-mono text-sm font-semibold;
+    font-family:
+      Fira Code,
+      monospace;
     code {
-      @apply text-primary dark:text-secondary;
+      @apply text-primary dark:text-secondary p-0;
     }
   }
 
@@ -136,10 +139,21 @@
     @apply text-blue-600 underline underline-offset-2;
     @apply dark:text-blue-400;
   }
-}
-
-.dark {
-  .tiptap {
-    @apply text-foreground bg-background;
+  p.is-editor-empty:first-child:before {
+    @apply text-muted-foreground;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+  p.is-block-empty:before {
+    @apply text-muted-foreground;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    &[data-align='right']:before {
+      float: right;
+    }
   }
 }

@@ -15,5 +15,5 @@
     data-[disabled]:cursor-not-allowed data-[state=on]:bg-slate-200
     data-[state=on]:text-slate-900"
 >
-  <Italic class="square-4" />
+  <Italic class="w-4 h-4" />
 </button>

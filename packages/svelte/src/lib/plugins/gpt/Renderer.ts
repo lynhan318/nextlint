@@ -21,37 +21,37 @@ export class Renderer {
         opacity: 0,
         transition: 'opacity 0.2s ease-in-out'
       });
-      this.svelteComponent = new PromtComponent({
-        target: this.tooltipWrapper,
-        context: new Map([['options', options]]),
-        props: {
-          onClose: () => this.hide(),
-          onApply: (text: string) => {
-            const content: Content = [];
-            text.split('\n').forEach(line => {
-              if (!line) return;
-              if (line) {
-                content.push({
-                  type: 'paragraph',
-                  content: [{type: 'text', text: line}]
-                });
-              }
-            });
-            this.editor
-              .chain()
-              .insertContent(content)
-              .selectTextblockEnd()
-              .focus()
-              .run();
-
-            this.hide();
-          }
-        }
-      });
       editorDOM.appendChild(this.tooltipWrapper);
     }
   }
   show(props: {node: HTMLElement}) {
+    this.svelteComponent ||= new PromtComponent({
+      target: this.tooltipWrapper,
+      context: new Map([['options', this.options]]),
+      props: {
+        onClose: () => this.hide(),
+        onApply: (text: string) => {
+          const content: Content = [];
+          text.split('\n').forEach(line => {
+            if (!line) return;
+            if (line) {
+              content.push({
+                type: 'paragraph',
+                content: [{type: 'text', text: line}]
+              });
+            }
+          });
+          this.editor
+            .chain()
+            .insertContent(content)
+            .selectTextblockEnd()
+            .focus()
+            .run();
+
+          this.hide();
+        }
+      }
+    });
     if (this.tooltipWrapper) {
       computePosition(props.node, this.tooltipWrapper, {
         placement: 'left',
@@ -83,6 +83,8 @@ export class Renderer {
         opacity: 0
       });
       this.svelteComponent?.onHide();
+      this.svelteComponent?.$destroy();
+      this.svelteComponent = null;
     }
   }
   destroy() {

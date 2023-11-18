@@ -1,8 +1,9 @@
 <svelte:options accessors={true} />
 
 <script lang="ts">
+  import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
   import {Cross1} from 'radix-icons-svelte';
-  import {getContext} from 'svelte';
+  import {getContext, onDestroy, onMount} from 'svelte';
   const options = getContext('options');
 
   let prompt = '';
@@ -37,8 +38,17 @@
     completion = await options.query(prompt);
     submiting = false;
   };
+  const locked = createLockScrollStore();
+
+  onMount(() => {
+    $locked = true;
+  });
+  onDestroy(() => {
+    $locked = false;
+  });
 </script>
 
+<svelte:body use:lockscroll={locked} />
 <div
   class="bg-background text-foreground w-[480px] absolute z-10 rounded-md shadow-lg p-4 border border-border"
 >

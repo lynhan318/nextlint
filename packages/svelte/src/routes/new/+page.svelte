@@ -31,9 +31,9 @@
   };
 </script>
 
-<div class="mt-10">
+<div class="mt-10 w-full">
   <SvelteEditor
-    content={''}
+    content={'a'}
     onChange={editor.set}
     placeholder="Press 'space' GPT support, type '/' for help"
     plugins={{
