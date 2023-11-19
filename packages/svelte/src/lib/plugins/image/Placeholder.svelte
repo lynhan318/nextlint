@@ -1,7 +1,7 @@
 <script lang="ts">
   import type {NodeViewRendererProps} from '@tiptap/core';
   import {ImageIcon} from 'lucide-svelte';
-  import {onMount} from 'svelte';
+  import {onDestroy, onMount} from 'svelte';
 
   export let props: NodeViewRendererProps;
   export let triggerOnMount = false;
@@ -14,6 +14,9 @@
     if (triggerOnMount) {
       setTimeout(() => {
         onOpen(element.getBoundingClientRect());
+        props.editor.commands.updateAttributes('selectImage', {
+          triggerOnMount: false
+        });
       }, 100);
     }
   });

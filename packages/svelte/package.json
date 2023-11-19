@@ -1,6 +1,6 @@
 {
   "name": "@nextlint/svelte",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "scripts": {
     "playground": "vite dev",
     "dev": "pnpm dev:package",
@@ -30,13 +30,12 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
-    "sass": "^1.63.6",
     "svelte": "*"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
     "@melt-ui/svelte": "^0.61.1",
-    "@nextlint/core": "workspace:*",
+    "@nextlint/core": "^1.2.0",
     "@svelte-put/clickoutside": "^3.0.0",
     "@svelte-put/lockscroll": "^1.0.1",
     "@tiptap/core": "^2.1.12",

@@ -9,8 +9,8 @@ import {
   type VirtualElement
 } from '@floating-ui/dom';
 
-import SelectImage from './SelectImage.svelte';
 import Placeholder from './Placeholder.svelte';
+import {SvelteNodeViewRenderer} from '$lib/node-view';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -39,7 +39,6 @@ if (typeof document !== 'undefined') {
   document.body.appendChild(wrapper);
 }
 
-let component: SelectImage | null;
 const imageStore = writable<NodeViewRendererProps | null>(null);
 
 export const SelectImageExtension = Node.create<SelectImageOptions>({
@@ -67,63 +66,10 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   },
 
   addNodeView() {
-    return (props: NodeViewRendererProps) => {
-      const sveltorImage = document.createElement('select-image');
-      sveltorImage.setAttribute('data-node-type', this.name);
-
-      const placeholder = new Placeholder({
-        target: sveltorImage,
-        context: new Map().set('options', this.options),
-        props: {
-          props,
-          triggerOnMount: Boolean(props.HTMLAttributes.triggerOnMount),
-          onOpen: (domRect: DOMRect) => {
-            imageStore.set(props);
-            component?.$destroy();
-            component = new SelectImage({
-              target: wrapper,
-              props: {
-                onHide: () => {
-                  Object.assign(wrapper.style, {
-                    opacity: 0
-                  });
-                  component?.$destroy();
-                }
-              },
-              context: new Map()
-                .set('options', this.options)
-                .set('store', imageStore)
-            });
-
-            const virtualElement: VirtualElement = {
-              getBoundingClientRect: () => domRect
-            };
-
-            computePosition(virtualElement, wrapper, {
-              placement: 'top',
-              middleware: [shift(), flip()]
-            }).then(({x, y}) => {
-              Object.assign(wrapper.style, {
-                top: `${y}px`,
-                left: `${x}px`,
-                opacity: 1
-              });
-            });
-          }
-        }
-      });
-      return {
-        dom: sveltorImage,
-        destroy: () => {
-          placeholder.$destroy();
-        }
-      };
-    };
-  },
-  onDestroy: () => {
-    wrapper?.remove?.();
-    component?.$destroy?.();
-    component = null;
+    return SvelteNodeViewRenderer({
+      component: Placeholder,
+      domAs: 'select-image'
+    });
   },
 
   addCommands() {

@@ -1,7 +1,4 @@
-import type {
-  Decoration,
-  NodeView as ProseMirrorNodeView
-} from '@tiptap/pm/view';
+import type {NodeView as ProseMirrorNodeView} from '@tiptap/pm/view';
 import type {Node as PMNode} from '@tiptap/pm/model';
 
 import type {ComponentType} from 'svelte';
@@ -11,6 +8,7 @@ import {
   type NodeViewProps,
   type NodeViewRendererProps
 } from '@tiptap/core';
+
 import {writable, type Writable} from 'svelte/store';
 
 import {SvelteRenderer} from './SvelteRenderer';

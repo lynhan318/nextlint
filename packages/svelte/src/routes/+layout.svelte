@@ -17,8 +17,9 @@
     class="h-[60px] sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
   >
     <Devtool />
+    <a href="/draft">Draft</a>
   </header>
-  <main class="max-w-6xl mx-auto">
+  <main class="max-w-6xl mx-auto w-full">
     <EditorTheme>
       <slot />
     </EditorTheme>
