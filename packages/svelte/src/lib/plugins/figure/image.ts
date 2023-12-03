@@ -109,6 +109,7 @@ export const FigureExtension = Node.create<FigureOptions>({
       toggleFigure:
         attrs =>
         ({chain}) => {
+          FigureExtension.options.triggerOnMount = true;
           return chain()
             .insertContent({
               type: this.name,

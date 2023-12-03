@@ -2,12 +2,6 @@ import './Style.scss';
 
 import {Node, mergeAttributes, type NodeViewRendererProps} from '@tiptap/core';
 import {writable} from 'svelte/store';
-import {
-  computePosition,
-  flip,
-  shift,
-  type VirtualElement
-} from '@floating-ui/dom';
 
 import Placeholder from './Placeholder.svelte';
 import {SvelteNodeViewRenderer} from '$lib/node-view';
@@ -15,7 +9,7 @@ import {SvelteNodeViewRenderer} from '$lib/node-view';
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     placeholder: {
-      toggleSelectImage: () => ReturnType;
+      createImageBlock: () => ReturnType;
     };
   }
 }
@@ -25,18 +19,7 @@ export interface SelectImageOptions {
   unsplash?: {
     accessKey: string;
   };
-}
-
-let wrapper;
-if (typeof document !== 'undefined') {
-  wrapper = document.createElement('div');
-  document.body.appendChild(wrapper);
-  Object.assign(wrapper.style, {
-    position: 'absolute',
-    opacity: 0,
-    transition: 'opacity 0.2s ease-in-out'
-  });
-  document.body.appendChild(wrapper);
+  triggerOnMount: boolean;
 }
 
 const imageStore = writable<NodeViewRendererProps | null>(null);
@@ -46,13 +29,12 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   group: 'block',
   selectable: true,
   atom: true,
-  addAttributes() {
+  addOptions() {
     return {
-      triggerOnMount: {
-        default: false
-      }
+      triggerOnMount: false
     };
   },
+
   parseHTML() {
     return [
       {
@@ -74,13 +56,18 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
 
   addCommands() {
     return {
-      toggleSelectImage:
+      createImageBlock:
         () =>
-        ({commands}) => {
-          commands.insertContent({
-            type: this.name,
-            attrs: {triggerOnMount: true}
-          });
+        ({commands, editor}) => {
+          SelectImageExtension.options.triggerOnMount = true;
+          const curSelection = editor.state.selection.$head.node(1);
+          const content = [{type: this.name}];
+          if (editor.state.doc.lastChild?.eq(curSelection)) {
+            content.push({
+              type: 'paragraph'
+            });
+          }
+          return commands.insertContent(content);
         }
     };
   }

@@ -35,6 +35,7 @@
   <SvelteEditor
     content={''}
     onChange={editor.set}
+    onCreated={editor.set}
     placeholder="Press 'space' GPT support, type '/' for help"
     plugins={{
       selectImage: {

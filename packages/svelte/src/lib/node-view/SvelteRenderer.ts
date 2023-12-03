@@ -54,4 +54,5 @@ export class SvelteRenderer {
 export const useNodeViewProps = () =>
   getContext<Writable<NodeViewProps>>('props');
 
-export const useContentRef = () => getContext('contentRef');
+export const useContentRef = () =>
+  getContext<(element: HTMLElement) => void>('contentRef');

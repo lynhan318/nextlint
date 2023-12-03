@@ -199,7 +199,7 @@ const suggestionItem = [
     title: 'Image',
     description: 'Insert an image block',
     command: ({editor, range}) => {
-      return editor.chain().deleteRange(range).toggleSelectImage().run();
+      return editor.chain().deleteRange(range).createImageBlock().run();
     },
     icon: Image
   },

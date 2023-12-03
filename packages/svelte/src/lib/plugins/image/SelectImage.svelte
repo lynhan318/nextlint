@@ -13,17 +13,17 @@
   import UploadTab from './UploadTab.svelte';
   import EmbedTab from './EmbedTab.svelte';
   import UnplashTab from './UnplashTab.svelte';
-  import type {SelectImageOptions} from './image';
+  import {SelectImageExtension} from './image';
 
   const store = getContext<Writable<NodeViewRendererProps>>('store');
-  const options = getContext<SelectImageOptions>('options');
+  const options = SelectImageExtension.options;
 
   export let onHide = () => {};
 
   const triggers = [
-    options.handleUpload && {id: 'tab-1', title: 'Upload'},
+    options?.handleUpload && {id: 'tab-1', title: 'Upload'},
     {id: 'tab-2', title: 'From URL'},
-    options.unsplash && {id: 'tab-3', title: 'Unsplash'}
+    options?.unsplash && {id: 'tab-3', title: 'Unsplash'}
   ].filter(Boolean) as any;
 
   const {
@@ -72,7 +72,7 @@
   use:melt={$root}
   use:clickoutside
   on:clickoutside={onHide}
-  class="flex w-[460px] h-[400px] flex-col overflow-hidden
+  class="flex w-[460px] max-h-[400px] flex-col overflow-hidden
   shadow-lg data-[orientation=vertical]:flex-row
   border border-border rounded-xl bg-background text-foreground"
 >
