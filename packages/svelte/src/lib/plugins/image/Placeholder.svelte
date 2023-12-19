@@ -1,20 +1,17 @@
 <script lang="ts">
   import {createPopover, melt} from '@melt-ui/svelte';
   import {fade} from 'svelte/transition';
-  import type {NodeViewRendererProps} from '@tiptap/core';
-  import {ImageIcon} from 'lucide-svelte';
+  import {ImageIcon, Trash2} from 'lucide-svelte';
 
   import {SelectImageExtension} from './image';
   import SelectImage from './SelectImage.svelte';
+  import {useNodeViewProps} from '$lib/node-view';
 
-  export let props: NodeViewRendererProps;
+  const props = useNodeViewProps();
   const triggerOnMount = SelectImageExtension.options.triggerOnMount;
-  export let onOpen = (domRect: DOMRect) => {};
-  console.log('triggerOnMount', triggerOnMount);
 
-  let element: HTMLButtonElement;
   const {
-    elements: {trigger, content, arrow, close},
+    elements: {trigger, content},
     states: {open}
   } = createPopover({
     defaultOpen: triggerOnMount,
@@ -22,20 +19,34 @@
       placement: 'top'
     }
   });
+  const removeNode = () => $props.deleteNode();
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<button
-  use:melt={$trigger}
-  bind:this={element}
-  class="h-[100px] w-full flex flex-row justify-center items-center bg-secondary text-secondary-foreground"
->
-  <ImageIcon class="mr-2" />
-</button>
 
+<div class="relative">
+  <button
+    use:melt={$trigger}
+    class="h-[100px] w-full flex flex-row justify-center items-center bg-secondary relative"
+  >
+    <ImageIcon class="mr-2 text-muted-foreground" />
+  </button>
+  <button
+    class="w-10 h-10 cursor-pointer !text-red-400 absolute bottom-1 right-1"
+    on:click|stopPropagation={() => removeNode()}
+  >
+    <Trash2 size={16} />
+  </button>
+</div>
 {#if $open}
   <div use:melt={$content} transition:fade={{duration: 100}}>
     <SelectImage />
   </div>
 {/if}
+
+<style lang="scss">
+  :global(select-image) {
+    position: relative;
+  }
+</style>

@@ -38,6 +38,7 @@ export class SvelteRenderer {
     this.component = new Component({
       target: this.element,
       props: {
+        as: domAs,
         contentAs
       },
       context: new Map(Object.entries(this.context))

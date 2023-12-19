@@ -39,7 +39,4 @@
     border: 2px solid transparent;
     border-radius: 4px;
   }
-  .selected {
-    border-color: var(--svelteui-colors-green300);
-  }
 </style>

@@ -4,18 +4,14 @@
   import {createTabs, melt} from '@melt-ui/svelte';
   import {cubicInOut} from 'svelte/easing';
   import {crossfade} from 'svelte/transition';
-  import {getContext, onDestroy, onMount} from 'svelte';
+  import {onDestroy, onMount} from 'svelte';
   import {X} from 'lucide-svelte';
-
-  import type {Writable} from 'svelte/store';
-  import type {NodeViewRendererProps} from '@tiptap/core';
 
   import UploadTab from './UploadTab.svelte';
   import EmbedTab from './EmbedTab.svelte';
   import UnplashTab from './UnplashTab.svelte';
   import {SelectImageExtension} from './image';
 
-  const store = getContext<Writable<NodeViewRendererProps>>('store');
   const options = SelectImageExtension.options;
 
   export let onHide = () => {};
@@ -35,26 +31,6 @@
     duration: 250,
     easing: cubicInOut
   });
-
-  const onInsert = (src: string, alt: string) => {
-    if (!$store) return;
-    const {editor, getPos} = $store;
-
-    if (typeof getPos === 'function') {
-      editor
-        .chain()
-        .setNodeSelection(getPos()!)
-        .deleteNode('selectImage')
-        .toggleFigure({
-          src,
-          alt
-        })
-        .scrollIntoView()
-        .run();
-
-      onHide();
-    }
-  };
 
   const locked = createLockScrollStore();
 
@@ -105,7 +81,7 @@
     </div>
   {/if}
   <div use:melt={$content('tab-2')} class="grow p-5">
-    <EmbedTab {onInsert} />
+    <EmbedTab />
   </div>
   {#if options.unsplash}
     <div use:melt={$content('tab-3')} class="grow p-5">

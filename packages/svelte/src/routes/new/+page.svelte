@@ -29,6 +29,7 @@
     }
     return '';
   };
+  console.log('re-render again');
 </script>
 
 <div class="mt-10 w-full">
@@ -37,14 +38,5 @@
     onChange={editor.set}
     onCreated={editor.set}
     placeholder="Press 'space' GPT support, type '/' for help"
-    plugins={{
-      selectImage: {
-        handleUpload,
-        unsplash: {
-          accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
-        }
-      },
-      gpt: {query: submitPromt}
-    }}
   />
 </div>

@@ -1,10 +1,10 @@
 import './Style.scss';
 
 import {Node, mergeAttributes, type NodeViewRendererProps} from '@tiptap/core';
+import {SvelteNodeViewRenderer} from '$lib/node-view';
 import {writable} from 'svelte/store';
 
 import Placeholder from './Placeholder.svelte';
-import {SvelteNodeViewRenderer} from '$lib/node-view';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -27,8 +27,8 @@ const imageStore = writable<NodeViewRendererProps | null>(null);
 export const SelectImageExtension = Node.create<SelectImageOptions>({
   name: 'selectImage',
   group: 'block',
-  selectable: true,
   atom: true,
+  selectable: true,
   addOptions() {
     return {
       triggerOnMount: false
@@ -38,19 +38,19 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   parseHTML() {
     return [
       {
-        tag: 'select-image'
+        tag: 'image-placeholder'
       }
     ];
   },
 
   renderHTML({HTMLAttributes}) {
-    return ['select-image', mergeAttributes(HTMLAttributes)];
+    return ['image-placeholder', mergeAttributes(HTMLAttributes), '*'];
   },
 
   addNodeView() {
     return SvelteNodeViewRenderer({
       component: Placeholder,
-      domAs: 'select-image'
+      domAs: 'image-placeholder'
     });
   },
 
