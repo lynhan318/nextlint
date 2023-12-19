@@ -6,18 +6,20 @@
   let value = '';
 
   $: onInsert = () => {
-    const {editor, getPos} = $props;
+    const {editor, getPos, deleteNode} = $props;
 
     if (typeof getPos === 'function') {
+      console.log('deleteNode');
+      const pos = getPos();
+      deleteNode();
       editor
         .chain()
-        .setNodeSelection(getPos()!)
-        .deleteNode('selectImage')
+        .setTextSelection(pos)
+        .focus()
         .toggleFigure({
           src: value,
-          alt: 'nextlint'
+          alt: 'nextlint image'
         })
-        .scrollIntoView()
         .run();
     }
   };
