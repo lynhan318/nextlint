@@ -1,5 +1,11 @@
 # @nextlint/core
 
+## 1.3.0
+
+### Minor Changes
+
+- [#56](https://github.com/sveltor/nextlint/pull/56) [`8470d19`](https://github.com/sveltor/nextlint/commit/8470d19c041c465e4387453eb996becc550538a2) Thanks [@lynhan318](https://github.com/lynhan318)! - implement FloatingRenderer component
+
 ## 1.2.0
 
 ### Minor Changes
