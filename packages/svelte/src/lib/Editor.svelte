@@ -58,7 +58,6 @@
       .concat(extensions)
       .filter(Boolean)
   });
-  console.log('test111');
 </script>
 
 <div use:render />

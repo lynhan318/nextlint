@@ -1,21 +1,12 @@
 <script lang="ts">
-  import type {Editor} from '@tiptap/core';
   import {Link2Off} from 'lucide-svelte';
+  import {useFloatingProps} from '$lib/node-view';
 
-  import type {LinkProps} from './tiptap-link-v2';
-
-  // PreviewModal init via svelte component constructor,
-  // it's not in svelte context
-  // cannot use useEditor here
-  export let editor: Editor;
-  export let onHide = () => {};
-  export let linkProps: LinkProps;
+  const {mark, pos, node, editor, onHide} = useFloatingProps();
 
   let input: HTMLInputElement;
 
-  const onSubmit = e => {
-    e.preventDefault();
-    const {pos, node} = linkProps;
+  const onSubmit = () => {
     if (
       editor
         .chain()
@@ -32,9 +23,7 @@
       onHide();
     }
   };
-  const unsetLink = e => {
-    e.preventDefault();
-    const {pos, node} = linkProps;
+  const unsetLink = () => {
     if (
       editor
         .chain()
@@ -57,12 +46,12 @@
 >
   <input
     placeholder="Link..."
-    on:click={e => e.stopPropagation()}
     bind:this={input}
-    value={linkProps.mark.attrs.href}
+    value={mark.attrs.href}
     class="bg-background text-foreground rounded-md w-full focus:outline-none"
   />
   <a
+    aria-label="Unset link"
     on:mousedown|stopPropagation={unsetLink}
     class="w-8 h-8 flex items-center justify-center pointer text-red-500 hover:bg-red-100 transition-colors p-1 rounded-md ml-2"
   >

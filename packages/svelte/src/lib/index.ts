@@ -1,2 +1,6 @@
-export {default as SvelteEditor} from './Editor.svelte';
-export {default as EditorTheme} from './EditorTheme.svelte';
+import {Editor} from '@tiptap/core';
+
+import SvelteEditor from './Editor.svelte';
+import EditorTheme from './EditorTheme.svelte';
+
+export {EditorTheme, SvelteEditor, Editor};

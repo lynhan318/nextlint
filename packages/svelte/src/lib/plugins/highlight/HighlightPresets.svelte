@@ -8,16 +8,15 @@
   } from './tiptap-highlight';
   import {Check} from 'lucide-svelte';
   import {createEventDispatcher} from 'svelte';
+  import {useFloatingProps} from '$lib/node-view';
 
   const dispatcher = createEventDispatcher<{toggle: void}>();
 
-  export let highlightProps: HighlightProps;
-  export let editor: Editor;
+  const {mark, pos, node, editor} = useFloatingProps();
 
-  $: selectPreset = highlightProps?.preset || {};
+  $: selectPreset = mark?.attrs.preset || {};
 
   const toggleColor = (preset: Preset) => {
-    const {pos, node} = highlightProps;
     dispatcher('toggle');
     if (preset.backgroundColor === selectPreset?.backgroundColor) {
       if (
