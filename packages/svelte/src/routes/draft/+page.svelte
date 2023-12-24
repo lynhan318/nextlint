@@ -29,14 +29,26 @@
     }
     return '';
   };
-  console.log('re-render again');
+  const data = JSON.parse(localStorage.getItem('draft') || '{}');
+  const onEditorChange = (_editor: Editor) => {
+    localStorage.setItem('draft', JSON.stringify(_editor.getJSON()));
+    $editor = _editor;
+  };
 </script>
 
 <div class="mt-10 w-full">
   <SvelteEditor
-    content={''}
-    onChange={editor.set}
-    onCreated={editor.set}
+    content={data}
+    onChange={onEditorChange}
     placeholder="Press 'space' GPT support, type '/' for help"
+    plugins={{
+      selectImage: {
+        handleUpload,
+        unsplash: {
+          accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
+        }
+      },
+      gpt: {query: submitPromt}
+    }}
   />
 </div>

@@ -9,6 +9,7 @@
   import Devtool from './$components/Devtool.svelte';
 
   const editor = writable<Editor>();
+
   setContext('editor', editor);
 </script>
 
@@ -18,7 +19,7 @@
   >
     <Devtool />
   </header>
-  <main class="max-w-6xl mx-auto">
+  <main class="max-w-6xl mx-auto w-full">
     <EditorTheme>
       <slot />
     </EditorTheme>

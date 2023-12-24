@@ -1,9 +1,10 @@
 import {mergeAttributes, Node} from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
 
+import {SvelteNodeViewRenderer} from '$lib/node-view';
+
 import Figure from './Figure.svelte';
 import {createImageSettingPlugin} from './image-setting-plugin';
-import {SvelteNodeViewRenderer} from '$lib/node-view';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
@@ -109,6 +110,7 @@ export const FigureExtension = Node.create<FigureOptions>({
       toggleFigure:
         attrs =>
         ({chain}) => {
+          FigureExtension.options.triggerOnMount = true;
           return chain()
             .insertContent({
               type: this.name,

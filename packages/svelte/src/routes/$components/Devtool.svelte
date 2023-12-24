@@ -1,9 +1,24 @@
 <script lang="ts">
+  import type {Editor} from '@tiptap/core';
+  import {getContext} from 'svelte';
+  import type {Writable} from 'svelte/store';
+
   let theme = 'light';
+
+  const editor = getContext<Writable<Editor>>('editor');
+  console.log('editor', editor);
 
   const changeTheme = () => {
     theme = theme === 'light' ? 'dark' : 'light';
     document.body.classList.toggle('dark', theme === 'dark');
+  };
+  const load = () => {
+    const content = localStorage.getItem('draft') || '';
+    $editor.commands.setContent(JSON.parse(content));
+  };
+  const onSave = () => {
+    const blocks = $editor.getJSON();
+    localStorage.setItem('draft', JSON.stringify(blocks));
   };
 </script>
 
@@ -25,4 +40,9 @@
       >{theme}</span
     >
   </label>
+  <div class="ml-4">
+    <a href="/draft">Draft</a>
+    <button on:click={onSave}>save</button>
+    <button on:click={load}>load</button>
+  </div>
 </div>

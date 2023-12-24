@@ -1,7 +1,4 @@
-import type {
-  Decoration,
-  NodeView as ProseMirrorNodeView
-} from '@tiptap/pm/view';
+import type {NodeView as ProseMirrorNodeView} from '@tiptap/pm/view';
 import type {Node as PMNode} from '@tiptap/pm/model';
 
 import type {ComponentType} from 'svelte';
@@ -11,6 +8,7 @@ import {
   type NodeViewProps,
   type NodeViewRendererProps
 } from '@tiptap/core';
+
 import {writable, type Writable} from 'svelte/store';
 
 import {SvelteRenderer} from './SvelteRenderer';
@@ -41,16 +39,21 @@ class SvelteNodeView
     this.renderer = new SvelteRenderer(nodeViewOptions, this.store);
   }
 
-  get dom() {
+  override get dom() {
     return this.renderer.element;
   }
 
-  get contentDOM() {
+  override get contentDOM() {
     if (this.node.isLeaf) return null;
     return this.renderer.contentElement || null;
   }
 
-  update(node: PMNode, decorations) {
+  deleteNode = () => {
+    super.deleteNode();
+    this.editor.chain().focus().scrollIntoView().run();
+  };
+
+  update(node: PMNode) {
     if (!this.node.eq(node)) {
       this.store.update(store => {
         store.node = node;
@@ -74,16 +77,9 @@ class SvelteNodeView
     });
   }
 
-  deleteNode() {
-    this.editor.commands.deleteRange({
-      from: this.getPos(),
-      to: this.node.nodeSize
-    });
-  }
-
-  destroy = () => {
+  destroy() {
     this.renderer.destroy();
-  };
+  }
 }
 
 export interface NodeViewRendererOptions {

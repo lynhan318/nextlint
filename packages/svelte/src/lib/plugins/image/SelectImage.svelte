@@ -4,26 +4,22 @@
   import {createTabs, melt} from '@melt-ui/svelte';
   import {cubicInOut} from 'svelte/easing';
   import {crossfade} from 'svelte/transition';
-  import {getContext, onDestroy, onMount} from 'svelte';
+  import {onDestroy, onMount} from 'svelte';
   import {X} from 'lucide-svelte';
-
-  import type {Writable} from 'svelte/store';
-  import type {NodeViewRendererProps} from '@tiptap/core';
 
   import UploadTab from './UploadTab.svelte';
   import EmbedTab from './EmbedTab.svelte';
   import UnplashTab from './UnplashTab.svelte';
-  import type {SelectImageOptions} from './image';
+  import {SelectImageExtension} from './image';
 
-  const store = getContext<Writable<NodeViewRendererProps>>('store');
-  const options = getContext<SelectImageOptions>('options');
+  const options = SelectImageExtension.options;
 
   export let onHide = () => {};
 
   const triggers = [
-    options.handleUpload && {id: 'tab-1', title: 'Upload'},
+    options?.handleUpload && {id: 'tab-1', title: 'Upload'},
     {id: 'tab-2', title: 'From URL'},
-    options.unsplash && {id: 'tab-3', title: 'Unsplash'}
+    options?.unsplash && {id: 'tab-3', title: 'Unsplash'}
   ].filter(Boolean) as any;
 
   const {
@@ -35,26 +31,6 @@
     duration: 250,
     easing: cubicInOut
   });
-
-  const onInsert = (src: string, alt: string) => {
-    if (!$store) return;
-    const {editor, getPos} = $store;
-
-    if (typeof getPos === 'function') {
-      editor
-        .chain()
-        .setNodeSelection(getPos()!)
-        .deleteNode('selectImage')
-        .toggleFigure({
-          src,
-          alt
-        })
-        .scrollIntoView()
-        .run();
-
-      onHide();
-    }
-  };
 
   const locked = createLockScrollStore();
 
@@ -72,7 +48,7 @@
   use:melt={$root}
   use:clickoutside
   on:clickoutside={onHide}
-  class="flex w-[460px] h-[400px] flex-col overflow-hidden
+  class="flex w-[460px] max-h-[400px] flex-col overflow-hidden
   shadow-lg data-[orientation=vertical]:flex-row
   border border-border rounded-xl bg-background text-foreground"
 >
@@ -105,7 +81,7 @@
     </div>
   {/if}
   <div use:melt={$content('tab-2')} class="grow p-5">
-    <EmbedTab {onInsert} />
+    <EmbedTab />
   </div>
   {#if options.unsplash}
     <div use:melt={$content('tab-3')} class="grow p-5">
