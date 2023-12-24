@@ -32,19 +32,15 @@
 
 <Popover {open}>
   <div slot="trigger">
-    <slot
-      toggle={() => {
-        setTimeout(() => {
-          input.focus();
-        }, 100);
-      }}
-    />
+    <slot />
   </div>
   <form
     on:submit|preventDefault={onSubmit}
     class="flex items-center bg-background rounded-md px-4 shadow-md relative top-2 border border-border leading-10"
   >
     <input
+      on:click|stopPropagation={() => {}}
+      autofocus
       placeholder="https://..."
       bind:this={input}
       class="outline-none bg-background text-foreground"

@@ -1,12 +1,11 @@
-import {Editor, Mark, mergeAttributes} from '@tiptap/core';
+import {Mark, mergeAttributes} from '@tiptap/core';
 import type {Mark as PMMark, Node} from '@tiptap/pm/model';
-import {Plugin, PluginKey, type PluginView} from '@tiptap/pm/state';
-import {computePosition, flip, shift} from '@floating-ui/dom';
+// eslint-disable-next-line import/named
+import {Plugin, PluginKey} from '@tiptap/pm/state';
 import HighlightPresets from './HighlightPresets.svelte';
 import type {EditorView} from '@tiptap/pm/view';
-import {get} from 'svelte/store';
-
-import {positionStore} from '$lib/components/Positioner';
+// eslint-disable-next-line import/no-unresolved
+import {FloatingRenderer} from '$lib/node-view';
 
 export type HighlightAttrs = {
   preset: Preset;
@@ -103,22 +102,23 @@ export const HighlightExtension = Mark.create<HighlightOptions>({
     };
   },
   addProseMirrorPlugins() {
-    let pluginView: HighlightPluginView;
-    const editor = this.editor;
-    const options = this.options;
+    const floatingRenderer = new FloatingRenderer({
+      component: HighlightPresets,
+      editor: this.editor
+    });
     return [
       new Plugin({
         key: new PluginKey('link-hover'),
-        view(editorView) {
-          pluginView = new HighlightPluginView(editorView, editor, options);
-          return pluginView;
+        view() {
+          return {destroy: floatingRenderer.destroy};
         },
         props: {
           handleDOMEvents: {
-            mouseover: (view: EditorView, event: MouseEvent) => {
+            click: (view: EditorView, event: MouseEvent) => {
               const pos = view.posAtDOM(event.target as Node, 0);
               if (!pos || (event.target as HTMLElement).tagName !== 'MARK') {
-                return pluginView.hide();
+                floatingRenderer.unmount();
+                return;
               }
               const node = view.state.doc.nodeAt(pos);
               if (node && hasHighlight(node.marks || [])) {
@@ -126,14 +126,14 @@ export const HighlightExtension = Mark.create<HighlightOptions>({
                   m => m.type.name === this.name
                 ) as PMMark;
 
-                pluginView.show({
+                floatingRenderer.mount({
                   pos,
                   node,
-                  preset: mark.attrs.preset,
-                  dom: event.target as HTMLElement
+                  mark,
+                  element: event.target as HTMLElement
                 });
               } else {
-                pluginView.hide();
+                floatingRenderer.destroy();
               }
             }
           }
@@ -150,74 +150,3 @@ export type Coordinate = {
   left: number;
   pos: number;
 };
-class HighlightPluginView implements PluginView {
-  private previewComponent: HighlightPresets | null = null;
-  private tippyContent: HTMLDivElement;
-  showing = false;
-
-  constructor(
-    readonly view: EditorView,
-    readonly editor: Editor,
-    readonly options: HighlightOptions
-  ) {
-    editor.on('blur', () => {
-      this.hide();
-    });
-
-    this.tippyContent = document.createElement('div');
-    Object.assign(this.tippyContent.style, {
-      position: 'absolute',
-      opacity: 0,
-      transition: 'opacity 0.2s ease-in-out'
-    });
-    document.body.appendChild(this.tippyContent);
-  }
-
-  show(highlightProps: HighlightProps) {
-    this.previewComponent ||= new HighlightPresets({
-      target: this.tippyContent,
-      props: {
-        editor: this.editor,
-        highlightProps: {}
-      }
-    });
-
-    //do not show when selection range is visible
-    if (get(positionStore).selection) {
-      this.hide();
-      return;
-    }
-
-    this.previewComponent.$set({highlightProps});
-
-    computePosition(highlightProps.dom as Element, this.tippyContent, {
-      placement: 'top',
-      middleware: [flip(), shift()]
-    }).then(({x, y}) => {
-      Object.assign(this.tippyContent.style, {
-        top: `${y}px`,
-        left: `${x}px`
-      });
-      requestAnimationFrame(() => {
-        Object.assign(this.tippyContent.style, {
-          opacity: 1
-        });
-      });
-      this.showing = true;
-    });
-  }
-
-  hide = () => {
-    Object.assign(this.tippyContent.style, {
-      opacity: 0
-    });
-    this.previewComponent?.$destroy();
-    this.previewComponent = null;
-    this.showing = false;
-  };
-
-  destroy() {
-    this.previewComponent?.$destroy();
-    this.tippyContent?.remove();
-  }
-}
