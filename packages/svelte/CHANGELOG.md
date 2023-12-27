@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.1.1
+
+### Patch Changes
+
+- [`55b7e66`](https://github.com/sveltor/nextlint/commit/55b7e66842d150c9877f20cf277c312b04fc5dc9) Thanks [@lynhan318](https://github.com/lynhan318)! - expose context module
+
 ## 2.1.0
 
 ### Minor Changes
