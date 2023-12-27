@@ -1,5 +1,5 @@
 import {getContext, setContext} from 'svelte';
-import {Editor} from '@tiptap/core';
+import type {Editor} from '@tiptap/core';
 import {type Writable, writable} from 'svelte/store';
 import {createEditor, type EditorOptions} from '@nextlint/core';
 
