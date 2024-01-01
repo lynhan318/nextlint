@@ -68,7 +68,6 @@
       node = parent;
       break;
     }
-
     if (IGNORE_BLOCK_MENU.includes(node.type.name)) {
       return;
     }
@@ -132,112 +131,118 @@
 
 <svelte:body use:lockscroll={locked} />
 
-<div
-  use:melt={$root}
-  class={cn(`border border-border
+{#if visibleNode}
+  <div
+    use:melt={$root}
+    class={cn(`border border-border
     flex min-w-max items-center gap-4 rounded-md bg-background text-foreground
     px-2 py-1 shadow-md`)}
->
-  <div class="flex items-center gap-1" use:melt={$fontGroup}>
-    <button
-      class="item"
-      use:melt={$fontItem('Bold')}
-      on:m-click={() => {
-        $editor.commands.toggleBold();
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.toggleBold())}
-    >
-      <Bold class="square-5" />
-    </button>
-    <button
-      class="item"
-      use:melt={$fontItem('Italic')}
-      on:m-click={() => {
-        $editor.commands.toggleItalic();
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.toggleItalic())}
-    >
-      <Italic class="square-5" />
-    </button>
-    <button
-      class="item"
-      use:melt={$fontItem('Underline')}
-      on:m-click={() => {
-        $editor.commands.toggleUnderline();
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.toggleUnderline())}
-    >
-      <Underline class="square-5" />
-    </button>
-    <button
-      class="item"
-      use:melt={$fontItem('Strike')}
-      on:m-click={() => {
-        $editor.commands.toggleStrike();
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.toggleStrike())}
-    >
-      <Strikethrough class="square-5" />
-    </button>
-    <button
-      class="item"
-      use:melt={$fontItem('Code')}
-      on:m-click={() => {
-        $editor.commands.toggleCode();
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.toggleCode())}
-    >
-      <Code class="square-5" />
-    </button>
-    <LinkButton let:toggle>
-      <button class="item" on:click={toggle} use:melt={$fontItem('Link')}>
-        <Link class="square-5" />
+  >
+    <div class="flex items-center gap-1" use:melt={$fontGroup}>
+      <button
+        class="item"
+        use:melt={$fontItem('Bold')}
+        on:m-click={() => {
+          $editor.commands.toggleBold();
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.toggleBold())}
+      >
+        <Bold size={20} />
       </button>
-    </LinkButton>
-    <HighlightButton let:toggle>
-      <button class="item" on:click={toggle} use:melt={$fontItem('Highlight')}>
-        <Pencil class="square-5" />
+      <button
+        class="item"
+        use:melt={$fontItem('Italic')}
+        on:m-click={() => {
+          $editor.commands.toggleItalic();
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.toggleItalic())}
+      >
+        <Italic size={20} />
       </button>
-    </HighlightButton>
+      <button
+        class="item"
+        use:melt={$fontItem('Underline')}
+        on:m-click={() => {
+          $editor.commands.toggleUnderline();
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.toggleUnderline())}
+      >
+        <Underline size={20} />
+      </button>
+      <button
+        class="item"
+        use:melt={$fontItem('Strike')}
+        on:m-click={() => {
+          $editor.commands.toggleStrike();
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.toggleStrike())}
+      >
+        <Strikethrough size={20} />
+      </button>
+      <button
+        class="item"
+        use:melt={$fontItem('Code')}
+        on:m-click={() => {
+          $editor.commands.toggleCode();
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.toggleCode())}
+      >
+        <Code size={20} />
+      </button>
+      <LinkButton let:toggle>
+        <button class="item" on:click={toggle} use:melt={$fontItem('Link')}>
+          <Link size={18} />
+        </button>
+      </LinkButton>
+      <HighlightButton let:toggle>
+        <button
+          class="item"
+          on:click={toggle}
+          use:melt={$fontItem('Highlight')}
+        >
+          <Pencil size={18} />
+        </button>
+      </HighlightButton>
+    </div>
+    <div class="separator" use:melt={$separator} />
+    <div class="flex items-center gap-1" use:melt={$alignGroup}>
+      <button
+        class="item"
+        use:melt={$alignItem('left')}
+        on:m-click={() => {
+          $editor.commands.setTextAlign('left');
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.setTextAlign('left'))}
+      >
+        <AlignLeft size={20} />
+      </button>
+      <button
+        class="item"
+        use:melt={$alignItem('center')}
+        on:m-click={() => {
+          $editor.commands.setTextAlign('center');
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.setTextAlign('center'))}
+      >
+        <AlignCenter size={20} />
+      </button>
+      <button
+        class="item"
+        use:melt={$alignItem('right')}
+        on:m-click={() => {
+          $editor.commands.setTextAlign('right');
+        }}
+        on:m-keydown={keyPress(() => $editor.commands.setTextAlign('right'))}
+      >
+        <AlignRight size={20} />
+      </button>
+    </div>
+    <div class="separator" use:melt={$separator} />
+    {#if visibleNode}
+      <DropdownMenu {visibleNode} {button} />
+    {/if}
   </div>
-  <div class="separator" use:melt={$separator} />
-  <div class="flex items-center gap-1" use:melt={$alignGroup}>
-    <button
-      class="item"
-      use:melt={$alignItem('left')}
-      on:m-click={() => {
-        $editor.commands.setTextAlign('left');
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.setTextAlign('left'))}
-    >
-      <AlignLeft class="square-5" />
-    </button>
-    <button
-      class="item"
-      use:melt={$alignItem('center')}
-      on:m-click={() => {
-        $editor.commands.setTextAlign('center');
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.setTextAlign('center'))}
-    >
-      <AlignCenter class="square-5" />
-    </button>
-    <button
-      class="item"
-      use:melt={$alignItem('right')}
-      on:m-click={() => {
-        $editor.commands.setTextAlign('right');
-      }}
-      on:m-keydown={keyPress(() => $editor.commands.setTextAlign('right'))}
-    >
-      <AlignRight class="square-5" />
-    </button>
-  </div>
-  <div class="separator" use:melt={$separator} />
-  {#if visibleNode}
-    <DropdownMenu {visibleNode} {button} />
-  {/if}
-</div>
+{/if}
 
 <style lang="postcss">
   .item {
