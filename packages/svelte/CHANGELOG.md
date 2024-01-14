@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.2.1
+
+### Patch Changes
+
+- [`167adef`](https://github.com/sveltor/nextlint/commit/167adef54c1088ea947d8dbd99a84a22fccd08aa) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix lazy support languages
+
 ## 2.2.0
 
 ### Minor Changes
