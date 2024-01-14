@@ -1,5 +1,11 @@
 # @nextlint/core
 
+## 1.4.0
+
+### Minor Changes
+
+- [#60](https://github.com/sveltor/nextlint/pull/60) [`a08a99e`](https://github.com/sveltor/nextlint/commit/a08a99ee8acfd39f74a3756b8b33188ccf1217ed) Thanks [@lynhan318](https://github.com/lynhan318)! - Refactor code plugin
+
 ## 1.3.0
 
 ### Minor Changes
