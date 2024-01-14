@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.2.3
+
+### Patch Changes
+
+- [`1914d3e`](https://github.com/sveltor/nextlint/commit/1914d3e006b495a93fc24c41bbfe06f39a12d92d) Thanks [@lynhan318](https://github.com/lynhan318)! - Make shkiji peerDependencies
+
 ## 2.2.2
 
 ### Patch Changes
