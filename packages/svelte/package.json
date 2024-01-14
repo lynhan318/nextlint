@@ -50,7 +50,6 @@
     "clsx": "^2.0.0",
     "hast-util-to-html": "^9.0.0",
     "highlight.js": "^11.9.0",
-    "lowlight": "^3.1.0",
     "lucide-svelte": "^0.292.0",
     "radash": "^11.0.0",
     "radix-icons-svelte": "^1.2.1",

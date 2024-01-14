@@ -162,12 +162,6 @@ importers:
       hast-util-to-html:
         specifier: ^9.0.0
         version: 9.0.0
-      highlight.js:
-        specifier: ^11.9.0
-        version: 11.9.0
-      lowlight:
-        specifier: ^3.1.0
-        version: 3.1.0
       radash:
         specifier: ^11.0.0
         version: 11.0.0
@@ -244,9 +238,6 @@ importers:
       highlight.js:
         specifier: ^11.9.0
         version: 11.9.0
-      lowlight:
-        specifier: ^3.1.0
-        version: 3.1.0
       lucide-svelte:
         specifier: ^0.292.0
         version: 0.292.0(svelte@4.2.3)
@@ -4752,14 +4743,6 @@ packages:
     dependencies:
       tslib: 2.6.2
     dev: true
-
-  /lowlight@3.1.0:
-    resolution: {integrity: sha512-CEbNVoSikAxwDMDPjXlqlFYiZLkDJHwyGu/MfOsJnF3d7f3tds5J3z8s/l9TMXhzfsJCCJEAsD78842mwmg0PQ==}
-    dependencies:
-      '@types/hast': 3.0.3
-      devlop: 1.1.0
-      highlight.js: 11.9.0
-    dev: false
 
   /lru-cache@4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}

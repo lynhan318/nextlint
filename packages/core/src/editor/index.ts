@@ -1,4 +1,3 @@
-import {createLowlight, common} from 'lowlight';
 import {
   Editor,
   type Content,
@@ -7,8 +6,6 @@ import {
 } from '@tiptap/core';
 
 import {StarterKit, type StarterKitOptions} from './starterKit';
-
-const lowlight = createLowlight(common);
 
 export type EditorOptions = {
   content?: Content;
@@ -41,4 +38,3 @@ export const createEditor = (options: EditorOptions) => {
   });
   return editor;
 };
-export {lowlight};
