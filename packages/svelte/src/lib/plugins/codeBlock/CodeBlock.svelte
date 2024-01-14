@@ -1,26 +1,14 @@
 <script lang="ts" context="module">
-  let highlighter: HighlighterGeneric<string, string>;
-
-  export async function getHighlighter() {
-    highlighter ||= await shikijiHighlighter({
-      langs: NextlintCodeBlock.options.langs,
-      themes: NextlintCodeBlock.options.themes
-    });
-    return highlighter;
-  }
 </script>
 
 <script lang="ts">
-  import {
-    getHighlighter as shikijiHighlighter,
-    type HighlighterGeneric
-  } from 'shikiji';
   import {useContentRef, useNodeViewProps} from '$lib/node-view';
   import {onDestroy} from 'svelte';
 
   import Languages from './Languages.svelte';
 
-  import {type NextlintCodeBlockAttrs, NextlintCodeBlock} from './codeBlock';
+  import {type NextlintCodeBlockAttrs} from './codeBlock';
+  import {getHighlighter} from '.';
 
   const contentRef = useContentRef();
   const props = useNodeViewProps();

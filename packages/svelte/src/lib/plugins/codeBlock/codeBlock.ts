@@ -5,7 +5,6 @@ import {SvelteNodeViewRenderer} from '$lib/node-view';
 
 import SvelteCodeBlock from './CodeBlock.svelte';
 import {PluginKey, Plugin} from '@tiptap/pm/state';
-import type {Content} from '@tiptap/core';
 
 export type NextlintCodeBlockAttrs = {
   lang: BundledLanguage;
@@ -54,14 +53,10 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
         'javascript',
         'rust',
         'typescript',
-        'java',
         'go',
         'html',
         'css',
-        'scss',
         'bash',
-        'lua',
-        'python',
         'tsx',
         'svelte'
       ]

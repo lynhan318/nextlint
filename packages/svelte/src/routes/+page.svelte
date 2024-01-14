@@ -7,7 +7,7 @@
   import {getContext} from 'svelte';
   import type {Writable} from 'svelte/store';
   import {renderHTML} from '@nextlint/core';
-  import {getHighlighter} from '$lib/plugins/codeBlock/CodeBlock.svelte';
+  import {getHighlighter} from '$lib/plugins/codeBlock';
 
   const editor: Writable<Editor> = getContext('editor');
 
@@ -36,7 +36,7 @@
         const code = highlighter.codeToHtml(
           element.querySelector('code')?.textContent || '',
           {
-            lang: 'js',
+            lang: 'javascript',
             theme: 'github-light'
           }
         );
@@ -57,19 +57,7 @@
 
 <div>
   <SvelteEditor
-    content={`
-  <p>Hello</p>
-  <pre><code>let a= 123;</code></pre>
-  <p>vis du doan code duoi day:</p>
-  <pre code-block-lang='css' code-block-theme='github-light'>
-<code>.text {
-    font-size: 12px;
-    font-bold: weight;
-}
-</code>
-</pre>
-  <p></p>
-`}
+    content={showcaseContent}
     placeholder="Press 'space' GPT support, type '/' for help"
     onCreated={editor.set}
     onChange={editor.set}
