@@ -13,4 +13,5 @@ export async function getHighlighter() {
   });
   return highlighter;
 }
-export {highlighter};
+
+export * from './codeBlock';
