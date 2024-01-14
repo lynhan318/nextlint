@@ -18,7 +18,7 @@
   } = createDropdownMenu();
 </script>
 
-<div class="absolute right-1 top-1 z-10">
+<div class="absolute right-1 top-1 z-10" contenteditable="false">
   <button
     class="px-4 py-1 border rounded-md flex flex-row items-center capitalize"
     use:melt={$trigger}

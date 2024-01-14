@@ -33,9 +33,7 @@ export const transformHTML = async (
     }
     return child.render();
   });
-  console.log('blocks', blocks);
   const results = await Promise.all(blocks);
-  console.log('results', results);
   return results.join('');
 };
 

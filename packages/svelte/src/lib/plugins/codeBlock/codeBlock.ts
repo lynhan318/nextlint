@@ -4,6 +4,8 @@ import type {BundledLanguage, BundledTheme} from 'shikiji';
 import {SvelteNodeViewRenderer} from '$lib/node-view';
 
 import SvelteCodeBlock from './CodeBlock.svelte';
+import {PluginKey, Plugin} from '@tiptap/pm/state';
+import type {Content} from '@tiptap/core';
 
 export type NextlintCodeBlockAttrs = {
   lang: BundledLanguage;
@@ -72,5 +74,29 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
       domAs: 'code-block',
       contentAs: 'code'
     });
+  },
+
+  addProseMirrorPlugins() {
+    const codeBlockPlugin = new Plugin({
+      key: new PluginKey('codeBlock'),
+      props: {
+        handleKeyDown: (view, event) => {
+          if (event.key === 'Tab') {
+            const resolver = view.state.selection.$from;
+            const pNode = resolver.node(1);
+            if (pNode.type.name === this.name) {
+              event.preventDefault();
+              event.stopPropagation();
+              this.editor
+                .chain()
+                .insertContentAt(resolver.pos, '\t')
+                .setTextSelection(resolver.pos + 1)
+                .run();
+            }
+          }
+        }
+      }
+    });
+    return [codeBlockPlugin];
   }
 });
