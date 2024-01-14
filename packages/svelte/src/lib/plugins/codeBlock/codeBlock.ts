@@ -49,17 +49,7 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
   addOptions() {
     return {
       themes: ['github-light', 'github-dark'],
-      langs: [
-        'javascript',
-        'rust',
-        'typescript',
-        'go',
-        'html',
-        'css',
-        'bash',
-        'tsx',
-        'svelte'
-      ]
+      langs: ['javascript', 'rust', 'typescript']
     };
   },
 
