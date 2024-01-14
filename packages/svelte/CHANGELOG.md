@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.2.2
+
+### Patch Changes
+
+- [`a8f856a`](https://github.com/sveltor/nextlint/commit/a8f856af988eafd5c456a0bd17ceb0a8db96e9de) Thanks [@lynhan318](https://github.com/lynhan318)! - fix missing export
+
 ## 2.2.1
 
 ### Patch Changes
