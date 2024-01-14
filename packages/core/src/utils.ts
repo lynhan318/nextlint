@@ -4,7 +4,7 @@ import {
   type Schema,
   Node
 } from '@tiptap/pm/model';
-import {toHtml} from 'hast-util-to-html';
+
 import {
   type Node as TiptapNode,
   type Editor,
@@ -12,39 +12,39 @@ import {
 } from '@tiptap/core';
 import {createHTMLDocument, VHTMLDocument} from 'zeed-dom';
 
-import {lowlight} from './editor';
-
 export function createUUID(): string {
   return crypto.randomUUID();
 }
 
-export const transformHTML = (fragment: Fragment, schema: Schema) => {
+export type Transformer = (virtualeElement: VHTMLDocument) => Promise<string>;
+export const transformHTML = async (
+  fragment: Fragment,
+  schema: Schema,
+  transformer?: Transformer
+) => {
   const domSerializer = DOMSerializer.fromSchema(schema);
   const dom = domSerializer.serializeFragment(fragment, {
     document: createHTMLDocument() as unknown as Document
   }) as unknown as VHTMLDocument;
-  return dom.children
-    .map((child: VHTMLDocument) => {
-      if (child.nodeName === 'PRE') {
-        const codeElement = child.querySelector('code');
-        if (codeElement) {
-          const code = child.textContent || '';
-          const htmlContent = toHtml(lowlight.highlightAuto(code));
-          codeElement.innerHTML = htmlContent;
-          return child.render();
-        }
-      }
-      return child.render();
-    })
-    .join('');
+
+  const blocks = dom.children.map(async child => {
+    if (transformer) {
+      return transformer(child);
+    }
+    return child.render();
+  });
+  console.log('blocks', blocks);
+  const results = await Promise.all(blocks);
+  console.log('results', results);
+  return results.join('');
 };
 
-export const renderHTML = (editor: Editor) => {
+export const renderHTML = async (editor: Editor, transformer?: Transformer) => {
   const doc = editor.getJSON();
   try {
     const schema = editor.schema;
     const contentNode = Node.fromJSON(schema, doc);
-    return transformHTML(contentNode.content, schema);
+    return transformHTML(contentNode.content, schema, transformer);
   } catch (error) {
     console.error(error);
     return ``;

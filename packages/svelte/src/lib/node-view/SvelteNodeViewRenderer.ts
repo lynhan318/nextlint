@@ -54,12 +54,10 @@ class SvelteNodeView
   };
 
   update(node: PMNode) {
-    if (!this.node.eq(node)) {
-      this.store.update(store => {
-        store.node = node;
-        return store;
-      });
-    }
+    this.store.update(store => {
+      store.node = node;
+      return store;
+    });
     return true;
   }
 
@@ -78,6 +76,7 @@ class SvelteNodeView
   }
 
   destroy() {
+    console.log('destroy');
     this.renderer.destroy();
   }
 }

@@ -4,8 +4,10 @@
   import SvelteEditor from '$lib/Editor.svelte';
 
   import showcaseContent from './sveltor.json';
-  import {getContext, setContext} from 'svelte';
+  import {getContext} from 'svelte';
   import type {Writable} from 'svelte/store';
+  import {renderHTML} from '@nextlint/core';
+  import {getHighlighter} from '$lib/plugins/codeBlock/CodeBlock.svelte';
 
   const editor: Writable<Editor> = getContext('editor');
 
@@ -26,6 +28,24 @@
     return '';
   };
 
+  let html;
+  const toHtml = async () => {
+    html = await renderHTML($editor, async element => {
+      if (element._nodeName === 'PRE') {
+        const highlighter = await getHighlighter();
+        const code = highlighter.codeToHtml(
+          element.querySelector('code')?.textContent || '',
+          {
+            lang: 'js',
+            theme: 'github-light'
+          }
+        );
+        return code;
+      }
+      return element.render();
+    });
+  };
+
   const handleUpload = async (file: File) => {
     const blob = new Blob([file]);
     const previewUrl = URL.createObjectURL(blob);
@@ -33,18 +53,22 @@
   };
 </script>
 
-<SvelteEditor
-  content={showcaseContent}
-  placeholder="Press 'space' GPT support, type '/' for help"
-  onCreated={editor.set}
-  onChange={editor.set}
-  plugins={{
-    selectImage: {
-      handleUpload,
-      unsplash: {
-        accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
-      }
-    },
-    gpt: {query: submitPromt}
-  }}
-/>
+<button on:click={() => toHtml()}>To HTML</button>
+
+<div>
+  <SvelteEditor
+    content={showcaseContent}
+    placeholder="Press 'space' GPT support, type '/' for help"
+    onCreated={editor.set}
+    onChange={editor.set}
+    plugins={{
+      selectImage: {
+        handleUpload,
+        unsplash: {
+          accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
+        }
+      },
+      gpt: {query: submitPromt}
+    }}
+  />
+</div>

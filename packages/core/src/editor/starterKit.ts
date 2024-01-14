@@ -6,10 +6,6 @@ import {
   type BulletListOptions
 } from '@tiptap/extension-bullet-list';
 import {Code, type CodeOptions} from '@tiptap/extension-code';
-import {
-  CodeBlockLowlight,
-  type CodeBlockLowlightOptions
-} from '@tiptap/extension-code-block-lowlight';
 import {Document} from '@tiptap/extension-document';
 import {HardBreak, type HardBreakOptions} from '@tiptap/extension-hard-break';
 import {Heading, type HeadingOptions} from '@tiptap/extension-heading';
@@ -42,7 +38,6 @@ export interface StarterKitOptions {
   bold: Partial<BoldOptions> | false;
   bulletList: Partial<BulletListOptions> | false;
   code: Partial<CodeOptions> | false;
-  codeBlock: Partial<CodeBlockLowlightOptions> | false;
   document: false;
   gapcursor: false;
   text: false;
@@ -81,10 +76,6 @@ export const StarterKit = Extension.create<StarterKitOptions>({
 
     if (this.options.code !== false) {
       extensions.push(Code.configure(this.options?.code));
-    }
-
-    if (this.options.codeBlock !== false) {
-      extensions.push(CodeBlockLowlight.configure(this.options?.codeBlock));
     }
 
     if (this.options.document !== false) {

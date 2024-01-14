@@ -30,10 +30,8 @@ export const createEditor = (options: EditorOptions) => {
     extensions: [
       StarterKit.configure({
         placeholder: {
-          placeholder: options.placeholder
-        },
-        codeBlock: {
-          lowlight
+          placeholder: options.placeholder,
+          showOnlyWhenEditable: true
         },
         ...options.starterKit
       })
