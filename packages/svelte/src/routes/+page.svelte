@@ -57,7 +57,19 @@
 
 <div>
   <SvelteEditor
-    content={showcaseContent}
+    content={`
+  <p>Hello</p>
+  <pre><code>let a= 123;</code></pre>
+  <p>vis du doan code duoi day:</p>
+  <pre code-block-lang='css' code-block-theme='github-light'>
+<code>.text {
+    font-size: 12px;
+    font-bold: weight;
+}
+</code>
+</pre>
+  <p></p>
+`}
     placeholder="Press 'space' GPT support, type '/' for help"
     onCreated={editor.set}
     onChange={editor.set}

@@ -4,7 +4,12 @@
   const editor = (element: HTMLDivElement) => {
     const editor = createEditor({
       element,
-      content: [],
+      content: `
+<p>Hello</p>
+<pre><code>
+let a= 123;
+</code></pre>
+`,
       placeholder: 'Start typing...'
     });
   };

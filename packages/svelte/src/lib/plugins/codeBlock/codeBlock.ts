@@ -17,10 +17,37 @@ export type NextlintCodeBlockOptions = {
 
 export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
   name: 'NextlintCodeBock',
-  // group: 'block',
-  // content: 'inline*',
+
+  addAttributes() {
+    return {
+      lang: {
+        default: this.options.langs[0],
+        parseHTML: html => {
+          return html.getAttribute('code-block-lang');
+        },
+        renderHTML: attrs => {
+          return {
+            'code-block-lang': attrs.lang
+          };
+        }
+      },
+      theme: {
+        default: this.options.themes[0],
+        parseHTML: html => {
+          return html.getAttribute('code-block-theme');
+        },
+        renderHTML: attrs => {
+          return {
+            'code-block-theme': attrs.theme
+          };
+        }
+      }
+    };
+  },
+
   addOptions() {
     return {
+      themes: ['github-light', 'github-dark'],
       langs: [
         'javascript',
         'rust',
@@ -29,9 +56,13 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
         'go',
         'html',
         'css',
-        'scss'
-      ],
-      themes: ['github-dark', 'github-light']
+        'scss',
+        'bash',
+        'lua',
+        'python',
+        'tsx',
+        'svelte'
+      ]
     };
   },
 
