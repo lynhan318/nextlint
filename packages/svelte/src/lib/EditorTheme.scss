@@ -109,18 +109,35 @@
     @apply list-decimal;
   }
 
-  code {
-    @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
+  code-block {
+    width: 100%;
+    min-height: 52px;
+    height: 100%;
+    display: inline-flex;
+    position: relative;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid theme('colors.border');
+    box-sizing: border-box;
   }
-  pre {
-    @apply relative rounded bg-secondary px-4 py-3 font-mono text-sm font-semibold text-secondary-foreground;
-    font-family:
-      Fira Code,
-      monospace;
-    code {
-      @apply p-0 text-secondary-foreground;
-      color: theme('colors.secondary.foreground') !important;
-    }
+  .shiki {
+    position: relative;
+    z-index: 1;
+    overflow-x: auto;
+    background: transparent;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    cursor: text;
+    border-radius: 4px;
+    outline: none;
+    padding: 16px;
+    min-height: 52px;
+    height: 100%;
+  }
+
+  p > code {
+    @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
   }
 
   hr {
@@ -156,5 +173,17 @@
     &[data-align='right']:before {
       float: right;
     }
+  }
+}
+
+.dark {
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    /* Optional, if you also want font styles */
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 }

@@ -11,6 +11,7 @@
   import type {Content, Editor, Extensions} from '@tiptap/core';
 
   import {LinkExtension} from '$lib/plugins/link';
+  import {NextlintCodeBlock} from '$lib/plugins/codeBlock';
   import {PluginGPT, type GPTOptions} from '$lib/plugins/gpt';
   import {FigureExtension} from '$lib/plugins/figure';
   import {
@@ -53,6 +54,7 @@
       FigureExtension,
       SelectImageExtension.configure(plugins.selectImage),
       Dropcursor.configure(plugins.dropCursor),
+      NextlintCodeBlock.configure(),
       plugins.gpt && PluginGPT.configure(plugins.gpt)
     ]
       .concat(extensions)

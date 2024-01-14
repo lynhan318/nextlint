@@ -1,0 +1,58 @@
+<script lang="ts" context="module">
+  let highlighter: HighlighterGeneric<string, string>;
+
+  export async function getHighlighter() {
+    highlighter ||= await shikijiHighlighter({
+      langs: NextlintCodeBlock.options.langs,
+      themes: NextlintCodeBlock.options.themes
+    });
+    return highlighter;
+  }
+</script>
+
+<script lang="ts">
+  import {
+    getHighlighter as shikijiHighlighter,
+    type HighlighterGeneric
+  } from 'shikiji';
+  import {useContentRef, useNodeViewProps} from '$lib/node-view';
+  import {onDestroy} from 'svelte';
+
+  import Languages from './Languages.svelte';
+
+  import {type NextlintCodeBlockAttrs, NextlintCodeBlock} from './codeBlock';
+
+  const contentRef = useContentRef();
+  const props = useNodeViewProps();
+
+  let highlightCode = '';
+  let attrs: NextlintCodeBlockAttrs;
+
+  const dispose = props.subscribe(async ({node}) => {
+    const highlighter = await getHighlighter();
+    attrs = node.attrs as NextlintCodeBlockAttrs;
+    highlightCode = highlighter.codeToHtml(node.textContent, {
+      lang: attrs.lang,
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark'
+      }
+    });
+  });
+
+  onDestroy(() => {
+    dispose();
+  });
+</script>
+
+<div contenteditable="false" class="w-full h-full">
+  {@html highlightCode}
+</div>
+<Languages />
+<pre
+  class="absolute top-0 left-0 block inset-0 outline-none border rounded-md overflow-y-hidden">
+  <code
+    class="absolute top-0 left-0 block inset-0 caret-primary text-transparent bg-transparent z-[2] p-4"
+    use:contentRef
+  />
+</pre>

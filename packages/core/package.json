@@ -31,8 +31,6 @@
     "@tiptap/extension-bubble-menu": "2.1.13",
     "@tiptap/extension-bullet-list": "^2.1.13",
     "@tiptap/extension-code": "^2.1.13",
-    "@tiptap/extension-code-block": "2.1.13",
-    "@tiptap/extension-code-block-lowlight": "^2.1.13",
     "@tiptap/extension-document": "^2.1.13",
     "@tiptap/extension-floating-menu": "^2.1.13",
     "@tiptap/extension-focus": "^2.1.13",
@@ -52,13 +50,10 @@
     "@tiptap/html": "2.1.13",
     "@tiptap/pm": "^2.1.13",
     "hast-util-to-html": "^9.0.0",
-    "highlight.js": "^11.9.0",
-    "lowlight": "^3.1.0",
     "radash": "^11.0.0",
     "radix-icons-svelte": "^1.2.1",
     "svelte": "^5.0.0-next.2",
     "tippy.js": "^6.3.7",
-    "vite-plugin-lightningcss": "^0.0.5",
     "zeed-dom": "^0.10.9"
   },
   "keywords": [
