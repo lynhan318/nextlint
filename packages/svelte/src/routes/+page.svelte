@@ -8,6 +8,7 @@
   import type {Writable} from 'svelte/store';
   import {renderHTML} from '@nextlint/core';
   import {getHighlighter} from '$lib/plugins/codeBlock';
+  import {svelteEditorToHtml} from '$lib/helpers';
 
   const editor: Writable<Editor> = getContext('editor');
 
@@ -30,20 +31,7 @@
 
   let html;
   const toHtml = async () => {
-    html = await renderHTML($editor, async element => {
-      if (element._nodeName === 'PRE') {
-        const highlighter = await getHighlighter();
-        const code = highlighter.codeToHtml(
-          element.querySelector('code')?.textContent || '',
-          {
-            lang: 'javascript',
-            theme: 'github-light'
-          }
-        );
-        return code;
-      }
-      return element.render();
-    });
+    html = await svelteEditorToHtml($editor);
   };
 
   const handleUpload = async (file: File) => {
