@@ -15,11 +15,15 @@ export const svelteEditorToHtml = async (editor: Editor) => {
     const html = await renderHTML(editor, async element => {
       if (element.nodeName === 'PRE') {
         const highlighter = await getHighlighter();
+        const lang = element._attributes['code-block-lang'] || 'javascript';
         const code = highlighter.codeToHtml(
           element.querySelector('code')?.textContent || '',
           {
-            lang: 'javascript',
-            theme: 'github-light'
+            lang,
+            themes: {
+              dark: 'github-dark',
+              light: 'github-light'
+            }
           }
         );
         return code;
