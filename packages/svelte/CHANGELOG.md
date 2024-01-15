@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.2.4
+
+### Patch Changes
+
+- [`1989589`](https://github.com/sveltor/nextlint/commit/19895891832d15045772b73c9d50ff6e61e4d6d4) Thanks [@lynhan318](https://github.com/lynhan318)! - add sevelteEditorToHtml
+
 ## 2.2.3
 
 ### Patch Changes
