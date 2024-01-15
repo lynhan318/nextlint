@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.2.5
+
+### Patch Changes
+
+- [`f7f7e8a`](https://github.com/sveltor/nextlint/commit/f7f7e8a164a244f97db4cf659088484f6aa845c5) Thanks [@lynhan318](https://github.com/lynhan318)! - export svelteEditorToHtml
+
 ## 2.2.4
 
 ### Patch Changes
