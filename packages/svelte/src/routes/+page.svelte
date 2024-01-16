@@ -9,6 +9,7 @@
   import {renderHTML} from '@nextlint/core';
   import {getHighlighter} from '$lib/plugins/codeBlock';
   import {svelteEditorToHtml} from '$lib/helpers';
+  import test from './test.json';
 
   const editor: Writable<Editor> = getContext('editor');
 
@@ -32,6 +33,7 @@
   let html;
   const toHtml = async () => {
     html = await svelteEditorToHtml($editor);
+    console.log('html', html);
   };
 
   const handleUpload = async (file: File) => {
@@ -45,7 +47,7 @@
 
 <div>
   <SvelteEditor
-    content={showcaseContent}
+    content={test}
     placeholder="Press 'space' GPT support, type '/' for help"
     onCreated={editor.set}
     onChange={editor.set}

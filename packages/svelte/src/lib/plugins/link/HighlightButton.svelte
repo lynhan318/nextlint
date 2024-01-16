@@ -21,9 +21,6 @@
   });
 
   let open = writable(false);
-  const toggle = () => {
-    element?.focus();
-  };
 
   setContext(FLOATING_CONTEXT_KEY, {
     element: '',
@@ -41,7 +38,7 @@
 
 <Popover {open}>
   <div slot="trigger">
-    <slot {toggle} />
+    <slot />
   </div>
   <HighlightPresets />
 </Popover>

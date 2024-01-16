@@ -28,6 +28,7 @@
 
   import Positioner from './components/Positioner/Positioner.svelte';
   import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
+  import {BubbleMenuExtension} from './plugins/bubbleMenu/bubbleMenu';
 
   export let content: Content;
   export let placeholder = "Press 'space' GPT support, type '/' for help";
@@ -55,6 +56,9 @@
       SelectImageExtension.configure(plugins.selectImage),
       Dropcursor.configure(plugins.dropCursor),
       NextlintCodeBlock.configure(),
+      BubbleMenuExtension.configure({
+        component: BubbleMenu
+      }),
       plugins.gpt && PluginGPT.configure(plugins.gpt)
     ]
       .concat(extensions)
@@ -64,8 +68,8 @@
 
 <div use:render />
 
-{#await ready then _}
-  <Positioner position="selection">
-    <BubbleMenu />
-  </Positioner>
-{/await}
+<!-- {#await ready then _} -->
+<!--   <Positioner position="selection"> -->
+<!--     <BubbleMenu /> -->
+<!--   </Positioner> -->
+<!-- {/await} -->

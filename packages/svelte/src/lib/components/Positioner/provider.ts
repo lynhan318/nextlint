@@ -85,15 +85,16 @@ export class PositionProvider {
     );
     this.disposable = ['mouseup'].map(eventName => {
       const handler = (event: any) => this[eventName](event);
-      document.addEventListener(eventName, handler, true);
-      return () => document.removeEventListener(eventName, handler, true);
+      editor.view.dom.addEventListener(eventName, handler, false);
+      return () =>
+        editor.view.dom.removeEventListener(eventName, handler, false);
     });
     this.disposable.push(
       ...['click', 'mousemove'].map(eventName => {
         const handler = (event: any) => this[eventName](event);
-        editor.view.dom.addEventListener(eventName, handler, true);
+        editor.view.dom.addEventListener(eventName, handler, false);
         return () =>
-          editor.view.dom.removeEventListener(eventName, handler, true);
+          editor.view.dom.removeEventListener(eventName, handler, false);
       })
     );
   }
@@ -166,11 +167,6 @@ export class PositionProvider {
     if (this.isLock('blockHover')) return;
 
     const data = blockHoverCoordinate(this.editor.view, event);
-    if (
-      sameCoord(data?.clientRects, this.visibleState.blockHover?.clientRects)
-    ) {
-      return;
-    }
 
     if (!data) {
       this.setPositionCoord('blockHover', null);
@@ -189,6 +185,11 @@ export class PositionProvider {
   mouseup = async () => {
     // ignore if event queue is empty
     if (this.positioners.selection.length === 0) return;
+    // if (!this.isSelection) {
+    //   this.setPositionCoord('selection', null);
+    //   console.log('selection is null');
+    //   return;
+    // }
     setTimeout(() => {
       const coords = selectionCoords(this.editor.view);
       if (!coords) {
