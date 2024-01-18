@@ -56,20 +56,25 @@ class FloatingRenderer {
     return this.wrapper.getAttribute('id');
   }
 
+  get mounted() {
+    return Boolean(this.svelteRenderer);
+  }
   get element(): HTMLElement {
     return this.wrapper;
   }
 
   async mount(props: FloatingMountProps) {
     const {element} = props;
+    const Component = this.opts.component;
     this.svelteRenderer?.$destroy();
-    this.svelteRenderer = new BubbleMenu({
+    this.svelteRenderer = new Component({
       target: this.wrapper,
       context: new Map([
         [
           FLOATING_CONTEXT_KEY,
           {
             ...props,
+            //@ts-expect-error pass onHide to child omponent
             onHide: () => this.unmount(),
             editor: this.opts.editor
           }
@@ -92,6 +97,12 @@ class FloatingRenderer {
   unmount() {
     this.svelteRenderer?.$destroy();
     this.svelteRenderer = null;
+    requestAnimationFrame(() => {
+      Object.assign(this.wrapper.style, {
+        top: '-9999px',
+        left: '-9999px'
+      });
+    });
   }
 
   //update floating component position, create if component is not created

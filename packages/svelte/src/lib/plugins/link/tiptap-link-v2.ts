@@ -6,6 +6,7 @@ import type {Mark, Node} from '@tiptap/pm/model';
 // eslint-disable-next-line import/no-unresolved
 import {FloatingRenderer} from '$lib/node-view';
 import type {EditorView} from '@tiptap/pm/view';
+import LinkPreview from './LinkPreview.svelte';
 
 import type {ComponentType} from 'svelte';
 
@@ -37,47 +38,54 @@ export const LinkExtension = TiptapLinkExtension.extend<NextLinkOptions>({
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       0
     ];
-  }
+  },
 
-  // addProseMirrorPlugins() {
-  //   const floatingRenderer = new FloatingRenderer({
-  //     component: this.options.component,
-  //     editor: this.editor
-  //   });
-  //   return [
-  //     new Plugin({
-  //       key: new PluginKey('link-hover'),
-  //       view: () => {
-  //         return {destroy: floatingRenderer.destroy};
-  //       },
-  //       props: {
-  //         handleDOMEvents: {
-  //           click: (view: EditorView, event: MouseEvent) => {
-  //             const pos = view.posAtDOM(event.target as unknown as Node, 0);
-  //             if (!pos || (event.target as HTMLElement).tagName !== 'A') {
-  //               floatingRenderer.unmount();
-  //               return;
-  //             }
-  //             const node = view.state.doc.nodeAt(pos);
-  //
-  //             if (node && hasLinkMark(node.marks || [])) {
-  //               const mark = node.marks.find(
-  //                 m => m.type.name === 'link'
-  //               ) as Mark;
-  //
-  //               floatingRenderer.mount({
-  //                 element: event.target as HTMLLinkElement,
-  //                 pos,
-  //                 node,
-  //                 mark
-  //               });
-  //             } else {
-  //               floatingRenderer.unmount();
-  //             }
-  //           }
-  //         }
-  //       }
-  //     })
-  //   ];
-  // }
+  addProseMirrorPlugins() {
+    const floatingRenderer = new FloatingRenderer({
+      component: LinkPreview,
+      editor: this.editor
+    });
+    return [
+      new Plugin({
+        key: new PluginKey('LinkPreview'),
+        view: () => {
+          return {destroy: floatingRenderer.destroy};
+        },
+        props: {
+          handleDOMEvents: {
+            mouseup: (view: EditorView, event: MouseEvent) => {
+              if (!view.state.selection.empty) {
+                floatingRenderer.unmount();
+                if (floatingRenderer.mounted) {
+                  floatingRenderer.unmount();
+                }
+                return;
+              }
+              const pos = view.posAtDOM(event.target as unknown as Node, 0);
+              if (!pos) {
+                floatingRenderer.unmount();
+                return;
+              }
+
+              const node = view.state.doc.nodeAt(pos);
+              if (node && hasLinkMark(node.marks || [])) {
+                const mark = node.marks.find(
+                  m => m.type.name === 'link'
+                ) as Mark;
+
+                floatingRenderer.mount({
+                  element: event.target as HTMLLinkElement,
+                  pos,
+                  node,
+                  mark
+                });
+              } else {
+                floatingRenderer.unmount();
+              }
+            }
+          }
+        }
+      })
+    ];
+  }
 });

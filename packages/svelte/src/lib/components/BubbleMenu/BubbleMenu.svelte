@@ -10,7 +10,8 @@
     AlignCenter,
     AlignRight,
     Underline,
-    Code
+    Code,
+    Link
   } from 'lucide-svelte';
   import {onDestroy, onMount} from 'svelte';
   import {writable} from 'svelte/store';
@@ -20,6 +21,9 @@
 
   import DropdownMenu from './DropdownMenu.svelte';
   import {useEditor} from '$lib/context';
+  import LinkButton from './LinkButton.svelte';
+  import LinkButtonProps from '$lib/plugins/link/LinkButtonProps.svelte';
+  import {melt} from '@melt-ui/svelte';
 
   const editor = useEditor();
 
@@ -91,6 +95,7 @@
   onDestroy(() => {
     $editor!.off('update', updateBubbleState);
     $editor!.off('selectionUpdate', updateBubbleState);
+    locked.set(false);
   });
 </script>
 
@@ -148,6 +153,15 @@
       >
         <Code size={20} />
       </button>
+      <LinkButtonProps let:trigger let:link>
+        <button
+          use:melt={trigger}
+          class={cn('item')}
+          data-state={link ? 'on' : 'off'}
+        >
+          <Link size={20} />
+        </button>
+      </LinkButtonProps>
     </div>
     <div class="separator" />
     <div class="flex items-center gap-1">
