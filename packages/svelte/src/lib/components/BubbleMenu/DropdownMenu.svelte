@@ -3,12 +3,10 @@
   import type {Node as PMNode} from '@tiptap/pm/model';
   import {ChevronDown, Check} from 'lucide-svelte';
 
+  import {BubbleMenuDropdownList} from './constants';
   import {useEditor} from '$lib/context';
 
-  import {BubbleMenuDropdownList} from './constants';
-
   const editor = useEditor();
-  export let button: any;
 
   const {
     elements: {menu, item, trigger}
@@ -36,7 +34,6 @@
 
 <button
   use:melt={$trigger}
-  use:melt={$button}
   class="flex flex-row items-center text-popover-foreground px-4"
 >
   <span class="">

@@ -1,0 +1,194 @@
+{
+  "type": "doc",
+  "attrs": {"align": "left"},
+  "content": [
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {
+          "type": "text",
+          "text": "Beacon API được sử dụng để gửi một async, non-blocking request đến web server và request này sẽ không có response, có nghĩa là một đi không trở lại đó."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {"type": "text", "text": "Nghe qua thì có vẻ như là giống với với "},
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "link",
+              "attrs": {
+                "href": "https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest",
+                "target": "_blank",
+                "rel": "noopener noreferrer nofollow",
+                "class": null
+              }
+            }
+          ],
+          "text": "XMLHttpRequest"
+        },
+        {"type": "text", "text": " hay "},
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "link",
+              "attrs": {
+                "href": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch",
+                "target": "_blank",
+                "rel": "noopener noreferrer nofollow",
+                "class": null
+              }
+            }
+          ],
+          "text": "Fetch API"
+        },
+        {
+          "type": "text",
+          "text": " nhưng chỉ khác là không có response, ngoài ra browser sẽ luôn đảm bảo request từ Beacon API luôn được gửi đi trong một số trường hợp ví dụ như khi page unload."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {
+          "type": "text",
+          "text": "Với những đặc điểm trên thì Beacon API được sẽ dụng để gửi analytics data, monitor, diagnostics client app mà không làm ảnh hưởng đến app performance."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {"level": 3, "align": "left"},
+      "content": [{"type": "text", "text": "Navigator: sendBeacon method"}]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {"type": "text", "text": "Sử dụng "},
+        {
+          "type": "text",
+          "marks": [{"type": "code"}],
+          "text": "navigate.sendBeacon()"
+        },
+        {"type": "text", "text": " để gửi một request đến web server, "},
+        {"type": "text", "marks": [{"type": "code"}], "text": "sendBeacon"},
+        {
+          "type": "text",
+          "text": " sẽ được queue và thực sự gửi đi khi browser xong những request quan trọng khác và browser sẽ đảm bảo răng request này luôn được gửi đi. "
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {"level": 4, "align": "left"},
+      "content": [
+        {"type": "text", "marks": [{"type": "bold"}], "text": "Ví dụ:  "}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {
+          "type": "text",
+          "marks": [{"type": "italic"}],
+          "text": "Gửi tracking event khi page unload "
+        }
+      ]
+    },
+    {
+      "type": "NextlintCodeBock",
+      "attrs": {"lang": "javascript", "theme": "github-light"},
+      "content": [
+        {
+          "type": "text",
+          "text": "document.addEventListener(\"unload\", function logData() {\n    navigator.sendBeacon(\"/log\", analyticsData);\n});"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {"type": "text", "text": "Track tất cả các thẻ có tag data-tracking "}
+      ]
+    },
+    {
+      "type": "NextlintCodeBock",
+      "attrs": {"lang": "javascript", "theme": "github-light"},
+      "content": [
+        {
+          "type": "text",
+          "text": "function callback(e) {\n   if(e.getAttribute('data-tracking')){\n      sendBeacon('/clicks',e.getAttribute('data-tracking')\n   }\n}\ndocument.addEventListener('click', callback, false);\n"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {
+          "type": "text",
+          "text": "That's it, từ nay khi tracking event hay monitor, diagnostics client app đừng sử dụng Fetch API hay XMLHttp request nữa nhé."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {"level": 2, "align": "left"},
+      "content": [{"type": "text", "text": "Tham khảo"}]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "link",
+              "attrs": {
+                "href": "https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon",
+                "target": "_blank",
+                "rel": "noopener noreferrer nofollow",
+                "class": null
+              }
+            }
+          ],
+          "text": "https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {"align": "left"},
+      "content": [
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "link",
+              "attrs": {
+                "href": "https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API",
+                "target": "_blank",
+                "rel": "noopener noreferrer nofollow",
+                "class": null
+              }
+            }
+          ],
+          "text": "https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API"
+        }
+      ]
+    },
+    {"type": "paragraph", "attrs": {"align": "left"}}
+  ]
+}

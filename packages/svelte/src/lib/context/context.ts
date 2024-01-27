@@ -3,7 +3,7 @@ import type {Editor} from '@tiptap/core';
 import {type Writable, writable} from 'svelte/store';
 import {createEditor, type EditorOptions} from '@nextlint/core';
 
-const EditorContextKey = Symbol.for('EditorContext');
+export const EditorContextKey = Symbol.for('EditorContext');
 
 type MaybeEditor = Editor | null;
 export interface EditorContext {

@@ -6,10 +6,13 @@ import type {Mark, Node} from '@tiptap/pm/model';
 // eslint-disable-next-line import/no-unresolved
 import {FloatingRenderer} from '$lib/node-view';
 import type {EditorView} from '@tiptap/pm/view';
+import LinkPreview from './LinkPreview.svelte';
 
-import PreviewLinkModal from './PreviewLinkModal.svelte';
+import type {ComponentType} from 'svelte';
 
-export type NextLinkOptions = LinkOptions;
+export type NextLinkOptions = LinkOptions & {
+  component: ComponentType;
+};
 
 export type LinkProps = {
   pos: number;
@@ -28,7 +31,7 @@ export type Coordinate = {
   pos: number;
 };
 
-export const LinkExtension = TiptapLinkExtension.extend({
+export const LinkExtension = TiptapLinkExtension.extend<NextLinkOptions>({
   renderHTML({HTMLAttributes}) {
     return [
       'a',
@@ -36,27 +39,35 @@ export const LinkExtension = TiptapLinkExtension.extend({
       0
     ];
   },
+
   addProseMirrorPlugins() {
     const floatingRenderer = new FloatingRenderer({
-      component: PreviewLinkModal,
+      component: LinkPreview,
       editor: this.editor
     });
     return [
       new Plugin({
-        key: new PluginKey('link-hover'),
+        key: new PluginKey('LinkPreview'),
         view: () => {
           return {destroy: floatingRenderer.destroy};
         },
         props: {
           handleDOMEvents: {
-            click: (view: EditorView, event: MouseEvent) => {
+            mouseup: (view: EditorView, event: MouseEvent) => {
+              if (!view.state.selection.empty) {
+                floatingRenderer.unmount();
+                if (floatingRenderer.mounted) {
+                  floatingRenderer.unmount();
+                }
+                return;
+              }
               const pos = view.posAtDOM(event.target as unknown as Node, 0);
-              if (!pos || (event.target as HTMLElement).tagName !== 'A') {
+              if (!pos) {
                 floatingRenderer.unmount();
                 return;
               }
-              const node = view.state.doc.nodeAt(pos);
 
+              const node = view.state.doc.nodeAt(pos);
               if (node && hasLinkMark(node.marks || [])) {
                 const mark = node.marks.find(
                   m => m.type.name === 'link'

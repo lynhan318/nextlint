@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type {Editor} from '@tiptap/core';
-
   import {
     HighlightExtension,
     type Preset,

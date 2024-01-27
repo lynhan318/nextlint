@@ -17,7 +17,7 @@ export type NextlintCodeBlockOptions = {
 };
 
 export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
-  name: 'NextlintCodeBock',
+  name: 'NextlintCodeBlock',
 
   addAttributes() {
     return {
@@ -49,7 +49,15 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
   addOptions() {
     return {
       themes: ['github-light', 'github-dark'],
-      langs: ['javascript', 'rust', 'typescript']
+      langs: [
+        'javascript',
+        'rust',
+        'typescript',
+        'css',
+        'html',
+        'tsx',
+        'svelte'
+      ]
     };
   },
 

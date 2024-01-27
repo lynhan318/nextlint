@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {createToolbar, melt} from '@melt-ui/svelte';
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
-  import {LinkButton} from '$lib/plugins/link';
-  import {HighlightButton} from '$lib/plugins/highlight';
-
-  import {positionStore} from '../Positioner';
 
   // Icons
   import {
@@ -16,46 +11,31 @@
     AlignRight,
     Underline,
     Code,
-    Link,
-    Pencil
+    Link
   } from 'lucide-svelte';
-  import {onMount} from 'svelte';
+  import {onDestroy, onMount} from 'svelte';
   import {writable} from 'svelte/store';
 
-  import {useEditor} from '$lib/context';
   import {cn} from '$lib/helpers';
-  import type {Editor} from '@tiptap/core';
   import {getRootNode} from '@nextlint/core';
 
   import DropdownMenu from './DropdownMenu.svelte';
+  import {useEditor} from '$lib/context';
+  import LinkButtonProps from '$lib/plugins/link/LinkButtonProps.svelte';
+  import {melt} from '@melt-ui/svelte';
 
   const editor = useEditor();
 
-  const {
-    elements: {root, separator, button},
-    builders: {createToolbarGroup}
-  } = createToolbar();
-
-  const {
-    elements: {group: fontGroup, item: fontItem},
-    states: {value: fontValues}
-  } = createToolbarGroup({
-    type: 'multiple'
-  });
+  const fontValues = writable<Set<string>>(new Set());
 
   const alignValues = writable<string>('');
-  const {
-    elements: {group: alignGroup, item: alignItem}
-  } = createToolbarGroup({
-    value: alignValues
-  });
 
   const locked = createLockScrollStore();
 
-  const IGNORE_BLOCK_MENU = ['figure', 'codeBlock'];
+  const IGNORE_BLOCK_MENU = ['figure', 'NextlintCodeBlock'];
 
   $: visibleNode = (() => {
-    const resolver = $positionStore.selection?.resolver;
+    const resolver = $editor.state.selection.$from;
     if (!resolver) return;
     let node = resolver.node(resolver.depth);
     let i = resolver.depth - 1;
@@ -73,27 +53,28 @@
     }
     return node;
   })();
-
+  console.log('visiblEnode', visibleNode);
   $: {
     locked.set(!!visibleNode);
   }
 
-  const collectFontValues = (updatedEditor: Editor) => {
+  const collectFontValues = () => {
     const values = [
-      updatedEditor.isActive('bold') && 'Bold',
-      updatedEditor.isActive('italic') && 'Italic',
-      updatedEditor.isActive('underline') && 'Underline',
-      updatedEditor.isActive('strike') && 'Strike',
-      updatedEditor.isActive('code') && 'Code',
-      updatedEditor.isActive('link') && 'Link',
-      updatedEditor.isActive('highlight') && 'Highlight'
+      $editor.isActive('bold') && 'Bold',
+      $editor.isActive('italic') && 'Italic',
+      $editor.isActive('underline') && 'Underline',
+      $editor.isActive('strike') && 'Strike',
+      $editor.isActive('code') && 'Code',
+      $editor.isActive('link') && 'Link',
+      $editor.isActive('highlight') && 'Highlight'
     ].filter(Boolean) as Array<string>;
-    fontValues.set(values);
+
+    fontValues.set(new Set(values));
   };
 
-  const collectAlignValues = (editor: Editor) => {
+  const collectAlignValues = () => {
     let align = '';
-    const rootNode = getRootNode(editor);
+    const rootNode = getRootNode($editor);
     if (rootNode) {
       const {node} = rootNode;
       align = node.attrs.align;
@@ -101,31 +82,19 @@
     alignValues.set(align);
   };
 
-  const keyPress = (cb: any) => (key: any) => {
-    const code = key.detail.originalEvent?.code;
-    if (code === 'Space') {
-      cb();
-    }
+  const updateBubbleState = () => {
+    collectFontValues();
+    collectAlignValues();
   };
 
   onMount(() => {
-    $editor!.on('update', props => {
-      // NOTED: this is a bit hacky way make sure the updated happend after
-      // toggle dont it behavior
-      requestAnimationFrame(() => {
-        collectFontValues(props.editor);
-        collectAlignValues(props.editor);
-      });
-    });
-
-    $editor!.on('selectionUpdate', props => {
-      // NOTED: this is a bit hacky way make sure the updated happend after
-      // toggle dont it behavior
-      requestAnimationFrame(() => {
-        collectFontValues(props.editor);
-        collectAlignValues(props.editor);
-      });
-    });
+    $editor!.on('update', updateBubbleState);
+    $editor!.on('selectionUpdate', updateBubbleState);
+  });
+  onDestroy(() => {
+    $editor!.off('update', updateBubbleState);
+    $editor!.off('selectionUpdate', updateBubbleState);
+    locked.set(false);
   });
 </script>
 
@@ -133,113 +102,97 @@
 
 {#if visibleNode}
   <div
-    use:melt={$root}
     class={cn(`border border-border
     flex min-w-max items-center gap-4 rounded-md bg-background text-foreground
     px-2 py-1 shadow-md`)}
   >
-    <div class="flex items-center gap-1" use:melt={$fontGroup}>
+    <div class="flex items-center gap-1">
       <button
         class="item"
-        use:melt={$fontItem('Bold')}
-        on:m-click={() => {
-          $editor.commands.toggleBold();
+        data-state={$fontValues.has('Bold') ? 'on' : 'off'}
+        on:click={() => {
+          $editor.chain().focus().toggleBold().run();
         }}
-        on:m-keydown={keyPress(() => $editor.commands.toggleBold())}
       >
         <Bold size={20} />
       </button>
       <button
-        class="item"
-        use:melt={$fontItem('Italic')}
-        on:m-click={() => {
-          $editor.commands.toggleItalic();
+        class={cn('item')}
+        data-state={$fontValues.has('Italic') ? 'on' : 'off'}
+        on:mousedown={() => {
+          $editor.chain().focus().toggleItalic().run();
         }}
-        on:m-keydown={keyPress(() => $editor.commands.toggleItalic())}
       >
         <Italic size={20} />
       </button>
       <button
-        class="item"
-        use:melt={$fontItem('Underline')}
-        on:m-click={() => {
-          $editor.commands.toggleUnderline();
+        class={cn('item')}
+        data-state={$fontValues.has('Underline') ? 'on' : 'off'}
+        on:mousedown={() => {
+          $editor.chain().focus().toggleUnderline().run();
         }}
-        on:m-keydown={keyPress(() => $editor.commands.toggleUnderline())}
       >
         <Underline size={20} />
       </button>
       <button
-        class="item"
-        use:melt={$fontItem('Strike')}
-        on:m-click={() => {
-          $editor.commands.toggleStrike();
+        class={cn('item')}
+        data-state={$fontValues.has('Strike') ? 'on' : 'off'}
+        on:mousedown={() => {
+          $editor.chain().focus().toggleStrike().run();
         }}
-        on:m-keydown={keyPress(() => $editor.commands.toggleStrike())}
       >
         <Strikethrough size={20} />
       </button>
       <button
-        class="item"
-        use:melt={$fontItem('Code')}
-        on:m-click={() => {
-          $editor.commands.toggleCode();
+        class={cn('item')}
+        data-state={$fontValues.has('Code') ? 'on' : 'off'}
+        on:mousedown={() => {
+          $editor.chain().focus().toggleCode().run();
         }}
-        on:m-keydown={keyPress(() => $editor.commands.toggleCode())}
       >
         <Code size={20} />
       </button>
-      <LinkButton let:toggle>
-        <button class="item" on:click={toggle} use:melt={$fontItem('Link')}>
-          <Link size={18} />
-        </button>
-      </LinkButton>
-      <HighlightButton let:toggle>
+      <LinkButtonProps let:trigger let:link>
         <button
-          class="item"
-          on:click={toggle}
-          use:melt={$fontItem('Highlight')}
+          use:melt={trigger}
+          class={cn('item')}
+          data-state={link ? 'on' : 'off'}
         >
-          <Pencil size={18} />
+          <Link size={20} />
         </button>
-      </HighlightButton>
+      </LinkButtonProps>
     </div>
-    <div class="separator" use:melt={$separator} />
-    <div class="flex items-center gap-1" use:melt={$alignGroup}>
+    <div class="separator" />
+    <div class="flex items-center gap-1">
       <button
-        class="item"
-        use:melt={$alignItem('left')}
-        on:m-click={() => {
-          $editor.commands.setTextAlign('left');
-        }}
-        on:m-keydown={keyPress(() => $editor.commands.setTextAlign('left'))}
+        class={cn('item')}
+        data-state={$alignValues === 'left' ? 'on' : 'off'}
+        on:mousedown={() => $editor.chain().focus().setTextAlign('left').run()}
       >
         <AlignLeft size={20} />
       </button>
       <button
-        class="item"
-        use:melt={$alignItem('center')}
-        on:m-click={() => {
-          $editor.commands.setTextAlign('center');
+        class={cn('item')}
+        data-state={$alignValues === 'center' ? 'on' : 'off'}
+        on:mousedown={() => {
+          $editor.chain().focus().setTextAlign('center').run();
         }}
-        on:m-keydown={keyPress(() => $editor.commands.setTextAlign('center'))}
       >
         <AlignCenter size={20} />
       </button>
       <button
-        class="item"
-        use:melt={$alignItem('right')}
-        on:m-click={() => {
-          $editor.commands.setTextAlign('right');
+        class={cn('item')}
+        data-state={$alignValues === 'right' ? 'on' : 'off'}
+        on:mousedown={() => {
+          $editor.chain().focus().setTextAlign('right').run();
         }}
-        on:m-keydown={keyPress(() => $editor.commands.setTextAlign('right'))}
       >
         <AlignRight size={20} />
       </button>
     </div>
-    <div class="separator" use:melt={$separator} />
+    <div class="separator" />
     {#if visibleNode}
-      <DropdownMenu {visibleNode} {button} />
+      <DropdownMenu {visibleNode} />
     {/if}
   </div>
 {/if}

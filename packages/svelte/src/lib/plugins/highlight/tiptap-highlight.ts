@@ -100,47 +100,47 @@ export const HighlightExtension = Mark.create<HighlightOptions>({
           return commands.unsetMark(this.name);
         }
     };
-  },
-  addProseMirrorPlugins() {
-    const floatingRenderer = new FloatingRenderer({
-      component: HighlightPresets,
-      editor: this.editor
-    });
-    return [
-      new Plugin({
-        key: new PluginKey('link-hover'),
-        view() {
-          return {destroy: floatingRenderer.destroy};
-        },
-        props: {
-          handleDOMEvents: {
-            click: (view: EditorView, event: MouseEvent) => {
-              const pos = view.posAtDOM(event.target as Node, 0);
-              if (!pos || (event.target as HTMLElement).tagName !== 'MARK') {
-                floatingRenderer.unmount();
-                return;
-              }
-              const node = view.state.doc.nodeAt(pos);
-              if (node && hasHighlight(node.marks || [])) {
-                const mark = node.marks.find(
-                  m => m.type.name === this.name
-                ) as PMMark;
-
-                floatingRenderer.mount({
-                  pos,
-                  node,
-                  mark,
-                  element: event.target as HTMLElement
-                });
-              } else {
-                floatingRenderer.destroy();
-              }
-            }
-          }
-        }
-      })
-    ];
   }
+  // addProseMirrorPlugins() {
+  //   const floatingRenderer = new FloatingRenderer({
+  //     component: HighlightPresets,
+  //     editor: this.editor
+  //   });
+  //   return [
+  //     new Plugin({
+  //       key: new PluginKey('link-hover'),
+  //       view() {
+  //         return {destroy: floatingRenderer.destroy};
+  //       },
+  //       props: {
+  //         handleDOMEvents: {
+  //           click: (view: EditorView, event: MouseEvent) => {
+  //             const pos = view.posAtDOM(event.target as Node, 0);
+  //             if (!pos || (event.target as HTMLElement).tagName !== 'MARK') {
+  //               floatingRenderer.unmount();
+  //               return;
+  //             }
+  //             const node = view.state.doc.nodeAt(pos);
+  //             if (node && hasHighlight(node.marks || [])) {
+  //               const mark = node.marks.find(
+  //                 m => m.type.name === this.name
+  //               ) as PMMark;
+  //
+  //               floatingRenderer.mount({
+  //                 pos,
+  //                 node,
+  //                 mark,
+  //                 element: event.target as HTMLElement
+  //               });
+  //             } else {
+  //               floatingRenderer.destroy();
+  //             }
+  //           }
+  //         }
+  //       }
+  //     })
+  //   ];
+  // }
 });
 const hasHighlight = (marks: Readonly<PMMark[]>) => {
   return marks.find(m => m.type.name === 'highlight');

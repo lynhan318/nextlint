@@ -37,12 +37,12 @@
       async onVisible(data) {
         if (computing) return;
         computing = true;
-        const virtualEle: VirtualElement = {
+        const virtualElement: VirtualElement = {
           getBoundingClientRect() {
             return data.clientRects;
           }
         };
-        domPosition = await computePosition(virtualEle, element, {
+        domPosition = await computePosition(virtualElement, element, {
           placement: 'top',
           middleware: [offset(10), flip(), shift()]
         });
