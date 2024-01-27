@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.3.0
+
+### Minor Changes
+
+- [#71](https://github.com/sveltor/nextlint/pull/71) [`56d25ce`](https://github.com/sveltor/nextlint/commit/56d25ce881bc0ca984514d60879c5d645884a8e2) Thanks [@lynhan318](https://github.com/lynhan318)! - Refactor BubbleMenu
+
 ## 2.2.5
 
 ### Patch Changes
