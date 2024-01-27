@@ -111,7 +111,9 @@
 
   code-block {
     width: 100%;
-    min-height: 52px;
+    min-height: 40px;
+    display: block;
+    margin-top: theme('margin.6');
     height: 100%;
     display: inline-flex;
     position: relative;
@@ -173,6 +175,10 @@
     &[data-align='right']:before {
       float: right;
     }
+  }
+  image-placeholder {
+    margin-top: theme('margin.6');
+    display: block;
   }
 }
 

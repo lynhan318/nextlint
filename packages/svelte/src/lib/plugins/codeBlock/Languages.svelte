@@ -15,7 +15,11 @@
 
   const {
     elements: {menu, item, trigger}
-  } = createDropdownMenu();
+  } = createDropdownMenu({
+    positioning: {
+      placement: 'bottom-start'
+    }
+  });
 </script>
 
 <div class="absolute right-1 top-1 z-10" contenteditable="false">

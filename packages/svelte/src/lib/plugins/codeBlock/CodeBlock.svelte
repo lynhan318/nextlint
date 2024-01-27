@@ -1,6 +1,3 @@
-<script lang="ts" context="module">
-</script>
-
 <script lang="ts">
   import {useContentRef, useNodeViewProps} from '$lib/node-view';
   import {onDestroy} from 'svelte';
@@ -38,9 +35,9 @@
 </div>
 <Languages />
 <pre
-  class="absolute top-0 left-0 block inset-0 outline-none border rounded-md overflow-y-hidden">
+  class="absolute top-0 left-0 block inset-0 outline-nonerounded-md overflow-y-hidden">
   <code
-    class="absolute top-0 left-0 block inset-0 caret-primary text-transparent bg-transparent z-[2] p-4"
+    class="absolute top-0 left-0 block inset-0 caret-primary text-transparent bg-transparent z-[1] p-4"
     use:contentRef
   />
 </pre>

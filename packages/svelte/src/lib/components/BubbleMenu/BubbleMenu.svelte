@@ -21,7 +21,6 @@
 
   import DropdownMenu from './DropdownMenu.svelte';
   import {useEditor} from '$lib/context';
-  import LinkButton from './LinkButton.svelte';
   import LinkButtonProps from '$lib/plugins/link/LinkButtonProps.svelte';
   import {melt} from '@melt-ui/svelte';
 
@@ -54,7 +53,7 @@
     }
     return node;
   })();
-
+  console.log('visiblEnode', visibleNode);
   $: {
     locked.set(!!visibleNode);
   }

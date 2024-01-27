@@ -40,7 +40,7 @@
   </button>
 </div>
 {#if $open}
-  <div use:melt={$content} transition:fade={{duration: 100}}>
+  <div use:melt={$content} transition:fade={{duration: 100}} class="z-20">
     <SelectImage />
   </div>
 {/if}
