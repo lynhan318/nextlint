@@ -3,12 +3,11 @@
   import {fade} from 'svelte/transition';
   import {ImageIcon, Trash2} from 'lucide-svelte';
 
-  import {SelectImageExtension} from './image';
   import SelectImage from './SelectImage.svelte';
   import {useNodeViewProps} from '$lib/node-view';
 
   const props = useNodeViewProps();
-  const triggerOnMount = SelectImageExtension.options.triggerOnMount;
+  const triggerOnMount = $props.extension.options.triggerOnMount;
 
   const {
     elements: {trigger, content},

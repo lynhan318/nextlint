@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   export type PluginOptions = {
-    selectImage?: SelectImageOptions;
+    image?: ImagePluginOptions;
     gpt?: GPTOptions;
     dropCursor?: DropcursorOptions;
   };
@@ -16,7 +16,7 @@
   import {FigureExtension} from '$lib/plugins/figure';
   import {
     SelectImageExtension,
-    type SelectImageOptions
+    type ImagePluginOptions
   } from '$lib/plugins/image';
   import {HighlightExtension} from '$lib/plugins/highlight';
   import {SlashMenu} from '$lib/plugins/slash';
@@ -26,17 +26,17 @@
     type DropcursorOptions
   } from '@tiptap/extension-dropcursor';
 
-  import Positioner from './components/Positioner/Positioner.svelte';
   import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
   import {BubbleMenuExtension} from './plugins/bubbleMenu/bubbleMenu';
 
   export let content: Content;
   export let placeholder = "Press 'space' GPT support, type '/' for help";
   export let onChange: (editor: Editor) => void;
-  export let onCreated = (editor: Editor) => {};
+  export let onCreated = (_editor: Editor) => {};
   export let plugins: PluginOptions = {};
   export let extensions: Extensions = [];
-  const {render, ready} = createEditorContext({
+  console.log('plugins.selectImage', plugins.image);
+  const {render} = createEditorContext({
     editable: true,
     content,
     onCreated,
@@ -53,7 +53,7 @@
       HighlightExtension,
       SlashMenu,
       FigureExtension,
-      SelectImageExtension.configure(plugins.selectImage),
+      SelectImageExtension.configure(plugins.image),
       Dropcursor.configure(plugins.dropCursor),
       NextlintCodeBlock.configure(),
       BubbleMenuExtension.configure({
@@ -67,9 +67,3 @@
 </script>
 
 <div use:render />
-
-<!-- {#await ready then _} -->
-<!--   <Positioner position="selection"> -->
-<!--     <BubbleMenu /> -->
-<!--   </Positioner> -->
-<!-- {/await} -->
