@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export interface SelectImageOptions {
+export interface ImagePluginOptions {
   handleUpload?: (file: File) => Promise<string>;
   unsplash?: {
     accessKey: string;
@@ -24,16 +24,11 @@ export interface SelectImageOptions {
 
 const imageStore = writable<NodeViewRendererProps | null>(null);
 
-export const SelectImageExtension = Node.create<SelectImageOptions>({
+export const SelectImageExtension = Node.create<ImagePluginOptions>({
   name: 'selectImage',
   group: 'block',
   atom: true,
   selectable: true,
-  addOptions() {
-    return {
-      triggerOnMount: false
-    };
-  },
 
   parseHTML() {
     return [
@@ -50,7 +45,10 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
   addNodeView() {
     return SvelteNodeViewRenderer({
       component: Placeholder,
-      domAs: 'image-placeholder'
+      domAs: 'image-placeholder',
+      stopEvent() {
+        return true;
+      }
     });
   },
 
@@ -59,7 +57,7 @@ export const SelectImageExtension = Node.create<SelectImageOptions>({
       createImageBlock:
         () =>
         ({commands, editor}) => {
-          SelectImageExtension.options.triggerOnMount = true;
+          this.options.triggerOnMount = true;
           const curSelection = editor.state.selection.$head.node(1);
           const content = [{type: this.name}];
           if (editor.state.doc.lastChild?.eq(curSelection)) {

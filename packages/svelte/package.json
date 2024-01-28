@@ -30,13 +30,14 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
-    "svelte": "*",
-    "shikiji": "0.9.19"
+    "shikiji": "0.9.19",
+    "svelte": "*"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
     "@melt-ui/svelte": "^0.61.1",
     "@nextlint/core": "^1.4.0",
+    "@prosemirror-adapter/core": "^0.2.6",
     "@svelte-put/clickoutside": "^3.0.0",
     "@svelte-put/lockscroll": "^1.0.1",
     "@tiptap/core": "^2.1.13",

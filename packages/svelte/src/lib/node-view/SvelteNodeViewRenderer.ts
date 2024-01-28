@@ -6,14 +6,15 @@ import {
   NodeView,
   type Editor,
   type NodeViewProps,
-  type NodeViewRendererProps
+  type NodeViewRendererProps,
+  type NodeViewRendererOptions as TNodeViewRendererOptions
 } from '@tiptap/core';
 
-import {writable, type Writable} from 'svelte/store';
+import {get, writable, type Writable} from 'svelte/store';
 
 import {SvelteRenderer} from './SvelteRenderer';
 
-class SvelteNodeView
+export class SvelteNodeView
   extends NodeView<ComponentType, Editor>
   implements ProseMirrorNodeView
 {
@@ -21,10 +22,13 @@ class SvelteNodeView
   store!: Writable<NodeViewProps>;
 
   constructor(
-    nodeViewOptions: NodeViewRendererOptions,
+    readonly options: NodeViewRendererOptions,
     props: NodeViewRendererProps
   ) {
-    super(nodeViewOptions.component, props);
+    super(options.component, props, {
+      stopEvent: options.stopEvent || null,
+      ignoreMutation: options.ignoreMutation || null
+    });
     this.store = writable<NodeViewProps>({
       editor: this.editor,
       node: this.node,
@@ -36,7 +40,14 @@ class SvelteNodeView
       deleteNode: () => this.deleteNode()
     });
 
-    this.renderer = new SvelteRenderer(nodeViewOptions, this.store);
+    this.renderer = new SvelteRenderer(
+      {
+        component: options.component,
+        contentAs: options.contentAs,
+        domAs: options.domAs
+      },
+      this.store
+    );
   }
 
   override get dom() {
@@ -61,27 +72,35 @@ class SvelteNodeView
     return true;
   }
 
-  selectNode() {
+  selectNode = () => {
     this.store.update(store => {
       store.selected = true;
       return store;
     });
-  }
+  };
 
-  deselectNode() {
+  deselectNode = () => {
     this.store.update(store => {
       store.selected = false;
       return store;
     });
-  }
+  };
+
+  toggleNodeSelection = () => {
+    if (get(this.store).selected) {
+      this.deselectNode();
+      return;
+    }
+    return this.selectNode();
+  };
 
   destroy() {
-    console.log('destroy');
     this.renderer.destroy();
   }
 }
 
-export interface NodeViewRendererOptions {
+export interface NodeViewRendererOptions
+  extends Partial<TNodeViewRendererOptions> {
   component: ComponentType;
   contentAs?: string;
   domAs?: string;

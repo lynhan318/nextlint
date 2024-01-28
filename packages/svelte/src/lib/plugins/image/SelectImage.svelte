@@ -4,15 +4,16 @@
   import {createTabs, melt} from '@melt-ui/svelte';
   import {cubicInOut} from 'svelte/easing';
   import {crossfade} from 'svelte/transition';
-  import {onDestroy, onMount} from 'svelte';
+  import {onDestroy, onMount, tick} from 'svelte';
   import {X} from 'lucide-svelte';
 
   import UploadTab from './UploadTab.svelte';
   import EmbedTab from './EmbedTab.svelte';
   import UnplashTab from './UnplashTab.svelte';
-  import {SelectImageExtension} from './image';
+  import {useNodeViewProps} from '$lib/node-view';
 
-  const options = SelectImageExtension.options;
+  const props = useNodeViewProps();
+  const options = $props.extension.options;
 
   export let onHide = () => {};
 
@@ -32,6 +33,20 @@
     easing: cubicInOut
   });
 
+  const onInsert = async (url: string, alt: string) => {
+    const {editor, getPos, deleteNode} = $props;
+    const pos = getPos();
+    deleteNode();
+    await tick();
+    editor
+      .chain()
+      .insertContentAt(pos, {
+        type: 'figure',
+        attrs: {src: url, alt}
+      })
+      .run();
+  };
+
   const locked = createLockScrollStore();
 
   onMount(() => {
@@ -48,7 +63,7 @@
   use:melt={$root}
   use:clickoutside
   on:clickoutside={onHide}
-  class="flex w-[460px] max-h-[400px] flex-col overflow-hidden
+  class="flex w-[460px] h-[400px] flex-col overflow-hidden
   shadow-lg data-[orientation=vertical]:flex-row
   border border-border rounded-xl bg-background text-foreground"
 >

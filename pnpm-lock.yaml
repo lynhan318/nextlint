@@ -196,6 +196,9 @@ importers:
       '@nextlint/core':
         specifier: ^1.4.0
         version: link:../core
+      '@prosemirror-adapter/core':
+        specifier: ^0.2.6
+        version: 0.2.6
       '@svelte-put/clickoutside':
         specifier: ^3.0.0
         version: 3.0.0
@@ -1728,6 +1731,12 @@ packages:
 
   /@popperjs/core@2.11.8:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+    dev: false
+
+  /@prosemirror-adapter/core@0.2.6:
+    resolution: {integrity: sha512-7GXWQBR/bd6ngvek8SgtlEVC0x3KL7LKZ5cxyZl4IBAlRDbITQWsuKLChEXNan9A6+9Ry4a46crbDGTQlzooOg==}
+    dependencies:
+      tslib: 2.6.2
     dev: false
 
   /@remirror/core-constants@2.0.2:

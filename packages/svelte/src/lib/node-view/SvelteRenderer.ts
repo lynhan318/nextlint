@@ -26,14 +26,15 @@ export class SvelteRenderer {
     this.context = {
       props,
       contentRef: (element: HTMLElement) => {
-        element.setAttribute('data-node-view-content', '');
+        element.setAttribute('data-node-view-content', 'true');
+        element.style.whiteSpace = 'inherit';
         this.contentElement = element;
       }
     };
 
     // Create dom node
     this.element = document.createElement(domAs || 'div');
-    this.element.setAttribute('data-node-view-wrapper', '');
+    this.element.setAttribute('data-node-view-root', 'true');
 
     this.component = new Component({
       target: this.element,

@@ -32,7 +32,12 @@
 
   const locked = createLockScrollStore();
 
-  const IGNORE_BLOCK_MENU = ['figure', 'NextlintCodeBlock'];
+  const IGNORE_BLOCK_MENU = [
+    'figure',
+    'NextlintCodeBlock',
+    'selectImage',
+    'doc'
+  ];
 
   $: visibleNode = (() => {
     const resolver = $editor.state.selection.$from;
@@ -53,7 +58,6 @@
     }
     return node;
   })();
-  console.log('visiblEnode', visibleNode);
   $: {
     locked.set(!!visibleNode);
   }
@@ -96,6 +100,8 @@
     $editor!.off('selectionUpdate', updateBubbleState);
     locked.set(false);
   });
+  $: {
+  }
 </script>
 
 <svelte:body use:lockscroll={locked} />
