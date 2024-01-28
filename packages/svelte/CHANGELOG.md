@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 2.3.1
+
+### Patch Changes
+
+- [#73](https://github.com/sveltor/nextlint/pull/73) [`e8a3b91`](https://github.com/sveltor/nextlint/commit/e8a3b91bd536a1987cf3d432d3907db49f78338d) Thanks [@lynhan318](https://github.com/lynhan318)! - Fix didnt respect image plugin options
+
 ## 2.3.0
 
 ### Minor Changes
