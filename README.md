@@ -1,6 +1,8 @@
 # Nextlint
 
-Rich text editor (WYSIWYG) written in Svelte, using [MeltUI](https://melt-ui.com/) headless UI and [tailwindcss](https://tailwindcss.com/) CSS framework, built on top of tiptap editor(headless editor). Easy to use, develop and maintain. A prompt engine that helps to integrate with any AI API, and enhance the writing experience. 
+Rich text editor (WYSIWYG) written in Svelte, using [MeltUI](https://melt-ui.com/) headless UI and [tailwindcss](https://tailwindcss.com/) CSS framework.
+
+Built on top of [tiptap](https://tiptap.dev/) editor(headless editor) and [prosemirror](https://prosemirror.net/). Easy to use, develop and maintain. A prompt engine that helps to integrate with any AI API, and enhance the writing experience. 
 
 Dark/Light theme is supported and customizable. 
 
@@ -127,7 +129,124 @@ The `EditorTheme` basicaly just import the default theme we define in `EditorThe
 <slot />
 ```
 
-## Editor Configuration
+Nexltint editor uses `nextlint/core`, which is a headless editor with [existing](https://github.com/sveltor/nextlint/blob/main/packages/core/src/editor/starterKit.ts#L57) plugins installed, can be used in any UI framework, compatible with tiptap and prosemirror plugins system.
+
+Nextlint Svelte itself has some [plugins](https://github.com/sveltor/nextlint/tree/main/packages/svelte/src/lib/plugins) completely written in Svelte and [configurable](https://github.com/sveltor/nextlint/blob/main/packages/svelte/src/lib/Editor.svelte#L2)
+
+## Options
+
+|                Name                |          Type           | Description                                             |
+| :--------------------------------: | :---------------------: | :------------------------------------------------------ |
+|     **[`content`](#content)**      |        `Content`        | Initialize editor content                               |
+|    **[`onChange`](#onChange)**     | `(editor:Editor)=>void` | A callback will call when the editor change             |
+| **[`placeholder?`](#placeholder)** |        `String`         | The placeholder will be displayed when the editor empty |
+|   **[`onCreated?`](#onCreated)**   | `(editor:Editor)=>void` | A callback will trigger once when the editor is created |
+|     **[`plugins?`](#plugins)**     |    `PluginsOptions`     | Customize plugins options                               |
+|  **[`extensions?`](#extensions)**  |      `Extensions`       | Customize editor extension                              |
+
+
+
+### content
+
+Type: `HTMLContent | JSONContent | JSONContent[] | null`  
+
+Initialize content, can be a JSONContent or a html markup.
+
+```tsx
+// Can be string
+<SvelteEditor
+  content="<p>this is a paragraph content</p>"
+/>
+
+// which is equal
+<SvelteEditor
+  ...
+  content={{
+    type:'docs'
+    attrs:{},
+    content:[{
+      type:'paragraph',
+      attrs:{},
+      content:[{
+        type:'text',
+        text:'this is a paragraph content'
+      }]
+    }]
+  }}
+/>
+```
+
+
+### placeholder
+
+Type: `String | undefined`
+Default: `undefined`
+
+Placeholder will display when editor content is empty
+
+```svelte
+<SvelteEditor
+  ...
+  content=""
+  placeholder="Press 'space' to trigger AI prompt"
+/>
+```
+
+### onChange
+
+Type: `(editor: Editor)=>void`  
+
+A callback will fire when the editor changes ( update state or selection )
+
+```svelte
+<script lang='ts'>
+  let editor;
+</script>
+<SvelteEditor
+  ...
+  onChange={_editor=>{
+      editor=_editor
+  }}
+/>
+```
+
+### onCreated
+
+Type: `(editor: Editor)=>void | undefined`
+Default: `undefined`
+
+Callback will fire once when editor finish initialize
+
+```svelte
+
+<SvelteEditor
+  ...
+  onCreated={editor=>{
+      console.log("The editor is created and ready to use !")
+  }}
+/>
+
+```
+
+### plugins
+
+Type: `PluginOptions | undefined`
+Default: `undefined`
+
+```ts
+type PluginOptions = {
+    image?: ImagePluginOptions;
+    gpt?: GPTOptions;
+    dropCursor?: DropcursorOptions;
+};
+
+```
+
+#### plugins.image
+
+Type: `ImagePluginOptions | undefined`
+Default: `undefined`
+
 
 ## Contributing
 Please follow the [contribute guideline](https://github.com/sveltor/nextlint/blob/main/CONTRIBUTING.md)
