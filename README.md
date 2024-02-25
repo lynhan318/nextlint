@@ -301,7 +301,8 @@ Allow to integrate with any AI out side the editor.
   plugins={
     ask: async (question:string)=>{
       // config any AI tool to get the result and return 
-      // the result to the editor 
+      // the result to the editor
+      return 'result from any AI Backend'
     }
   }
 />
