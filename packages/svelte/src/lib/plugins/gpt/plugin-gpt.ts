@@ -4,8 +4,9 @@ import {Plugin, PluginKey} from '@tiptap/pm/state';
 import {Renderer} from './Renderer';
 
 export interface GPTOptions {
-  domain: string;
+  query: (question: string) => Promise<string>;
 }
+
 export const PluginGPT = Node.create<GPTOptions>({
   name: 'openAI',
 

@@ -25,7 +25,7 @@ export class Renderer {
     }
   }
   show(props: {node: HTMLElement}) {
-    this.svelteComponent ||= new PromtComponent({
+    this.svelteComponent = new PromtComponent({
       target: this.tooltipWrapper,
       context: new Map([['options', this.options]]),
       props: {

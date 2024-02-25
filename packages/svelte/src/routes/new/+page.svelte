@@ -29,7 +29,6 @@
     }
     return '';
   };
-  console.log('re-render again');
 </script>
 
 <div class="mt-10 w-full">

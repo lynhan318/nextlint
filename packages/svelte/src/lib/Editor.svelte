@@ -35,7 +35,6 @@
   export let onCreated = (_editor: Editor) => {};
   export let plugins: PluginOptions = {};
   export let extensions: Extensions = [];
-  console.log('plugins.selectImage', plugins.image);
   const {render} = createEditorContext({
     editable: true,
     content,
