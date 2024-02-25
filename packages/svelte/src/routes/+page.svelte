@@ -3,31 +3,16 @@
 
   import SvelteEditor from '$lib/Editor.svelte';
 
-  import showcaseContent from './sveltor.json';
   import {getContext} from 'svelte';
   import type {Writable} from 'svelte/store';
-  import {renderHTML} from '@nextlint/core';
-  import {getHighlighter} from '$lib/plugins/codeBlock';
   import {svelteEditorToHtml} from '$lib/helpers';
   import test from './test.json';
 
   const editor: Writable<Editor> = getContext('editor');
 
   const submitPromt = async (prompt: string) => {
-    const {data} = await fetch('https://api.nextlint.com/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query: `{sveltor_completion(prompt:"${prompt}"){text}}`
-      })
-    }).then(res => res.json());
-
-    if (data?.sveltor_completion) {
-      return data.sveltor_completion[0].text.trim();
-    }
-    return '';
+    return `An unofficial, community-led Svelte port of shadcn/ui. We are not affiliated with shadcn, but we did get his blessing before creating a Svelte version of his work. This project was born out of the need for a similar project for the Svelte ecosystem.
+This is NOT a component library. It's a collection of re-usable components that you can copy and paste or use the CLI to add to your apps.`;
   };
 
   let html;
@@ -52,11 +37,12 @@
     onCreated={editor.set}
     onChange={editor.set}
     plugins={{
-      selectImage: {
+      image: {
         handleUpload,
         unsplash: {
           accessKey: 'omv67BHUb-gbDEbf9UwFsvGbKdQHwnreJPAzgI0Mz5I'
-        }
+        },
+        triggerOnMount: false
       },
       gpt: {query: submitPromt}
     }}

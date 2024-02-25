@@ -4,7 +4,9 @@
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
   import {Cross1} from 'radix-icons-svelte';
   import {getContext, onDestroy, onMount} from 'svelte';
-  const options = getContext('options');
+  import type {GPTOptions} from './plugin-gpt';
+
+  const options: GPTOptions = getContext('options');
 
   let prompt = '';
   let submiting = false;
@@ -38,6 +40,7 @@
     completion = await options.query(prompt);
     submiting = false;
   };
+
   const locked = createLockScrollStore();
 
   onMount(() => {
@@ -54,8 +57,8 @@
 >
   <form on:submit={onSubmit}>
     <textarea
-      class="w-full outline-none bg-background text-foreground"
-      rows="3"
+      class="w-full outline-none bg-background text-foreground resize-none overflow-y-auto border border-border p-2 rounded-md"
+      rows="2"
       bind:this={input}
       placeholder="Hi there! How can I help you? 👋👋👋 "
       bind:value={prompt}
@@ -92,20 +95,21 @@
       </div>
     {:else if completion}
       <div class="flex flex-col">
-        <textarea
-          class="w-full bg-background text-foreground outline-none"
-          bind:value={completion}
+        <p
+          class="w-full bg-background text-foreground outline-none bg-slate-100 p-2 max-h-[400px] overflow-y-auto rounded-md text-sm"
+          contenteditable="true"
+          bind:innerHTML={completion}
         />
 
-        <div class="flex flex-row flex-wrap gap-2">
+        <div class="flex flex-row flex-wrap gap-2 mt-2">
           <button
-            class="flex-1 bg-primary text-primary-foreground rounded-md py-4 px-2"
+            class="flex-1 rounded-md py-2 border-border border"
             on:click={clearData}
             disabled={submiting}
             >Clear
           </button>
           <button
-            class="flex-1 bg-destructivej text-destructive-foreground rounded-md py-4 px-2"
+            class="flex-1 rounded-md bg-primary text-primary-foreground py-2"
             on:click={() => {
               onApply(completion);
               clearData();
@@ -122,7 +126,7 @@
       onClose();
       clearData();
     }}
-    class="absolute top-2 right-2"
+    class="absolute -top-2 -right-2 rounded-full p-1 bg-background border border-border"
   >
     <Cross1 />
   </button>
