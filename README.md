@@ -242,11 +242,6 @@ type PluginOptions = {
 
 ```
 
-#### plugins.image
-
-Type: `ImagePluginOptions | undefined`
-Default: `undefined`
-
 
 ## Contributing
 Please follow the [contribute guideline](https://github.com/sveltor/nextlint/blob/main/CONTRIBUTING.md)
