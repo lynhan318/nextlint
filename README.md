@@ -133,6 +133,26 @@ Nexltint editor uses `nextlint/core`, which is a headless editor with [existing]
 
 Nextlint Svelte itself has some [plugins](https://github.com/sveltor/nextlint/tree/main/packages/svelte/src/lib/plugins) completely written in Svelte and [configurable](https://github.com/sveltor/nextlint/blob/main/packages/svelte/src/lib/Editor.svelte#L2)
 
+## Features
+
+### Bubble Menu
+
+![Bubble Menu](/source/bubble_menu.png)
+
+### Slash Menu
+
+![Slash Menu](/source/slash_menu.png)
+
+### Image
+
+Support upload/embed/unsplash api
+
+![Image](/source/image.png)
+
+### AI prompt
+
+![GPT prompt](/source/gpt_prompt.png)
+
 ## Options
 
 |                Name                |          Type           | Description                                             |
@@ -143,7 +163,6 @@ Nextlint Svelte itself has some [plugins](https://github.com/sveltor/nextlint/tr
 |   **[`onCreated?`](#onCreated)**   | `(editor:Editor)=>void` | A callback will trigger once when the editor is created |
 |     **[`plugins?`](#plugins)**     |    `PluginsOptions`     | Customize plugins options                               |
 |  **[`extensions?`](#extensions)**  |      `Extensions`       | Customize editor extension                              |
-
 
 
 ### content
@@ -196,7 +215,7 @@ Placeholder will display when editor content is empty
 
 Type: `(editor: Editor)=>void`  
 
-A callback will fire when the editor changes ( update state or selection )
+The callback will fire when the editor changes ( update state or selection )
 
 ```svelte
 <script lang='ts'>
@@ -215,7 +234,7 @@ A callback will fire when the editor changes ( update state or selection )
 Type: `(editor: Editor)=>void | undefined`
 Default: `undefined`
 
-Callback will fire once when editor finish initialize
+The callback will fire once the editor finishes initialize
 
 ```svelte
 
@@ -236,12 +255,77 @@ Default: `undefined`
 ```ts
 type PluginOptions = {
     image?: ImagePluginOptions;
-    gpt?: GPTOptions;
+    gpt?: AskOptions;
     dropCursor?: DropcursorOptions;
 };
 
 ```
 
+### plugins.image
+
+Type: `ImagePluginOptions|undefined`
+Default: `undefined`
+
+Config the handleUpload function and setup API key to fetch images from unsplash
+
+```svelte
+<SvelteEditor
+      ...
+      plugins={
+        image: {
+          handleUpload:(file)=>{
+            // handle upload here
+                const blob = new Blob([file]);
+                const previewUrl = URL.createObjectURL(blob);
+                return previewUrl;
+          },
+          unsplash: {
+            accessKey: 'UNPLASH_API_KEY'
+          }
+        },
+      }
+/>
+```
+
+### plugins.ask
+
+Type:`AskOptions|undefined`
+Default: `undefined`
+
+Trigger prompt in an empty line, get the question from the editor, call the handle function via this config and append the result to the editor.
+Allow to integrate with any AI out side the editor.
+
+```svelte
+<SvelteEditor
+  ...
+  plugins={
+    ask: async (question:string)=>{
+      // config any AI tool to get the result and return 
+      // the result to the editor 
+    }
+  }
+/>
+```
+
+
+### plugins.dropCursor
+
+Type: `DropcursorOptions|undefined`
+Default: `undefined`
+
+Config dropCursor color/width/class.
+
+```svelte
+<SvelteEditor
+  ...
+  plugins={
+    dropCursor: {
+      width:'2px',
+      color:'#000',
+    }
+  }
+/>
+```
 
 ## Contributing
 Please follow the [contribute guideline](https://github.com/sveltor/nextlint/blob/main/CONTRIBUTING.md)
