@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 3.0.0
+
+### Major Changes
+
+- [`83dbe8e`](https://github.com/sveltor/nextlint/commit/83dbe8e070d8bd505dec193ea08b3dbe50b6c7d8) Thanks [@lynhan318](https://github.com/lynhan318)! - rename gpt plugin to ask
+
 ## 2.3.2
 
 ### Patch Changes
