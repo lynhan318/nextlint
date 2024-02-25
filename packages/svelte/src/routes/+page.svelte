@@ -44,7 +44,7 @@ This is NOT a component library. It's a collection of re-usable components that 
         },
         triggerOnMount: false
       },
-      gpt: {query: submitPromt}
+      ask: {query: submitPromt}
     }}
   />
 </div>

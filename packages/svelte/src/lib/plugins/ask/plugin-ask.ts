@@ -3,18 +3,18 @@ import {Plugin, PluginKey} from '@tiptap/pm/state';
 
 import {Renderer} from './Renderer';
 
-export interface GPTOptions {
+export interface AskOptions {
   query: (question: string) => Promise<string>;
 }
 
-export const PluginGPT = Node.create<GPTOptions>({
-  name: 'openAI',
+export const PluginAsk = Node.create<AskOptions>({
+  name: 'ask',
 
   addProseMirrorPlugins() {
     const renderer = new Renderer(this.editor.view, this.editor, this.options);
     return [
       new Plugin<{isEmpty: boolean}>({
-        key: new PluginKey('openAI'),
+        key: new PluginKey('ask'),
         state: {
           apply: (tr, prev, oldState, state) => {
             const node = state.selection.$head.node(1);

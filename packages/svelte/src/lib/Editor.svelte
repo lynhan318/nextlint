@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
   export type PluginOptions = {
     image?: ImagePluginOptions;
-    gpt?: GPTOptions;
+    ask?: AskOptions;
     dropCursor?: DropcursorOptions;
   };
 </script>
@@ -12,7 +12,7 @@
 
   import {LinkExtension} from '$lib/plugins/link';
   import {NextlintCodeBlock} from '$lib/plugins/codeBlock';
-  import {PluginGPT, type GPTOptions} from '$lib/plugins/gpt';
+  import {PluginAsk, type AskOptions} from '$lib/plugins/ask';
   import {FigureExtension} from '$lib/plugins/figure';
   import {
     SelectImageExtension,
@@ -58,7 +58,7 @@
       BubbleMenuExtension.configure({
         component: BubbleMenu
       }),
-      plugins.gpt && PluginGPT.configure(plugins.gpt)
+      plugins.ask && PluginAsk.configure(plugins.ask)
     ]
       .concat(extensions)
       .filter(Boolean)
