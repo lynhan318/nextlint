@@ -19,7 +19,7 @@ export interface ImagePluginOptions {
   unsplash?: {
     accessKey: string;
   };
-  triggerOnMount: boolean;
+  triggerOnMount?: boolean;
 }
 
 const imageStore = writable<NodeViewRendererProps | null>(null);
