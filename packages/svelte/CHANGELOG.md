@@ -1,5 +1,13 @@
 # @nextlint/editor
 
+## 2.3.2
+
+### Patch Changes
+
+- [`b938ac2`](https://github.com/sveltor/nextlint/commit/b938ac2c6a162ef184fc88ebfc22baca7728da9f) Thanks [@lynhan318](https://github.com/lynhan318)! - fix(image): make triggeronMount optional
+
+- [#75](https://github.com/sveltor/nextlint/pull/75) [`8244e6d`](https://github.com/sveltor/nextlint/commit/8244e6d30f3ab547cd36eb2ac5bb0232c6bb785a) Thanks [@lynhan318](https://github.com/lynhan318)! - fix: submit gpt option
+
 ## 2.3.1
 
 ### Patch Changes
