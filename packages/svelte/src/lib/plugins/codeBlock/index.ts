@@ -1,10 +1,13 @@
 import {
   getHighlighter as shikijiHighlighter,
-  type HighlighterGeneric
-} from 'shikiji';
+  type HighlighterGeneric,
+  type BundledLanguage,
+  type BundledTheme
+} from 'shiki/bundle-full.mjs';
+
 import {NextlintCodeBlock} from './codeBlock';
 
-let highlighter: HighlighterGeneric<string, string>;
+let highlighter: HighlighterGeneric<BundledLanguage, BundledTheme>;
 
 export async function getHighlighter() {
   highlighter ||= await shikijiHighlighter({

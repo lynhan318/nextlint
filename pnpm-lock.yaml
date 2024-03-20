@@ -247,9 +247,9 @@ importers:
       radix-icons-svelte:
         specifier: ^1.2.1
         version: 1.2.1
-      shikiji:
-        specifier: 0.9.19
-        version: 0.9.19
+      shiki:
+        specifier: ^1.2.0
+        version: 1.2.0
       tailwind-merge:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1943,6 +1943,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@shikijs/core@1.2.0:
+    resolution: {integrity: sha512-OlFvx+nyr5C8zpcMBnSGir0YPD6K11uYhouqhNmm1qLiis4GA7SsGtu07r9gKS9omks8RtQqHrJL4S+lqWK01A==}
+    dev: false
 
   /@svelte-put/clickoutside@3.0.0:
     resolution: {integrity: sha512-a2aA0+uMo2LGK4bwQE+etra57cJuqQsXRkI0IM+cPzjIowqUg5CMSSeQ6YsXBJUdtzm/s6WQKcmoswK/875wtA==}
@@ -6699,14 +6703,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /shikiji-core@0.9.19:
-    resolution: {integrity: sha512-AFJu/vcNT21t0e6YrfadZ+9q86gvPum6iywRyt1OtIPjPFe25RQnYJyxHQPMLKCCWA992TPxmEmbNcOZCAJclw==}
-    dev: false
-
-  /shikiji@0.9.19:
-    resolution: {integrity: sha512-Kw2NHWktdcdypCj1GkKpXH4o6Vxz8B8TykPlPuLHOGSV8VkhoCLcFOH4k19K4LXAQYRQmxg+0X/eM+m2sLhAkg==}
+  /shiki@1.2.0:
+    resolution: {integrity: sha512-xLhiTMOIUXCv5DqJ4I70GgQCtdlzsTqFLZWcMHHG3TAieBUbvEGthdrlPDlX4mL/Wszx9C6rEcxU6kMlg4YlxA==}
     dependencies:
-      shikiji-core: 0.9.19
+      '@shikijs/core': 1.2.0
     dev: false
 
   /side-channel@1.0.4:

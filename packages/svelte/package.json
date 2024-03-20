@@ -30,7 +30,6 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
-    "shikiji": "0.9.19",
     "svelte": "*"
   },
   "dependencies": {
@@ -54,6 +53,7 @@
     "lucide-svelte": "^0.292.0",
     "radash": "^11.0.0",
     "radix-icons-svelte": "^1.2.1",
+    "shiki": "^1.2.0",
     "tailwind-merge": "^2.0.0",
     "tailwind-variants": "^0.1.18",
     "unsplash-js": "^7.0.18",

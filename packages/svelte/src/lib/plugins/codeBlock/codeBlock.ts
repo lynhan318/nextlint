@@ -1,5 +1,5 @@
 import {CodeBlock} from '@tiptap/extension-code-block';
-import type {BundledLanguage, BundledTheme} from 'shikiji';
+import type {BundledLanguage, BundledTheme} from 'shiki';
 
 import {SvelteNodeViewRenderer} from '$lib/node-view';
 
@@ -56,7 +56,22 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
         'css',
         'html',
         'tsx',
-        'svelte'
+        'svelte',
+        'json',
+        'shell',
+        'yaml',
+        'vue',
+        'lua',
+        'python',
+        'c',
+        'c++',
+        'java',
+        'zig',
+        'swift',
+        'kotlin',
+        'go',
+        'angular-ts',
+        'angular-html'
       ]
     };
   },
@@ -65,7 +80,7 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
     return SvelteNodeViewRenderer({
       component: SvelteCodeBlock,
       domAs: 'code-block',
-      contentAs: 'code'
+      contentAs: 'pre'
     });
   },
 
