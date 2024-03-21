@@ -76,9 +76,7 @@ export const nodeIdDecorator = (plugin: TiptapNode) => {
   return plugin;
 };
 export const extractTOC = (root: HTMLElement) => {
-  root.childNodes.forEach(child => {
-    console.log('childNOde', child);
-  });
+  root.childNodes.forEach(child => {});
 };
 
 export const getRootNode = (editor: Editor) => {
