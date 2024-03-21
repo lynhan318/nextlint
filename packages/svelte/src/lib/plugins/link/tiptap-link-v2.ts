@@ -49,24 +49,33 @@ export const LinkExtension = TiptapLinkExtension.extend<NextLinkOptions>({
       new Plugin({
         key: new PluginKey('LinkPreview'),
         view: () => {
-          return {destroy: floatingRenderer.destroy};
-        },
-        props: {
-          handleDOMEvents: {
-            mouseup: (view: EditorView, event: MouseEvent) => {
-              if (!view.state.selection.empty) {
-                floatingRenderer.unmount();
-                if (floatingRenderer.mounted) {
-                  floatingRenderer.unmount();
-                }
-                return;
-              }
-              const pos = view.posAtDOM(event.target as unknown as Node, 0);
-              if (!pos) {
+          return {
+            destroy: floatingRenderer.destroy,
+            update(view: EditorView) {
+              const posOfCursor = view.state.selection.anchor;
+              const {node} = view.domAtPos(posOfCursor);
+
+              if (!node.parentNode) {
                 floatingRenderer.unmount();
                 return;
               }
 
+              if (node.parentNode?.nodeName !== 'A') {
+                floatingRenderer.unmount();
+                return;
+              }
+
+              if (!view.state.selection.empty) {
+                floatingRenderer.unmount();
+                return;
+              }
+            }
+          };
+        },
+        props: {
+          handleDOMEvents: {
+            mouseup: (view: EditorView, event: MouseEvent) => {
+              const pos = view.posAtDOM(event.target as unknown as Node, 0);
               const node = view.state.doc.nodeAt(pos);
               if (node && hasLinkMark(node.marks || [])) {
                 const mark = node.marks.find(
