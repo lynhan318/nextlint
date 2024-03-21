@@ -9,7 +9,6 @@
     const {editor, getPos, deleteNode} = $props;
 
     if (typeof getPos === 'function') {
-      console.log('deleteNode');
       const pos = getPos();
       deleteNode();
       editor
