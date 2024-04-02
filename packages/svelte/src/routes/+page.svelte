@@ -18,7 +18,6 @@ This is NOT a component library. It's a collection of re-usable components that 
   let html;
   const toHtml = async () => {
     html = await svelteEditorToHtml($editor);
-    console.log('html', html);
   };
 
   const handleUpload = async (file: File) => {

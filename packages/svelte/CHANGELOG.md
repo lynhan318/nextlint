@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 3.0.1
+
+### Patch Changes
+
+- [`7da1e24`](https://github.com/sveltor/nextlint/commit/7da1e243a5f43c1316a0c205cb08be9b82e6569a) Thanks [@lynhan318](https://github.com/lynhan318)! - replace shikijs with shiki, add more support languages
+
 ## 3.0.0
 
 ### Major Changes
