@@ -1,5 +1,15 @@
 # @nextlint/editor
 
+## 3.0.2
+
+### Patch Changes
+
+- [#82](https://github.com/sveltor/nextlint/pull/82) [`9ccad43`](https://github.com/sveltor/nextlint/commit/9ccad4380ccf01f0ce41a53ab6df924f09c9cc43) Thanks [@khanhhaquang](https://github.com/khanhhaquang)! - fix: hide preview link when cursor out'
+
+- [#83](https://github.com/sveltor/nextlint/pull/83) [`7067279`](https://github.com/sveltor/nextlint/commit/70672796b58080e81cf46cd8b82bb3fa2f99637d) Thanks [@lynhan318](https://github.com/lynhan318)! - remove log
+
+- [`2c43319`](https://github.com/sveltor/nextlint/commit/2c433191abc0174c80fe3e76b6054033143f4bd2) Thanks [@lynhan318](https://github.com/lynhan318)! - remove EditorTheme from root entry
+
 ## 3.0.1
 
 ### Patch Changes
