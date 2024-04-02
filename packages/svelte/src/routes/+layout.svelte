@@ -4,7 +4,7 @@
   import {setContext} from 'svelte';
   import type {Editor} from '@tiptap/core';
 
-  import {EditorTheme} from '$lib';
+  import EditorTheme from '$lib/EditorTheme.svelte';
 
   import Devtool from './$components/Devtool.svelte';
 
