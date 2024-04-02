@@ -144,7 +144,7 @@
     height: 100%;
   }
 
-  p>code {
+  p > code {
     @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
   }
 
@@ -196,7 +196,6 @@
 }
 
 .dark {
-
   .shiki,
   .shiki span {
     color: var(--shiki-dark) !important;

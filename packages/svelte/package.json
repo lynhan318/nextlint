@@ -21,7 +21,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
-    }
+    },
+    "./EditorTheme": "./dist/EditorTheme.svelte"
   },
   "files": [
     "dist",
