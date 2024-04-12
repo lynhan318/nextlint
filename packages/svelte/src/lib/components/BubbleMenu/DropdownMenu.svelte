@@ -46,7 +46,7 @@
   use:melt={$menu}
   class="flex flex-col bg-popover text-popover-foreground
   max-w-[280px] w-full rounded shadow-md mt-2 mb-2 bord
-  border border-border
+  border border-border z-[99]
   "
 >
   {#each BubbleMenuDropdownList as i}

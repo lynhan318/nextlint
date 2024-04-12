@@ -1,6 +1,4 @@
 <script lang="ts">
-  import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
-
   // Icons
   import {
     Bold,
@@ -30,8 +28,6 @@
 
   const alignValues = writable<string>('');
 
-  const locked = createLockScrollStore();
-
   const IGNORE_BLOCK_MENU = [
     'figure',
     'NextlintCodeBlock',
@@ -58,9 +54,6 @@
     }
     return node;
   })();
-  $: {
-    locked.set(!!visibleNode);
-  }
 
   const collectFontValues = () => {
     const values = [
@@ -98,13 +91,10 @@
   onDestroy(() => {
     $editor!.off('update', updateBubbleState);
     $editor!.off('selectionUpdate', updateBubbleState);
-    locked.set(false);
   });
   $: {
   }
 </script>
-
-<svelte:body use:lockscroll={locked} />
 
 {#if visibleNode}
   <div
