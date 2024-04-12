@@ -1,5 +1,13 @@
 # @nextlint/editor
 
+## 3.0.3
+
+### Patch Changes
+
+- [`a1c43f0`](https://github.com/lynhan318/nextlint/commit/a1c43f0d986be6db241a739444ddb8fee8eb3090) Thanks [@lynhan318](https://github.com/lynhan318)! - packages/svelte: FloatingRenderer support custom style
+
+- [`40858fe`](https://github.com/lynhan318/nextlint/commit/40858fef2b048a2c2e2f131cbc30a6de0d71fb8b) Thanks [@lynhan318](https://github.com/lynhan318)! - packages/svelte: remove lock scroll when BubbleMenu visible
+
 ## 3.0.2
 
 ### Patch Changes
