@@ -1,4 +1,3 @@
-import {BubbleMenu} from '$lib/components';
 import {EditorContextKey} from '$lib/context';
 import {
   computePosition,
@@ -39,6 +38,7 @@ class FloatingRenderer {
       component: ComponentType;
       editor: Editor;
       portal?: HTMLElement;
+      style?: Partial<CSSStyleDeclaration>;
     },
     private readonly floatingOptions?: Partial<ComputePositionConfig>
   ) {
@@ -47,7 +47,8 @@ class FloatingRenderer {
     Object.assign(this.wrapper.style, {
       opacity: 0,
       position: 'absolute',
-      transition: 'opacity 0.2s ease-in-out'
+      transition: 'opacity 0.2s ease-in-out',
+      ...opts.style
     });
     (opts.portal || document.body).appendChild(this.wrapper);
   }
