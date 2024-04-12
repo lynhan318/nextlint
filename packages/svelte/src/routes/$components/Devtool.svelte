@@ -40,9 +40,4 @@
       >{theme}</span
     >
   </label>
-  <div class="ml-4">
-    <a href="/draft">Draft</a>
-    <button on:click={onSave}>save</button>
-    <button on:click={load}>load</button>
-  </div>
 </div>

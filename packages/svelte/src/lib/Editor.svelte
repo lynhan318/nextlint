@@ -47,6 +47,7 @@
         emptyNodeClass: 'is-block-empty'
       }
     },
+    //@ts-ignore
     extensions: [
       LinkExtension,
       HighlightExtension,

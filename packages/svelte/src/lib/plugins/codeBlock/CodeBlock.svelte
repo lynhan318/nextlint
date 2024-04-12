@@ -4,7 +4,7 @@
 
   import Languages from './Languages.svelte';
 
-  import {type NextlintCodeBlockAttrs} from './codeBlock';
+  import type {NextlintCodeBlockAttrs} from './codeBlock';
   import {getHighlighter} from '.';
 
   const contentRef = useContentRef();

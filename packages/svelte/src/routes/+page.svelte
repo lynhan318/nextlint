@@ -3,10 +3,10 @@
 
   import SvelteEditor from '$lib/Editor.svelte';
 
-  import {getContext} from 'svelte';
+  import {getContext, onDestroy, onMount} from 'svelte';
   import type {Writable} from 'svelte/store';
   import {svelteEditorToHtml} from '$lib/helpers';
-  import test from './test.json';
+  import {debounce} from 'radash';
 
   const editor: Writable<Editor> = getContext('editor');
 
@@ -25,15 +25,30 @@ This is NOT a component library. It's a collection of re-usable components that 
     const previewUrl = URL.createObjectURL(blob);
     return previewUrl;
   };
+  const saveDraft = debounce({delay: 500}, (editor: Editor) => {
+    const jsContent = editor.getJSON();
+    localStorage.setItem('draft', JSON.stringify(jsContent));
+  });
+  const dispose = editor.subscribe(updated => {
+    if (updated) {
+      saveDraft(updated);
+    }
+  });
+
+  onDestroy(dispose);
 </script>
 
-<button on:click={() => toHtml()}>To HTML</button>
-
-<div>
+<div class="mt-10">
   <SvelteEditor
-    content={test}
+    content={''}
     placeholder="Press 'space' GPT support, type '/' for help"
-    onCreated={editor.set}
+    onCreated={createdEditor => {
+      editor.set(createdEditor);
+      const jsonLoaded = localStorage.getItem('draft') || '';
+      if (jsonLoaded) {
+        createdEditor.commands.setContent(JSON.parse(jsonLoaded), false);
+      }
+    }}
     onChange={editor.set}
     plugins={{
       image: {

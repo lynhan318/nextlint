@@ -6,6 +6,7 @@
   import {derived} from 'svelte/store';
 
   import {NextlintCodeBlock} from './codeBlock';
+  import {cn} from '$lib/helpers';
 
   const props = useNodeViewProps();
 
@@ -43,8 +44,13 @@
   <div class="relative">
     <input
       use:melt={$input}
-      class="flex h-10 items-center justify-between rounded-lg bg-background
-      px-4 pr-6 text-primary border border-border outline-none text-sm"
+      class={cn(
+        `flex h-8 items-center justify-between rounded-sm px-4 pr-6 outline-none text-sm
+          text-foreground capitalize bg-[unset] border border-transparent focus:border-border`,
+        {
+          'border-border': $inputValue
+        }
+      )}
       placeholder="Programing Language"
     />
     <div class="absolute right-2 top-1/2 z-10 -translate-y-1/2 text-border">
@@ -58,13 +64,13 @@
 </div>
 {#if $open}
   <ul
-    class=" z-10 flex max-h-[300px] flex-col overflow-hidden rounded-lg shadow-md"
+    class=" z-10 flex max-h-[300px] flex-col overflow-hiddenshadow-md shadown-md p-1"
     use:melt={$menu}
     transition:fly={{duration: 150, y: -5}}
   >
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     <div
-      class="flex max-h-full flex-col gap-0 overflow-y-auto bg-white px-2 py-2 text-black"
+      class="flex max-h-full flex-col gap-1 overflow-y-auto clean-scroll bg-background border border-accent px-2 py-2 text-foreground rounded-lg p-1"
       tabindex="0"
     >
       {#each filteredLanguages as lang, index (index)}
@@ -74,17 +80,17 @@
             label: lang
           })}
           class="flex flex-row items-center justify-between cursor-pointer
-          rounded-md py-2 pl-4 pr-4 data-[highlighted]:bg-accent
+          rounded-md py-1 pl-4 pr-4 data-[highlighted]:bg-accent
           data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"
         >
-          <span class="font-medium">{lang}</span>
+          <span class="font-medium capitalize">{lang}</span>
           {#if $isSelected(lang)}
             <Check size={16} />
           {/if}
         </li>
       {:else}
         <li
-          class="relative cursor-pointer rounded-md py-1 pl-8 pr-4
+          class="relative cursor-pointer rounded-md py-[2px] pl-8 pr-4
         data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground"
         >
           No results found

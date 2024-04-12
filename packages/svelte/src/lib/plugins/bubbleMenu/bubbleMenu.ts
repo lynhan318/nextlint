@@ -50,7 +50,10 @@ class BubbleMenuView {
     this.floatingRenderer = new FloatingRenderer({
       editor: editor,
       component: component,
-      portal: view.dom.parentElement!
+      portal: view.dom.parentElement!,
+      style: {
+        zIndex: '99'
+      }
     });
 
     this.floatingRenderer.element.addEventListener(
