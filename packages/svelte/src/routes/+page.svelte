@@ -43,11 +43,14 @@ This is NOT a component library. It's a collection of re-usable components that 
     content={''}
     placeholder="Press 'space' GPT support, type '/' for help"
     onCreated={createdEditor => {
+      //@ts-ignore
+      window.editor = createdEditor;
       editor.set(createdEditor);
       const jsonLoaded = localStorage.getItem('draft') || '';
       if (jsonLoaded) {
         createdEditor.commands.setContent(JSON.parse(jsonLoaded), false);
       }
+      console.log(createdEditor.state);
     }}
     onChange={editor.set}
     plugins={{

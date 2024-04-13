@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {useNodeViewProps} from '$lib/node-view';
+  import {useNodeViewContext} from '@prosemirror-adapter/svelte';
   import {Check, ChevronDown, ChevronUp} from 'lucide-svelte';
   import {createCombobox, melt} from '@melt-ui/svelte';
   import {fly} from 'svelte/transition';
@@ -8,11 +8,11 @@
   import {NextlintCodeBlock} from './codeBlock';
   import {cn} from '$lib/helpers';
 
-  const props = useNodeViewProps();
+  const setAttrs = useNodeViewContext('setAttrs');
+  const node = useNodeViewContext('node');
 
   const LANGUAGES = NextlintCodeBlock.options.langs;
 
-  const node = derived(props, $ => $.node);
   const attrs = derived(node, $ => $.attrs);
 
   const {
@@ -36,7 +36,7 @@
   }
 
   inputValue.subscribe(value => {
-    $props.updateAttributes({lang: value});
+    setAttrs({lang: value});
   });
 </script>
 

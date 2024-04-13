@@ -1,11 +1,12 @@
 import {getContext, type ComponentType, type SvelteComponent} from 'svelte';
 import type {NodeViewProps} from '@tiptap/core';
 
-import {get, type Writable} from 'svelte/store';
+import type {Writable} from 'svelte/store';
+import type {NodeViewContext} from './SvelteNodeViewRenderer';
 
 export interface SvelteNodeViewContext {
   props?: Writable<NodeViewProps>;
-  contentRef?: (element: HTMLElement) => void;
+  contentDOM?: (element: HTMLElement) => void;
 }
 
 export interface SvelteRenderOptions {
@@ -19,30 +20,19 @@ export class SvelteRenderer {
   contentElement?: HTMLElement;
 
   component: SvelteComponent;
-  context: SvelteNodeViewContext = {};
 
-  constructor(opts: SvelteRenderOptions, props: Writable<NodeViewProps>) {
-    const {component: Component, domAs, contentAs} = opts;
-    this.context = {
-      props,
-      contentRef: (element: HTMLElement) => {
-        element.setAttribute('data-node-view-content', 'true');
-        element.style.whiteSpace = 'inherit';
-        this.contentElement = element;
-      }
-    };
+  constructor(
+    opts: SvelteRenderOptions,
+    readonly context: NodeViewContext
+  ) {
+    const {component: Component, domAs} = opts;
 
     // Create dom node
     this.element = document.createElement(domAs || 'div');
     this.element.setAttribute('data-node-view-root', 'true');
-
     this.component = new Component({
       target: this.element,
-      props: {
-        as: domAs,
-        contentAs
-      },
-      context: new Map(Object.entries(this.context))
+      context: new Map(Object.entries(context))
     });
   }
 
@@ -53,8 +43,6 @@ export class SvelteRenderer {
   }
 }
 
-export const useNodeViewProps = () =>
-  getContext<Writable<NodeViewProps>>('props');
-
-export const useContentRef = () =>
-  getContext<(element: HTMLElement) => void>('contentRef');
+export const useNodeViewContext = <K extends keyof NodeViewContext>(
+  ctxKey: K
+) => getContext<NodeViewContext[K]>(ctxKey);

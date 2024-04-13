@@ -25,10 +25,12 @@
     Dropcursor,
     type DropcursorOptions
   } from '@tiptap/extension-dropcursor';
+  import {useProsemirrorAdapterProvider} from '@prosemirror-adapter/svelte';
 
   import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
   import {BubbleMenuExtension} from './plugins/bubbleMenu/bubbleMenu';
 
+  useProsemirrorAdapterProvider();
   export let content: Content;
   export let placeholder = "Press 'space' GPT support, type '/' for help";
   export let onChange: (editor: Editor) => void;

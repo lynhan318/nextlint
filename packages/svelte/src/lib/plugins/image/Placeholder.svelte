@@ -4,10 +4,10 @@
   import {ImageIcon, Trash2} from 'lucide-svelte';
 
   import SelectImage from './SelectImage.svelte';
-  import {useNodeViewProps} from '$lib/node-view';
+  import {useNodeViewContext} from '$lib/node-view';
 
-  const props = useNodeViewProps();
-  const triggerOnMount = $props.extension.options.triggerOnMount;
+  const deleteNode = useNodeViewContext('deleteNode');
+  const triggerOnMount = false;
 
   const {
     elements: {trigger, content},
@@ -18,7 +18,7 @@
       placement: 'top'
     }
   });
-  const removeNode = () => $props.deleteNode();
+  const removeNode = () => deleteNode();
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

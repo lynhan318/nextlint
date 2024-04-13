@@ -1,10 +1,13 @@
 import {CodeBlock} from '@tiptap/extension-code-block';
 import type {BundledLanguage, BundledTheme} from 'shiki';
 
-import {SvelteNodeViewRenderer} from '$lib/node-view';
-
 import SvelteCodeBlock from './CodeBlock.svelte';
 import {PluginKey, Plugin} from '@tiptap/pm/state';
+import {mergeAttributes, type NodeViewRendererProps} from '@tiptap/core';
+import type {SvelteComponent} from 'svelte';
+import {SvelteNodeView} from '@prosemirror-adapter/svelte';
+
+import type {NodeView} from '@tiptap/pm/view';
 
 export type NextlintCodeBlockAttrs = {
   lang: BundledLanguage;
@@ -24,22 +27,22 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
       lang: {
         default: this.options.langs[0],
         parseHTML: html => {
-          return html.getAttribute('code-block-lang');
+          return html.getAttribute('data-lang');
         },
         renderHTML: attrs => {
           return {
-            'code-block-lang': attrs.lang
+            'data-lang': attrs.lang
           };
         }
       },
       theme: {
         default: this.options.themes[0],
         parseHTML: html => {
-          return html.getAttribute('code-block-theme');
+          return html.getAttribute('data-theme');
         },
         renderHTML: attrs => {
           return {
-            'code-block-theme': attrs.theme
+            'data-theme': attrs.theme
           };
         }
       }
@@ -77,11 +80,28 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
   },
 
   addNodeView() {
-    return SvelteNodeViewRenderer({
-      component: SvelteCodeBlock,
-      domAs: 'code-block',
-      contentAs: 'pre'
-    });
+    return props => {
+      const svelteNodeView = new SvelteNodeView({
+        node: props.node,
+        //@ts-expect-error skip
+        getPos: props.getPos,
+        decorations: props.decorations,
+        view: this.editor.view,
+        options: {
+          component: SvelteCodeBlock,
+          as: 'code-block',
+          contentAs: 'code',
+          stopEvent() {
+            return true;
+          },
+          selectNode() {
+            console.log('nodeSeeclted');
+          }
+        }
+      });
+      svelteNodeView.render();
+      return svelteNodeView;
+    };
   },
 
   addProseMirrorPlugins() {

@@ -10,10 +10,13 @@
   import UploadTab from './UploadTab.svelte';
   import EmbedTab from './EmbedTab.svelte';
   import UnplashTab from './UnplashTab.svelte';
-  import {useNodeViewProps} from '$lib/node-view';
+  import {useNodeViewContext} from '$lib/node-view';
 
-  const props = useNodeViewProps();
-  const options = $props.extension.options;
+  const getPos = useNodeViewContext('getPos');
+  const deleteNode = useNodeViewContext('deleteNode');
+  const editor = useNodeViewContext('editor');
+
+  const options: any = {};
 
   export let onHide = () => {};
 
@@ -34,7 +37,6 @@
   });
 
   const onInsert = async (url: string, alt: string) => {
-    const {editor, getPos, deleteNode} = $props;
     const pos = getPos();
     deleteNode();
     await tick();
