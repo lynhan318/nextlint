@@ -6,6 +6,7 @@ import {PluginKey, Plugin} from '@tiptap/pm/state';
 import {SvelteNodeViewRenderer} from '$lib/node-view';
 import {createHighlightPlugin, highlighter, lazyParser} from './plugin';
 import type {ShikiTheme} from './shiki';
+import {mergeAttributes} from '@tiptap/core';
 
 export type NextlintCodeBlockOptions = {
   langs: BundledLanguage[];
@@ -27,20 +28,39 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
             'data-lang': attrs.lang
           };
         }
-      },
-      theme: {
-        default: this.options.themes[0],
-        parseHTML: html => {
-          return html.getAttribute('data-theme');
-        },
-        renderHTML: attrs => {
-          return {
-            'data-theme': attrs.theme
-          };
-        }
       }
     };
   },
+  renderHTML({HTMLAttributes, node}) {
+    const textContent = node.textContent;
+    const withSyntax = highlighter?.codeToHtml(textContent, {
+      lang: node.attrs.lang,
+      themes: this.options.themes
+    });
+    const parsed = new DOMParser().parseFromString(
+      withSyntax || '',
+      'text/html'
+    );
+    const pre = parsed.querySelector('pre.shiki');
+    if (pre) {
+      pre.setAttribute('data-lang', node.attrs.lang);
+      return pre;
+    }
+    return [
+      'pre',
+      mergeAttributes(HTMLAttributes, {
+        'data-node-view-root': true
+      }),
+      [
+        'pre',
+        {
+          'data-node-view-content': true
+        },
+        0
+      ]
+    ];
+  },
+
   onCreate() {
     const {dark, light} = this.options.themes;
     if (dark) {

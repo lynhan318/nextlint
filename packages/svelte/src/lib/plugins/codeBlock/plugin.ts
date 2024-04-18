@@ -54,7 +54,8 @@ export const lazyParser: Parser = options => {
 export function createHighlightPlugin({
   parser,
   nodeTypes = ['NextlintCodeBlock'],
-  languageExtractor = (node: ProseMirrorNode) => 'javascript',
+  languageExtractor = (node: ProseMirrorNode) =>
+    node?.attrs?.lang || 'javascript',
   themes
 }: {
   parser: Parser;

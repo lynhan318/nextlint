@@ -62,7 +62,16 @@
           dark: 'github-dark',
           light: 'github-light'
         },
-        langs: ['css', 'html']
+        langs: [
+          'css',
+          'html',
+          'javascript',
+          'typescript',
+          'rust',
+          'go',
+          'lua',
+          'shell'
+        ]
       }),
       BubbleMenuExtension.configure({
         component: BubbleMenu

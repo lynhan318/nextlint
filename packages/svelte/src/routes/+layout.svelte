@@ -13,6 +13,10 @@
     document.body.classList.toggle('dark', theme === 'dark');
   };
   setContext('editor', editor);
+  const toHTML = () => {
+    const html = $editor.getHTML();
+    console.log('>>>>>>> html', html);
+  };
 </script>
 
 <div class="relative flex min-h-screen flex-col px-6">
@@ -37,6 +41,7 @@
           >{theme}</span
         >
       </label>
+      <button on:click={toHTML}>toHTML</button>
     </div>
   </header>
   <main class="max-w-6xl mx-auto w-full">
