@@ -1,22 +1,15 @@
 import {CodeBlock} from '@tiptap/extension-code-block';
-import type {BundledLanguage, BundledTheme} from 'shiki';
+import type {BundledLanguage} from 'shiki';
 
 import SvelteCodeBlock from './CodeBlock.svelte';
 import {PluginKey, Plugin} from '@tiptap/pm/state';
-import {mergeAttributes, type NodeViewRendererProps} from '@tiptap/core';
-import type {SvelteComponent} from 'svelte';
-import {SvelteNodeView} from '@prosemirror-adapter/svelte';
-
-import type {NodeView} from '@tiptap/pm/view';
-
-export type NextlintCodeBlockAttrs = {
-  lang: BundledLanguage;
-  theme: 'github-light' | 'github-dark';
-};
+import {SvelteNodeViewRenderer} from '$lib/node-view';
+import {createHighlightPlugin, highlighter, lazyParser} from './plugin';
+import type {ShikiTheme} from './shiki';
 
 export type NextlintCodeBlockOptions = {
   langs: BundledLanguage[];
-  themes: BundledTheme[];
+  themes: ShikiTheme;
 };
 
 export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
@@ -48,83 +41,50 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
       }
     };
   },
-
-  addOptions() {
-    return {
-      themes: ['github-light', 'github-dark'],
-      langs: [
-        'javascript',
-        'rust',
-        'typescript',
-        'css',
-        'html',
-        'tsx',
-        'svelte',
-        'json',
-        'shell',
-        'yaml',
-        'vue',
-        'lua',
-        'python',
-        'c',
-        'c++',
-        'java',
-        'zig',
-        'swift',
-        'kotlin',
-        'go',
-        'angular-ts',
-        'angular-html'
-      ]
-    };
+  onCreate() {
+    const {dark, light} = this.options.themes;
+    if (dark) {
+      highlighter?.loadTheme(dark);
+    }
+    if (light) {
+      highlighter?.loadTheme(light);
+    }
   },
-
-  addNodeView() {
-    return props => {
-      const svelteNodeView = new SvelteNodeView({
-        node: props.node,
-        //@ts-expect-error skip
-        getPos: props.getPos,
-        decorations: props.decorations,
-        view: this.editor.view,
-        options: {
-          component: SvelteCodeBlock,
-          as: 'code-block',
-          contentAs: 'code',
-          stopEvent() {
-            return true;
-          },
-          selectNode() {
-            console.log('nodeSeeclted');
-          }
-        }
-      });
-      svelteNodeView.render();
-      return svelteNodeView;
-    };
-  },
-
   addProseMirrorPlugins() {
-    const codeBlockPlugin = new Plugin({
-      key: new PluginKey('codeBlock'),
-      props: {
-        handleKeyDown: (view, event) => {
-          if (event.key === 'Tab') {
-            const resolver = view.state.selection.$from;
-            const pNode = resolver.node(1);
-            if (pNode.type.name === this.name) {
-              event.preventDefault();
-              event.stopPropagation();
-              this.editor
-                .chain()
-                .insertContentAt(resolver.pos, '\t')
-                .setTextSelection(resolver.pos + 1)
-                .run();
+    return [
+      createHighlightPlugin({parser: lazyParser, themes: this.options.themes}),
+      new Plugin({
+        key: new PluginKey('codeBlock'),
+        props: {
+          handleKeyDown: (view, event) => {
+            if (event.key === 'Tab') {
+              const resolver = view.state.selection.$from;
+              const pNode = resolver.node(1);
+              if (pNode.type.name === this.name) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.editor
+                  .chain()
+                  .insertContentAt(resolver.pos, '\t')
+                  .setTextSelection(resolver.pos + 1)
+                  .run();
+              }
             }
           }
         }
+      })
+    ];
+  },
+
+  addNodeView() {
+    return SvelteNodeViewRenderer({
+      component: SvelteCodeBlock,
+      options: this.options,
+      domAs: () => {
+        const pre = document.createElement('pre');
+        pre.classList.add('shiki');
+        return pre;
       }
     });
-    return [codeBlockPlugin];
   }
 });

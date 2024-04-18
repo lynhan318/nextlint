@@ -16,6 +16,6 @@ let a= 123;
 </script>
 
 <div id="code-preview" class="w-full h-[400px]"></div>
-<EditorTheme>
+<EditorTheme theme="light">
   <div use:editor id="editor" class="tiptap border p-4 rounded mt-4" />
 </EditorTheme>

@@ -57,7 +57,13 @@
       FigureExtension,
       SelectImageExtension.configure(plugins.image),
       Dropcursor.configure(plugins.dropCursor),
-      NextlintCodeBlock.configure(),
+      NextlintCodeBlock.configure({
+        themes: {
+          dark: 'github-dark',
+          light: 'github-light'
+        },
+        langs: ['css', 'html']
+      }),
       BubbleMenuExtension.configure({
         component: BubbleMenu
       }),

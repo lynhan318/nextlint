@@ -3,7 +3,7 @@
 
   import SvelteEditor from '$lib/Editor.svelte';
 
-  import {getContext, onDestroy, onMount} from 'svelte';
+  import {getContext, onDestroy} from 'svelte';
   import type {Writable} from 'svelte/store';
   import {svelteEditorToHtml} from '$lib/helpers';
   import {debounce} from 'radash';

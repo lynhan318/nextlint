@@ -12,8 +12,10 @@
   const node = useNodeViewContext('node');
   const selected = useNodeViewContext('selected');
   const deleteNode = useNodeViewContext('deleteNode');
+  const selectNode = useNodeViewContext('selectNode');
   const updateAttributes = useNodeViewContext('updateAttributes');
   $: attrs = $node.attrs;
+  $: visible = $selected;
 </script>
 
 <figure
@@ -22,7 +24,7 @@
   style="position:relative;"
   class="relative"
 >
-  {#if $selected}
+  {#if visible}
     <div class="absolute inset-x-0 flex justify-center top-[-24px]">
       <div
         class="flex flex-row items-center bg-background shadow-md rounded-md z-[1px] py-1 px-2 gap-2"
@@ -62,9 +64,10 @@
     alt={attrs?.alt}
     src={attrs?.src}
     style="object-fit: {attrs?.fit};cursor:pointer;"
+    on:mousedown|preventDefault={selectNode}
     class={cn(
       'border-none rounded-md',
-      $selected && 'outline outline-offset-1 outline-primary'
+      visible && 'outline outline-offset-1 outline-primary'
     )}
   />
   <figcaption

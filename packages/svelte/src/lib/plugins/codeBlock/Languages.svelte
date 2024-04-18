@@ -1,19 +1,16 @@
 <script lang="ts">
-  import {useNodeViewContext} from '@prosemirror-adapter/svelte';
   import {Check, ChevronDown, ChevronUp} from 'lucide-svelte';
   import {createCombobox, melt} from '@melt-ui/svelte';
   import {fly} from 'svelte/transition';
-  import {derived} from 'svelte/store';
 
-  import {NextlintCodeBlock} from './codeBlock';
+  import type {NextlintCodeBlockOptions} from './codeBlock';
   import {cn} from '$lib/helpers';
+  import {useNodeViewContext} from '$lib/node-view';
 
-  const setAttrs = useNodeViewContext('setAttrs');
-  const node = useNodeViewContext('node');
+  const options = useNodeViewContext('options') as NextlintCodeBlockOptions;
+  const setAttrs = useNodeViewContext('updateAttributes');
 
-  const LANGUAGES = NextlintCodeBlock.options.langs;
-
-  const attrs = derived(node, $ => $.attrs);
+  const LANGUAGES = options.langs;
 
   const {
     elements: {menu, input, option},
@@ -34,10 +31,6 @@
   $: if (!$open) {
     $inputValue = $selected?.label ?? '';
   }
-
-  inputValue.subscribe(value => {
-    setAttrs({lang: value});
-  });
 </script>
 
 <div class="absolute right-1 top-1 z-10" contenteditable="false">
@@ -79,6 +72,7 @@
             value: lang,
             label: lang
           })}
+          on:mousedown|preventDefault={() => setAttrs({lang})}
           class="flex flex-row items-center justify-between cursor-pointer
           rounded-md py-1 pl-4 pr-4 data-[highlighted]:bg-accent
           data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"

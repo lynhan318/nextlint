@@ -5,7 +5,7 @@ import type {
 } from '@tiptap/pm/view';
 import type {Attrs, Node as PMNode} from '@tiptap/pm/model';
 
-import type {ComponentType} from 'svelte';
+import {getContext, type ComponentType, type SvelteComponent} from 'svelte';
 import {
   NodeView,
   type Editor,
@@ -16,7 +16,7 @@ import {
 
 import {writable, type Writable} from 'svelte/store';
 
-import {SvelteRenderer} from './SvelteRenderer';
+export type Theme = 'dark' | 'light';
 
 export interface NodeViewContext {
   // immutable
@@ -25,6 +25,9 @@ export interface NodeViewContext {
   getPos: () => number | undefined;
   updateAttributes: (attrs: Attrs) => void;
   deleteNode: () => void;
+  selectNode: () => void;
+  deSelectNode: () => void;
+  options?: unknown;
 
   // changes between updates
   node: Writable<PMNode>;
@@ -40,8 +43,9 @@ export class SvelteNodeView
   store!: Writable<NodeViewProps>;
   props: NodeViewRendererProps;
   context: NodeViewContext;
-  renderer: SvelteRenderer;
-  #contentDOM: HTMLElement | null = null;
+  renderer: SvelteComponent;
+  contentElement: HTMLElement | null = null;
+  element: HTMLElement;
 
   constructor(
     readonly options: NodeViewRendererOptions,
@@ -56,10 +60,16 @@ export class SvelteNodeView
       //immutable
       editor: this.editor,
       getPos: this.getPos,
+      options: options.options || {},
       updateAttributes: (attrs = {}) => this.updateAttributes(attrs),
-      deleteNode: this.deleteNode,
+      deleteNode: () => this.deleteNode(),
+      selectNode: () => this.selectNode(),
+      deSelectNode: () => this.deselectNode(),
       contentDOM: (contentElement: HTMLElement) => {
-        this.#contentDOM = contentElement;
+        this.contentElement = this.#createElement(options.contentAs);
+        this.contentElement.setAttribute('data-node-view-content', 'true');
+        this.contentElement.style.whiteSpace = 'inherit';
+        contentElement.appendChild(this.contentElement);
       },
 
       //change between updates
@@ -68,16 +78,32 @@ export class SvelteNodeView
       decorations: writable(this.decorations)
     };
 
-    this.renderer = new SvelteRenderer(options, this.context);
+    this.element = this.#createElement(options.domAs);
+    this.element.setAttribute('data-node-view-root', 'true');
+    this.renderer = new options.component({
+      target: this.element,
+      context: new Map(Object.entries(this.context))
+    });
+  }
+
+  #createElement(as?: string | HTMLElement | ((node: PMNode) => HTMLElement)) {
+    const {node} = this;
+    return as == null
+      ? document.createElement(node.isInline ? 'span' : 'div')
+      : as instanceof HTMLElement
+        ? as
+        : as instanceof Function
+          ? as(this.node)
+          : document.createElement(as);
   }
 
   override get dom() {
-    return this.renderer.element;
+    return this.element;
   }
 
   override get contentDOM() {
     if (this.node.isLeaf) return null;
-    return this.#contentDOM || null;
+    return this.contentElement || null;
   }
 
   deleteNode = () => {
@@ -107,7 +133,9 @@ export class SvelteNodeView
     return true;
   };
   destroy() {
-    this.renderer.destroy();
+    this.contentElement?.remove();
+    this.element?.remove();
+    this.renderer?.$destroy();
   }
   ignoreMutation(mutation: MutationRecord) {
     if (!this.dom || !this.contentDOM) return true;
@@ -128,11 +156,17 @@ export class SvelteNodeView
 export interface NodeViewRendererOptions
   extends Partial<TNodeViewRendererOptions> {
   component: ComponentType;
+  options?: unknown;
+  domAs?: string | ((node: PMNode) => HTMLElement);
   contentAs?: string;
-  domAs?: string;
 }
+
 export const SvelteNodeViewRenderer = (options: NodeViewRendererOptions) => {
   return (props: NodeViewRendererProps) => {
     return new SvelteNodeView(options, props);
   };
 };
+
+export const useNodeViewContext = <K extends keyof NodeViewContext>(
+  ctxKey: K
+) => getContext<NodeViewContext[K]>(ctxKey);
