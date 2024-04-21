@@ -78,7 +78,7 @@
   @apply outline-none text-foreground;
 
   h1 {
-    @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
+    @apply mt-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
   }
 
   h2 {
@@ -114,22 +114,9 @@
     @apply list-decimal;
   }
 
-  code-block {
-    width: 100%;
-    min-height: 40px;
-    display: block;
-    margin-top: theme('margin.6');
-    height: 100%;
-    display: inline-flex;
-    position: relative;
-    font-family: 'Fira Code', monospace;
-    font-size: 14px;
-    border-radius: 4px;
-    border: 1px solid theme('colors.border');
-    box-sizing: border-box;
-  }
-
   .shiki {
+    display: inline-flex;
+    width: 100%;
     position: relative;
     z-index: 1;
     overflow-x: auto;
@@ -142,6 +129,8 @@
     padding: 16px;
     min-height: 52px;
     height: 100%;
+    border: 1px solid theme('colors.border');
+    margin-top: 1.5rem;
   }
 
   p > code {

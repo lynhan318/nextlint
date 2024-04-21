@@ -250,6 +250,7 @@ type PluginOptions = {
   image?: ImagePluginOptions;
   gpt?: AskOptions;
   dropCursor?: DropcursorOptions;
+  codeBlock?: NextlintCodeBlockOptions;
 };
 ```
 
@@ -319,6 +320,45 @@ Config dropCursor color/width/class.
 />
 ```
 
+### plugins.codeBlock
+
+Type: `NextlintCodeBlockOptions|undefined`
+
+Default:
+
+```ts
+{
+    themes: {
+        dark: 'github-dark',
+        light: 'github-light'
+    },
+    langs: []
+}
+```
+
+The `codeBlock` theme will sync with the `theme` props.
+
+
+https://github.com/lynhan318/nextlint/assets/32099104/d5d5c72d-787d-4b16-882f-2cba0dbfaa35
+
+
+```svelte
+  <SvelteEditor
+    //....
+    content={''}
+    onChange={editor.set}
+    theme="light"
+    plugins={{
+      codeBlock: {
+        langs: ['c', 'sh', 'javascript', 'html', 'typescript'],
+        themes: {
+          dark: 'vitesse-dark',
+          light: 'vitesse-light'
+        }
+      }
+    }}
+  />
+```
 ## Contributing
 
 Please follow the [contribute guideline](https://github.com/sveltor/nextlint/blob/main/CONTRIBUTING.md)

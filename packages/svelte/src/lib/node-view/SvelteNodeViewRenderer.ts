@@ -1,7 +1,11 @@
-import type {NodeView as ProseMirrorNodeView} from '@tiptap/pm/view';
-import type {Node as PMNode} from '@tiptap/pm/model';
+//Inspire by Prosemirror Adapter by Mirone.
+import type {
+  Decoration,
+  NodeView as ProseMirrorNodeView
+} from '@tiptap/pm/view';
+import type {Attrs, Node as PMNode} from '@tiptap/pm/model';
 
-import type {ComponentType} from 'svelte';
+import {getContext, type ComponentType, type SvelteComponent} from 'svelte';
 import {
   NodeView,
   type Editor,
@@ -10,16 +14,38 @@ import {
   type NodeViewRendererOptions as TNodeViewRendererOptions
 } from '@tiptap/core';
 
-import {get, writable, type Writable} from 'svelte/store';
+import {writable, type Writable} from 'svelte/store';
 
-import {SvelteRenderer} from './SvelteRenderer';
+export type Theme = 'dark' | 'light';
 
+export interface NodeViewContext {
+  // immutable
+  editor: Editor;
+  contentDOM: (node: HTMLElement) => void;
+  getPos: () => number | undefined;
+  updateAttributes: (attrs: Attrs) => void;
+  deleteNode: () => void;
+  selectNode: () => void;
+  deSelectNode: () => void;
+  options?: unknown;
+
+  // changes between updates
+  node: Writable<PMNode>;
+  selected: Writable<boolean>;
+  decorations: Writable<readonly Decoration[]>;
+}
+
+//@ts-expect-error skip
 export class SvelteNodeView
   extends NodeView<ComponentType, Editor>
   implements ProseMirrorNodeView
 {
-  renderer!: SvelteRenderer;
   store!: Writable<NodeViewProps>;
+  props: NodeViewRendererProps;
+  context: NodeViewContext;
+  renderer: SvelteComponent;
+  contentElement: HTMLElement | null = null;
+  element: HTMLElement;
 
   constructor(
     readonly options: NodeViewRendererOptions,
@@ -29,34 +55,55 @@ export class SvelteNodeView
       stopEvent: options.stopEvent || null,
       ignoreMutation: options.ignoreMutation || null
     });
-    this.store = writable<NodeViewProps>({
+    this.props = props;
+    this.context = {
+      //immutable
       editor: this.editor,
-      node: this.node,
-      decorations: this.decorations,
-      selected: false,
-      extension: this.extension,
-      getPos: () => this.getPos(),
-      updateAttributes: (attributes = {}) => this.updateAttributes(attributes),
-      deleteNode: () => this.deleteNode()
-    });
-
-    this.renderer = new SvelteRenderer(
-      {
-        component: options.component,
-        contentAs: options.contentAs,
-        domAs: options.domAs
+      getPos: this.getPos,
+      options: options.options || {},
+      updateAttributes: (attrs = {}) => this.updateAttributes(attrs),
+      deleteNode: () => this.deleteNode(),
+      selectNode: () => this.selectNode(),
+      deSelectNode: () => this.deselectNode(),
+      contentDOM: (contentElement: HTMLElement) => {
+        this.contentElement = this.#createElement(options.contentAs);
+        this.contentElement.setAttribute('data-node-view-content', 'true');
+        this.contentElement.style.whiteSpace = 'inherit';
+        contentElement.appendChild(this.contentElement);
       },
-      this.store
-    );
+
+      //change between updates
+      node: writable(this.node),
+      selected: writable(false),
+      decorations: writable(this.decorations)
+    };
+
+    this.element = this.#createElement(options.domAs);
+    this.element.setAttribute('data-node-view-root', 'true');
+    this.renderer = new options.component({
+      target: this.element,
+      context: new Map(Object.entries(this.context))
+    });
+  }
+
+  #createElement(as?: string | HTMLElement | ((node: PMNode) => HTMLElement)) {
+    const {node} = this;
+    return as == null
+      ? document.createElement(node.isInline ? 'span' : 'div')
+      : as instanceof HTMLElement
+        ? as
+        : as instanceof Function
+          ? as(this.node)
+          : document.createElement(as);
   }
 
   override get dom() {
-    return this.renderer.element;
+    return this.element;
   }
 
   override get contentDOM() {
     if (this.node.isLeaf) return null;
-    return this.renderer.contentElement || null;
+    return this.contentElement || null;
   }
 
   deleteNode = () => {
@@ -65,46 +112,61 @@ export class SvelteNodeView
   };
 
   update(node: PMNode) {
-    this.store.update(store => {
-      store.node = node;
-      return store;
-    });
-    return true;
+    if (this.shouldUpdate(node)) {
+      this.context.node.set(node);
+      return true;
+    }
+    return false;
+  }
+  selectNode() {
+    this.context.selected.set(true);
   }
 
-  selectNode = () => {
-    this.store.update(store => {
-      store.selected = true;
-      return store;
-    });
-  };
+  deselectNode() {
+    this.context.selected.set(false);
+  }
 
-  deselectNode = () => {
-    this.store.update(store => {
-      store.selected = false;
-      return store;
-    });
+  shouldUpdate = (node: PMNode) => {
+    if (node.type !== this.node.type) return false;
+    if (node.sameMarkup(this.node) && node.content.eq(this.node.content))
+      return false;
+    return true;
   };
-
-  toggleNodeSelection = () => {
-    if (get(this.store).selected) {
-      this.deselectNode();
-      return;
-    }
-    return this.selectNode();
-  };
-
   destroy() {
-    this.renderer.destroy();
+    this.contentElement?.remove();
+    this.element?.remove();
+    this.renderer?.$destroy();
+  }
+  ignoreMutation(mutation: MutationRecord) {
+    if (!this.dom || !this.contentDOM) return true;
+
+    if (this.node.isLeaf || this.node.isAtom) return true;
+
+    if ((mutation.type as unknown) === 'selection') return false;
+
+    if (this.contentDOM === mutation.target && mutation.type === 'attributes')
+      return true;
+
+    if (this.contentDOM.contains(mutation.target)) return false;
+
+    return true;
   }
 }
 
 export interface NodeViewRendererOptions
   extends Partial<TNodeViewRendererOptions> {
   component: ComponentType;
+  options?: unknown;
+  domAs?: string | ((node: PMNode) => HTMLElement);
   contentAs?: string;
-  domAs?: string;
 }
+
 export const SvelteNodeViewRenderer = (options: NodeViewRendererOptions) => {
-  return (props: NodeViewRendererProps) => new SvelteNodeView(options, props);
+  return (props: NodeViewRendererProps) => {
+    return new SvelteNodeView(options, props);
+  };
 };
+
+export const useNodeViewContext = <K extends keyof NodeViewContext>(
+  ctxKey: K
+) => getContext<NodeViewContext[K]>(ctxKey);

@@ -1,31 +1,30 @@
 <script lang="ts">
   import {cn} from '$lib/helpers';
-  import {useContentRef, useNodeViewProps} from '$lib/node-view';
+  import {useNodeViewContext} from '$lib/node-view';
+
   import {
     AlignVerticalSpaceAround,
     GalleryVertical,
     Trash2
   } from 'lucide-svelte';
 
-  const contentRef = useContentRef();
-  const props = useNodeViewProps();
-
-  let {node, editor, getPos, updateAttributes} = $props;
-  $: ({node, selected} = $props);
-  $: attrs = node.attrs;
-
-  const onSelect = () => {
-    editor.commands.setNodeSelection(getPos());
-  };
+  const contentDOM = useNodeViewContext('contentDOM');
+  const node = useNodeViewContext('node');
+  const selected = useNodeViewContext('selected');
+  const deleteNode = useNodeViewContext('deleteNode');
+  const selectNode = useNodeViewContext('selectNode');
+  const updateAttributes = useNodeViewContext('updateAttributes');
+  $: attrs = $node.attrs;
+  $: visible = $selected;
 </script>
 
 <figure
   data-node-type="figure"
-  data-align={attrs.direction}
+  data-align={attrs?.direction}
   style="position:relative;"
   class="relative"
 >
-  {#if selected}
+  {#if visible}
     <div class="absolute inset-x-0 flex justify-center top-[-24px]">
       <div
         class="flex flex-row items-center bg-background shadow-md rounded-md z-[1px] py-1 px-2 gap-2"
@@ -34,7 +33,7 @@
           aria-label="Fit Image"
           on:mousedown={() => updateAttributes({fit: 'contain'})}
           class={cn(
-            attrs.fit === 'contain' ? 'bg-accent' : 'bg-background',
+            attrs?.fit === 'contain' ? 'bg-accent' : 'bg-background',
             'p-[6px] rounded-md hover:bg-secondary'
           )}
         >
@@ -44,7 +43,7 @@
           aria-label="Fit View"
           on:mousedown={() => updateAttributes({fit: 'cover'})}
           class={cn(
-            attrs.fit === 'cover' ? 'bg-accent' : 'bg-background',
+            attrs?.fit === 'cover' ? 'bg-accent' : 'bg-background',
             'p-[6px] rounded-md hover:bg-secondary'
           )}
         >
@@ -54,7 +53,7 @@
         <button
           color="red"
           class="p-1 text-destructive"
-          on:mousedown={$props.deleteNode}
+          on:mousedown|preventDefault={deleteNode}
         >
           <Trash2 size={16} />
         </button>
@@ -62,18 +61,21 @@
     </div>
   {/if}
   <img
-    alt={attrs.alt}
-    src={attrs.src}
-    on:mousedown|preventDefault|stopPropagation={onSelect}
-    style="object-fit: {attrs.fit};cursor:pointer;"
+    alt={attrs?.alt}
+    src={attrs?.src}
+    style="object-fit: {attrs?.fit};cursor:pointer;"
+    on:mousedown|preventDefault={selectNode}
     class={cn(
       'border-none rounded-md',
-      selected && 'outline outline-offset-1 outline-primary'
+      visible && 'outline outline-offset-1 outline-primary'
     )}
   />
-  <figcaption use:contentRef>
-    {node.textContent || 'description...'}
-  </figcaption>
+  <figcaption
+    contenteditable="true"
+    use:contentDOM
+    style="white-space: inherit;"
+    bind:textContent={$node.textContent}
+  ></figcaption>
 </figure>
 
 <style lang="scss">

@@ -34,9 +34,10 @@
     "svelte": "*"
   },
   "dependencies": {
+    "@nextlint/core": "^1.4.0",
     "@floating-ui/dom": "^1.5.3",
     "@melt-ui/svelte": "^0.61.1",
-    "@nextlint/core": "^1.4.0",
+    "@prosemirror-adapter/svelte": "^0.2.6",
     "@svelte-put/clickoutside": "^3.0.0",
     "@svelte-put/lockscroll": "^1.0.1",
     "@tiptap/core": "^2.1.13",
@@ -52,6 +53,7 @@
     "hast-util-to-html": "^9.0.0",
     "highlight.js": "^11.9.0",
     "lucide-svelte": "^0.292.0",
+    "prosemirror-highlight": "^0.5.0",
     "radash": "^11.0.0",
     "radix-icons-svelte": "^1.2.1",
     "shiki": "^1.2.0",

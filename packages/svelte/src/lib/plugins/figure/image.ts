@@ -1,7 +1,7 @@
-import {mergeAttributes, Node, type NodeViewRenderer} from '@tiptap/core';
+import {mergeAttributes, Node} from '@tiptap/core';
 import {Paragraph} from '@tiptap/extension-paragraph';
 
-import {SvelteNodeView, SvelteNodeViewRenderer} from '$lib/node-view';
+import {SvelteNodeViewRenderer} from '$lib/node-view';
 
 import Figure from './Figure.svelte';
 import {createImageSettingPlugin} from './image-setting-plugin';

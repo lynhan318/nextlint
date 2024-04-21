@@ -3,7 +3,7 @@
 
   import SvelteEditor from '$lib/Editor.svelte';
 
-  import {getContext, onDestroy, onMount} from 'svelte';
+  import {getContext, onDestroy} from 'svelte';
   import type {Writable} from 'svelte/store';
   import {svelteEditorToHtml} from '$lib/helpers';
   import {debounce} from 'radash';
@@ -43,6 +43,8 @@ This is NOT a component library. It's a collection of re-usable components that 
     content={''}
     placeholder="Press 'space' GPT support, type '/' for help"
     onCreated={createdEditor => {
+      //@ts-ignore
+      window.editor = createdEditor;
       editor.set(createdEditor);
       const jsonLoaded = localStorage.getItem('draft') || '';
       if (jsonLoaded) {
@@ -58,7 +60,14 @@ This is NOT a component library. It's a collection of re-usable components that 
         },
         triggerOnMount: false
       },
-      ask: {query: submitPromt}
+      ask: {query: submitPromt},
+      codeBlock: {
+        langs: ['c', 'sh', 'javascript', 'html', 'typescript'],
+        themes: {
+          dark: 'vitesse-dark',
+          light: 'vitesse-light'
+        }
+      }
     }}
   />
 </div>

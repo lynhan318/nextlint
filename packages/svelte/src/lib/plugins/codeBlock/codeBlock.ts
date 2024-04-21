@@ -1,19 +1,16 @@
 import {CodeBlock} from '@tiptap/extension-code-block';
-import type {BundledLanguage, BundledTheme} from 'shiki';
-
-import {SvelteNodeViewRenderer} from '$lib/node-view';
+import type {BundledLanguage} from 'shiki';
 
 import SvelteCodeBlock from './CodeBlock.svelte';
 import {PluginKey, Plugin} from '@tiptap/pm/state';
-
-export type NextlintCodeBlockAttrs = {
-  lang: BundledLanguage;
-  theme: 'github-light' | 'github-dark';
-};
+import {SvelteNodeViewRenderer} from '$lib/node-view';
+import {createHighlightPlugin, highlighter, lazyParser} from './plugin';
+import type {ShikiTheme} from './shiki';
+import {mergeAttributes} from '@tiptap/core';
 
 export type NextlintCodeBlockOptions = {
   langs: BundledLanguage[];
-  themes: BundledTheme[];
+  themes: ShikiTheme;
 };
 
 export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
@@ -24,87 +21,90 @@ export const NextlintCodeBlock = CodeBlock.extend<NextlintCodeBlockOptions>({
       lang: {
         default: this.options.langs[0],
         parseHTML: html => {
-          return html.getAttribute('code-block-lang');
+          return html.getAttribute('data-lang');
         },
         renderHTML: attrs => {
           return {
-            'code-block-lang': attrs.lang
-          };
-        }
-      },
-      theme: {
-        default: this.options.themes[0],
-        parseHTML: html => {
-          return html.getAttribute('code-block-theme');
-        },
-        renderHTML: attrs => {
-          return {
-            'code-block-theme': attrs.theme
+            'data-lang': attrs.lang
           };
         }
       }
     };
   },
-
-  addOptions() {
-    return {
-      themes: ['github-light', 'github-dark'],
-      langs: [
-        'javascript',
-        'rust',
-        'typescript',
-        'css',
-        'html',
-        'tsx',
-        'svelte',
-        'json',
-        'shell',
-        'yaml',
-        'vue',
-        'lua',
-        'python',
-        'c',
-        'c++',
-        'java',
-        'zig',
-        'swift',
-        'kotlin',
-        'go',
-        'angular-ts',
-        'angular-html'
+  renderHTML({HTMLAttributes, node}) {
+    const textContent = node.textContent;
+    const withSyntax = highlighter?.codeToHtml(textContent, {
+      lang: node.attrs.lang,
+      themes: this.options.themes
+    });
+    const parsed = new DOMParser().parseFromString(
+      withSyntax || '',
+      'text/html'
+    );
+    const pre = parsed.querySelector('pre.shiki');
+    if (pre) {
+      pre.setAttribute('data-lang', node.attrs.lang);
+      return pre;
+    }
+    return [
+      'pre',
+      mergeAttributes(HTMLAttributes, {
+        'data-node-view-root': true
+      }),
+      [
+        'pre',
+        {
+          'data-node-view-content': true
+        },
+        0
       ]
-    };
+    ];
+  },
+
+  onCreate() {
+    const {dark, light} = this.options.themes;
+    if (dark) {
+      highlighter?.loadTheme(dark);
+    }
+    if (light) {
+      highlighter?.loadTheme(light);
+    }
+  },
+  addProseMirrorPlugins() {
+    return [
+      createHighlightPlugin({parser: lazyParser, themes: this.options.themes}),
+      new Plugin({
+        key: new PluginKey('codeBlock'),
+        props: {
+          handleKeyDown: (view, event) => {
+            if (event.key === 'Tab') {
+              const resolver = view.state.selection.$from;
+              const pNode = resolver.node(1);
+              if (pNode.type.name === this.name) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.editor
+                  .chain()
+                  .insertContentAt(resolver.pos, '\t')
+                  .setTextSelection(resolver.pos + 1)
+                  .run();
+              }
+            }
+          }
+        }
+      })
+    ];
   },
 
   addNodeView() {
     return SvelteNodeViewRenderer({
       component: SvelteCodeBlock,
-      domAs: 'code-block',
-      contentAs: 'pre'
-    });
-  },
-
-  addProseMirrorPlugins() {
-    const codeBlockPlugin = new Plugin({
-      key: new PluginKey('codeBlock'),
-      props: {
-        handleKeyDown: (view, event) => {
-          if (event.key === 'Tab') {
-            const resolver = view.state.selection.$from;
-            const pNode = resolver.node(1);
-            if (pNode.type.name === this.name) {
-              event.preventDefault();
-              event.stopPropagation();
-              this.editor
-                .chain()
-                .insertContentAt(resolver.pos, '\t')
-                .setTextSelection(resolver.pos + 1)
-                .run();
-            }
-          }
-        }
+      options: this.options,
+      domAs: () => {
+        const pre = document.createElement('pre');
+        pre.classList.add('shiki');
+        return pre;
       }
     });
-    return [codeBlockPlugin];
   }
 });

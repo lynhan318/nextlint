@@ -3,6 +3,7 @@
     image?: ImagePluginOptions;
     ask?: AskOptions;
     dropCursor?: DropcursorOptions;
+    codeBlock?: NextlintCodeBlockOptions;
   };
 </script>
 
@@ -11,7 +12,10 @@
   import type {Content, Editor, Extensions} from '@tiptap/core';
 
   import {LinkExtension} from '$lib/plugins/link';
-  import {NextlintCodeBlock} from '$lib/plugins/codeBlock';
+  import {
+    NextlintCodeBlock,
+    type NextlintCodeBlockOptions
+  } from '$lib/plugins/codeBlock';
   import {PluginAsk, type AskOptions} from '$lib/plugins/ask';
   import {FigureExtension} from '$lib/plugins/figure';
   import {
@@ -25,10 +29,12 @@
     Dropcursor,
     type DropcursorOptions
   } from '@tiptap/extension-dropcursor';
+  import {useProsemirrorAdapterProvider} from '@prosemirror-adapter/svelte';
 
   import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
   import {BubbleMenuExtension} from './plugins/bubbleMenu/bubbleMenu';
 
+  useProsemirrorAdapterProvider();
   export let content: Content;
   export let placeholder = "Press 'space' GPT support, type '/' for help";
   export let onChange: (editor: Editor) => void;
@@ -55,7 +61,15 @@
       FigureExtension,
       SelectImageExtension.configure(plugins.image),
       Dropcursor.configure(plugins.dropCursor),
-      NextlintCodeBlock.configure(),
+      NextlintCodeBlock.configure(
+        plugins.codeBlock || {
+          themes: {
+            dark: 'github-dark',
+            light: 'github-light'
+          },
+          langs: []
+        }
+      ),
       BubbleMenuExtension.configure({
         component: BubbleMenu
       }),

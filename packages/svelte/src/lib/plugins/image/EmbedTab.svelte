@@ -1,13 +1,13 @@
 <script lang="ts">
-  import {useNodeViewProps} from '$lib/node-view';
+  import {useNodeViewContext} from '$lib/node-view';
 
-  const props = useNodeViewProps();
+  const deleteNode = useNodeViewContext('deleteNode');
+  const getPos = useNodeViewContext('getPos');
+  const editor = useNodeViewContext('editor');
 
   let value = '';
 
   $: onInsert = () => {
-    const {editor, getPos, deleteNode} = $props;
-
     if (typeof getPos === 'function') {
       const pos = getPos();
       deleteNode();
