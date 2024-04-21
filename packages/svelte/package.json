@@ -1,6 +1,6 @@
 {
   "name": "@nextlint/svelte",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "scripts": {
     "playground": "vite dev",
     "dev": "pnpm dev:package",
