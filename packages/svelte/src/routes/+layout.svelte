@@ -15,7 +15,6 @@
   setContext('editor', editor);
   const toHTML = () => {
     const html = $editor.getHTML();
-    console.log('>>>>>>> html', html);
   };
 </script>
 

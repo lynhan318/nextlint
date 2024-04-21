@@ -6,9 +6,11 @@
   import type {NextlintCodeBlockOptions} from './codeBlock';
   import {cn} from '$lib/helpers';
   import {useNodeViewContext} from '$lib/node-view';
+  import {onDestroy} from 'svelte';
 
   const options = useNodeViewContext('options') as NextlintCodeBlockOptions;
   const setAttrs = useNodeViewContext('updateAttributes');
+  const node = useNodeViewContext('node');
 
   const LANGUAGES = options.langs;
 
@@ -21,6 +23,10 @@
     multiple: false
   });
 
+  const dispose = node.subscribe(({attrs}) => {
+    inputValue.set(attrs.lang);
+  });
+
   $: filteredLanguages = $touchedInput
     ? LANGUAGES.filter(lang => {
         const normalizedInput = $inputValue.toLowerCase();
@@ -28,9 +34,7 @@
       })
     : LANGUAGES;
 
-  $: if (!$open) {
-    $inputValue = $selected?.label ?? '';
-  }
+  onDestroy(dispose);
 </script>
 
 <div class="absolute right-1 top-1 z-10" contenteditable="false">

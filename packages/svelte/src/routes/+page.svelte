@@ -50,7 +50,6 @@ This is NOT a component library. It's a collection of re-usable components that 
       if (jsonLoaded) {
         createdEditor.commands.setContent(JSON.parse(jsonLoaded), false);
       }
-      console.log(createdEditor.state);
     }}
     onChange={editor.set}
     plugins={{
@@ -61,7 +60,14 @@ This is NOT a component library. It's a collection of re-usable components that 
         },
         triggerOnMount: false
       },
-      ask: {query: submitPromt}
+      ask: {query: submitPromt},
+      codeBlock: {
+        langs: ['c', 'sh', 'javascript', 'html', 'typescript'],
+        themes: {
+          dark: 'vitesse-dark',
+          light: 'vitesse-light'
+        }
+      }
     }}
   />
 </div>

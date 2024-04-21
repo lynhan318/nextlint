@@ -3,6 +3,7 @@
     image?: ImagePluginOptions;
     ask?: AskOptions;
     dropCursor?: DropcursorOptions;
+    codeBlock?: NextlintCodeBlockOptions;
   };
 </script>
 
@@ -11,7 +12,10 @@
   import type {Content, Editor, Extensions} from '@tiptap/core';
 
   import {LinkExtension} from '$lib/plugins/link';
-  import {NextlintCodeBlock} from '$lib/plugins/codeBlock';
+  import {
+    NextlintCodeBlock,
+    type NextlintCodeBlockOptions
+  } from '$lib/plugins/codeBlock';
   import {PluginAsk, type AskOptions} from '$lib/plugins/ask';
   import {FigureExtension} from '$lib/plugins/figure';
   import {
@@ -57,22 +61,15 @@
       FigureExtension,
       SelectImageExtension.configure(plugins.image),
       Dropcursor.configure(plugins.dropCursor),
-      NextlintCodeBlock.configure({
-        themes: {
-          dark: 'github-dark',
-          light: 'github-light'
-        },
-        langs: [
-          'css',
-          'html',
-          'javascript',
-          'typescript',
-          'rust',
-          'go',
-          'lua',
-          'shell'
-        ]
-      }),
+      NextlintCodeBlock.configure(
+        plugins.codeBlock || {
+          themes: {
+            dark: 'github-dark',
+            light: 'github-light'
+          },
+          langs: []
+        }
+      ),
       BubbleMenuExtension.configure({
         component: BubbleMenu
       }),

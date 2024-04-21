@@ -78,7 +78,7 @@
   @apply outline-none text-foreground;
 
   h1 {
-    @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
+    @apply mt-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
   }
 
   h2 {
@@ -130,6 +130,7 @@
     min-height: 52px;
     height: 100%;
     border: 1px solid theme('colors.border');
+    margin-top: 1.5rem;
   }
 
   p > code {
