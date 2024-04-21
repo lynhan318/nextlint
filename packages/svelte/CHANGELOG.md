@@ -1,5 +1,11 @@
 # @nextlint/editor
 
+## 3.1.0
+
+### Minor Changes
+
+- [#88](https://github.com/lynhan318/nextlint/pull/88) [`6d01b09`](https://github.com/lynhan318/nextlint/commit/6d01b096f2b08d9fd6467eebe074100ee1c383a9) Thanks [@lynhan318](https://github.com/lynhan318)! - refactor: codeBlock
+
 ## 3.0.3
 
 ### Patch Changes
