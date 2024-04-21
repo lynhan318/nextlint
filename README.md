@@ -336,7 +336,11 @@ Default:
 }
 ```
 
-The codeBlock theme will sync with the theme props.
+The `codeBlock` theme will sync with the `theme` props.
+
+
+https://github.com/lynhan318/nextlint/assets/32099104/d5d5c72d-787d-4b16-882f-2cba0dbfaa35
+
 
 ```svelte
   <SvelteEditor
