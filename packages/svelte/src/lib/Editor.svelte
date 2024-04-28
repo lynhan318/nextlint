@@ -33,6 +33,7 @@
 
   import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
   import {BubbleMenuExtension} from './plugins/bubbleMenu/bubbleMenu';
+  import {BlockMenuExtension} from './plugins/blockMenu';
 
   useProsemirrorAdapterProvider();
   export let content: Content;
@@ -59,6 +60,7 @@
       HighlightExtension,
       SlashMenu,
       FigureExtension,
+      BlockMenuExtension,
       SelectImageExtension.configure(plugins.image),
       Dropcursor.configure(plugins.dropCursor),
       NextlintCodeBlock.configure(

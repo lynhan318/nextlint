@@ -4,7 +4,6 @@ import {renderHTML} from '@nextlint/core';
 import {twMerge} from 'tailwind-merge';
 
 import type {Editor} from '$lib';
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -20,3 +19,11 @@ export const svelteEditorToHtml = async (editor: Editor) => {
     return '';
   }
 };
+
+export function tryParse<T>(data: string): T | null {
+  try {
+    return JSON.parse(data) as T;
+  } catch (error) {
+    return null;
+  }
+}
