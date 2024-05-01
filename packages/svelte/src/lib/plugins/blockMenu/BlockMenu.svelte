@@ -5,11 +5,9 @@
   import {derived, type Readable, type Writable} from 'svelte/store';
   import {useFloatingProps} from '$lib/node-view';
   import type {Content} from '@tiptap/core';
-  import {Trash} from 'radix-icons-svelte';
 
   const dataStore = getContext<Writable<BlockMenuData>>('data');
   const {editor} = useFloatingProps();
-  $: ({node} = $dataStore);
 
   const nodePos: Readable<number> = derived(dataStore, $store => {
     let pos = -1;
@@ -26,8 +24,9 @@
     const {dom} = $dataStore;
     e.dataTransfer.clearData();
     e.dataTransfer.setDragImage(dom, 0, 0);
-    let pos: number = -1;
-    if (pos > -1 && e.dataTransfer) {
+  };
+  const setNodeSelection = () => {
+    if ($nodePos > -1) {
       editor.commands.setNodeSelection($nodePos);
     }
   };
@@ -54,39 +53,14 @@
         .run();
     }
   };
-
-  $: onRemoveNode = e => {
-    if (
-      editor
-        .chain()
-        .deleteRange({
-          from: $nodePos,
-          to: $nodePos + node.nodeSize
-        })
-        .scrollIntoView()
-        .run()
-    ) {
-      menu = false;
-      return;
-    }
-  };
-
-  let menu = false;
 </script>
 
 <div
   on:dragstart={dragStart}
   on:dragend={dragEnd}
+  on:mousedown={setNodeSelection}
   draggable="true"
-  class="bg-background cursor-pointer z-10 shadow-md active:bg-accent"
-  on:click={() => {
-    menu = true;
-  }}
+  class="cursor-pointer z-10 text-accent-foreground active:bg-accent rounded-sm"
 >
-  <GripVertical />
-  {#if menu}
-    <button on:mousedown|stopPropagation|preventDefault={onRemoveNode}>
-      <Trash />
-    </button>
-  {/if}
+  <GripVertical size={18} />
 </div>

@@ -37,7 +37,6 @@ class BlockMenuPlugin extends Plugin {
         handleDOMEvents: {
           mousemove: throttle({interval: 70}, (view, e) => {
             const editorBound = view.dom.getBoundingClientRect();
-            console.log('editorBound', editorBound);
             const {pos} =
               view.posAtCoords({
                 top: e.y,
@@ -74,8 +73,8 @@ class BlockMenuPlugin extends Plugin {
                 placement: 'top-start',
                 middleware: [
                   offset({
-                    crossAxis: -40,
-                    mainAxis: -25
+                    crossAxis: -30,
+                    mainAxis: -24
                   })
                 ]
               }

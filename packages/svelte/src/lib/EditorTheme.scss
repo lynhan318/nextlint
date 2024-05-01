@@ -103,7 +103,7 @@
 
   ul,
   ol {
-    @apply my-6 ml-6 [&>li]:mt-2;
+    @apply mt-6 pl-6 [&>li]:mt-2;
   }
 
   ul {
@@ -142,6 +142,7 @@
   }
 
   figure {
+    position: relative;
     @apply mt-6;
 
     img {
@@ -181,6 +182,11 @@
   image-placeholder {
     margin-top: theme('margin.6');
     display: block;
+  }
+  .ProseMirror-selectednode {
+    outline: 2px solid theme('colors.border');
+    outline-offset: 6px;
+    border-radius: 2px;
   }
 }
 
