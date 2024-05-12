@@ -4,6 +4,7 @@
     ask?: AskOptions;
     dropCursor?: DropcursorOptions;
     codeBlock?: NextlintCodeBlockOptions;
+    blockMenu?: boolean;
   };
 </script>
 
@@ -60,7 +61,6 @@
       HighlightExtension,
       SlashMenu,
       FigureExtension,
-      BlockMenuExtension,
       SelectImageExtension.configure(plugins.image),
       Dropcursor.configure(plugins.dropCursor),
       NextlintCodeBlock.configure(
@@ -75,6 +75,7 @@
       BubbleMenuExtension.configure({
         component: BubbleMenu
       }),
+      plugins.blockMenu && BlockMenuExtension,
       plugins.ask && PluginAsk.configure(plugins.ask)
     ]
       .concat(extensions)
