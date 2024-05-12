@@ -119,10 +119,17 @@ export class SvelteNodeView
     return false;
   }
   selectNode() {
+    this.editor.commands.setNodeSelection(this.getPos());
     this.context.selected.set(true);
+    requestAnimationFrame(() => {
+      this.element.classList.add('ProseMirror-selectednode');
+    });
   }
 
   deselectNode() {
+    requestAnimationFrame(() => {
+      this.element.classList.remove('ProseMirror-selectednode');
+    });
     this.context.selected.set(false);
   }
 

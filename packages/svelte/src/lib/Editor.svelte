@@ -4,6 +4,7 @@
     ask?: AskOptions;
     dropCursor?: DropcursorOptions;
     codeBlock?: NextlintCodeBlockOptions;
+    blockMenu?: boolean;
   };
 </script>
 
@@ -33,6 +34,7 @@
 
   import BubbleMenu from './components/BubbleMenu/BubbleMenu.svelte';
   import {BubbleMenuExtension} from './plugins/bubbleMenu/bubbleMenu';
+  import {BlockMenuExtension} from './plugins/blockMenu';
 
   useProsemirrorAdapterProvider();
   export let content: Content;
@@ -73,6 +75,7 @@
       BubbleMenuExtension.configure({
         component: BubbleMenu
       }),
+      plugins.blockMenu && BlockMenuExtension,
       plugins.ask && PluginAsk.configure(plugins.ask)
     ]
       .concat(extensions)

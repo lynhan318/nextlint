@@ -81,6 +81,7 @@ export const FigureExtension = Node.create<FigureOptions>({
   addNodeView() {
     return SvelteNodeViewRenderer({
       component: Figure,
+      domAs: 'figure',
       contentAs: 'figcaption'
     });
   },

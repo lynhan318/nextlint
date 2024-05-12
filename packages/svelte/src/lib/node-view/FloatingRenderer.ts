@@ -19,6 +19,7 @@ export type FloatingMountProps = {
   pos?: number;
   mark?: Mark;
   node?: Node;
+  data?: unknown;
 };
 export type SvelteFloatingProps = {
   editor: Editor;
@@ -71,6 +72,7 @@ class FloatingRenderer {
     this.svelteRenderer = new Component({
       target: this.wrapper,
       context: new Map([
+        ['data', props.data],
         [
           FLOATING_CONTEXT_KEY,
           {
@@ -84,8 +86,8 @@ class FloatingRenderer {
       ])
     });
     const {x, y} = await computePosition(element, this.wrapper, {
-      ...this.floatingOptions,
-      ...FloatingRenderer.DEFAULT_OPTIONS
+      ...FloatingRenderer.DEFAULT_OPTIONS,
+      ...this.floatingOptions
     });
     Object.assign(this.wrapper.style, {
       left: `${x}px`,
@@ -113,9 +115,11 @@ class FloatingRenderer {
       return;
     }
     const {x, y} = await computePosition(props.element, this.wrapper, {
-      ...this.floatingOptions,
-      ...FloatingRenderer.DEFAULT_OPTIONS
+      ...FloatingRenderer.DEFAULT_OPTIONS,
+      ...this.floatingOptions
     });
+    console.log('>>>>>>> x', x);
+    console.log('>>>>>>> y', y);
     Object.assign(this.wrapper.style, {
       left: `${x}px`,
       top: `${y}px`
