@@ -35,13 +35,13 @@ class BlockMenuPlugin extends Plugin {
       key: new PluginKey('BlockMenuPlugin'),
       props: {
         handleDOMEvents: {
-          mousemove: throttle({interval: 70}, (view, e) => {
+          mousemove: throttle({interval: 100}, (view, e) => {
             const editorBound = view.dom.getBoundingClientRect();
-            const {pos} =
-              view.posAtCoords({
-                top: e.y,
-                left: (editorBound.right - editorBound.left) / 2
-              }) || {};
+            const coord = {
+              top: e.y,
+              left: (editorBound.right + editorBound.left) / 2
+            };
+            const {pos} = view.posAtCoords(coord) || {};
             if (!pos) return;
             const domAtPos = view.domAtPos(pos, 0);
             const rootNode = findRootNode(
