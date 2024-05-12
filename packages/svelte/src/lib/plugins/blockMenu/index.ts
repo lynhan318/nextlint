@@ -1,12 +1,13 @@
 import {Editor, Extension} from '@tiptap/core';
 import {PluginKey, Plugin} from '@tiptap/pm/state';
 import {Node as PMNode} from '@tiptap/pm/model';
-import {throttle} from 'radash';
-
-import BlockMenu from './BlockMenu.svelte';
-import {FloatingRenderer} from '$lib/node-view';
 import {offset, type VirtualElement} from '@floating-ui/dom';
 import {writable} from 'svelte/store';
+import {throttle} from 'radash';
+
+import {FloatingRenderer} from '$lib/node-view';
+
+import BlockMenu from './BlockMenu.svelte';
 
 export const BlockMenuExtension = Extension.create({
   name: 'BlockMenuExtension',
@@ -48,6 +49,8 @@ class BlockMenuPlugin extends Plugin {
               view.dom,
               domAtPos.node as HTMLElement
             );
+
+            console.log({rootNode});
 
             if (!rootNode) {
               this.renderer?.unmount();
@@ -102,10 +105,20 @@ class BlockMenuPlugin extends Plugin {
     });
 
     editor.on('destroy', () => {
-      this.renderer?.destroy();
-      this.renderElement = null;
-      this.data.set(null);
+      this.destroy();
     });
+
+    editor.on('update', ({transaction}) => {
+      if (transaction.docChanged && this.renderer?.mounted) {
+        this.destroy();
+      }
+    });
+  }
+  destroy() {
+    this.renderer?.destroy();
+    this.renderer = null;
+    this.renderElement = null;
+    this.data.set(null);
   }
 }
 
