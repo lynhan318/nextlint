@@ -34,7 +34,7 @@
     "svelte": "*"
   },
   "dependencies": {
-    "@nextlint/core": "^1.4.0",
+    "@nextlint/core": "file:../core",
     "@floating-ui/dom": "^1.5.3",
     "@melt-ui/svelte": "^0.61.1",
     "@prosemirror-adapter/svelte": "^0.2.6",

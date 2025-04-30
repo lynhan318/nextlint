@@ -4,6 +4,9 @@
   "private": false,
   "author": "lynhan318",
   "description": "Nextlint is a WYSIWYG editor, writen in Svelte",
+  "workspaces": [
+    "./packages/*"
+  ],
   "scripts": {
     "build": "turbo run build --parallel",
     "dev": "pnpm run --parallel --filter './packages/**' dev",
@@ -59,9 +62,6 @@
   },
   "license": "MIT",
   "type": "module",
-  "volta": {
-    "node": "18.12.1"
-  },
   "dependencies": {
     "acorn": "^8.11.2"
   }

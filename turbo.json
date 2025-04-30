@@ -1,27 +1,27 @@
 {
-  "pipeline": {
-    "deploy": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".svelte-kit/**"]
-    },
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".build/**", ""]
-    },
-    "lint": {
-      "outputs": []
-    },
-    "dev": {
-      "cache": false
-    },
-    "preview": {
-      "cache": false
-    },
-    "clean": {
-      "cache": false
-    },
-    "package": {
-      "outputs": ["package"]
-    }
-  }
+	"tasks": {
+		"deploy": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", ".svelte-kit/**"]
+		},
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", ".build/**", ""]
+		},
+		"lint": {
+			"outputs": []
+		},
+		"dev": {
+			"cache": false
+		},
+		"preview": {
+			"cache": false
+		},
+		"clean": {
+			"cache": false
+		},
+		"package": {
+			"outputs": ["package"]
+		}
+	}
 }
