@@ -1,11 +1,17 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import {createCheckbox, melt} from '@melt-ui/svelte';
   import {Check, Link} from 'lucide-svelte';
   import {onDestroy} from 'svelte';
 
-  export let link = '';
-  export let external = true;
-  export let onSubmit = () => {};
+  interface Props {
+    link?: string;
+    external?: boolean;
+    onSubmit?: any;
+  }
+
+  let { link = $bindable(''), external = $bindable(true), onSubmit = () => {} }: Props = $props();
 
   const {
     elements: {root, input},
@@ -23,7 +29,7 @@
 
 <form
   class="flex gap-2 flex-col min-w-[300px]"
-  on:submit|preventDefault={onSubmit}
+  onsubmit={preventDefault(onSubmit)}
 >
   <label class="flex items-center gap-2 rounded-lg cursor-text">
     <Link class="absolute left-4 text-primary" size={16} />

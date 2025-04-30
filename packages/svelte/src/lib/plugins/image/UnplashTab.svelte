@@ -2,12 +2,11 @@
   import {onMount} from 'svelte';
   import {createApi} from 'unsplash-js';
 
-  export let unsplash = {accessKey: ''};
 
-  let lists: any = [];
-  let query = '';
-  let loading = false;
-  export let onInsert = (url: string, alt: string) => {};
+  let lists: any = $state([]);
+  let query = $state('');
+  let loading = $state(false);
+  let { unsplash = {accessKey: ''}, onInsert = (url: string, alt: string) => {} } = $props();
 
   const api = createApi({
     accessKey: unsplash.accessKey
@@ -27,12 +26,12 @@
     }
     loading = false;
   };
-  $: size = lists.length / 3;
-  $: [col1, col2, col3] = [
+  let size = $derived(lists.length / 3);
+  let [col1, col2, col3] = $derived([
     lists.slice(0, size),
     lists.slice(size, size * 2),
     lists.slice(size * 2, lists.length)
-  ];
+  ]);
 
   onMount(() => {
     onSearch();
@@ -42,7 +41,7 @@
 <div class="h-[400px] overflow-y-auto bg-background py-2">
   <form
     style="position: relative;"
-    on:submit={e => {
+    onsubmit={e => {
       e.preventDefault();
       onSearch();
     }}
@@ -80,7 +79,7 @@
       {#each col1 as image}
         <button
           class="outline-none"
-          on:click={() => {
+          onclick={() => {
             onInsert(image.urls.regular, `Unsplash: ${image.user.name}`);
           }}
         >
@@ -102,7 +101,7 @@
       {#each col2 as image}
         <button
           class=" outline-none"
-          on:click={() => {
+          onclick={() => {
             onInsert(image.urls.regular, `Unsplash: ${image.user.name}`);
           }}
         >
@@ -124,7 +123,7 @@
       {#each col3 as image}
         <button
           class="outline-none"
-          on:click={() => {
+          onclick={() => {
             onInsert(image.urls.regular, `Unsplash: ${image.user.name}`);
           }}
         >

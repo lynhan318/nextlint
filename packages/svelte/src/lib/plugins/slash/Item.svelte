@@ -1,28 +1,42 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
 import { cn } from "$lib/helpers";
 import { type SvelteComponent, createEventDispatcher } from "svelte";
 
 const dispatcher = createEventDispatcher<{
 	active: HTMLElement;
 }>();
-export let text = "";
-export let description = "";
-export let icon: SvelteComponent | null = null;
-export let active = false;
-export let onClick = () => {};
-let element: HTMLElement;
-$: {
+  interface Props {
+    text?: string;
+    description?: string;
+    icon?: SvelteComponent | null;
+    active?: boolean;
+    onClick?: any;
+  }
+
+  let {
+    text = "",
+    description = "",
+    icon = null,
+    active = false,
+    onClick = () => {}
+  }: Props = $props();
+let element: HTMLElement = $state();
+run(() => {
 	if (active) {
 		// wait for next tick make sure layout is ready
 		setTimeout(() => {
 			dispatcher("active", element);
 		});
 	}
-}
+});
+
+  const SvelteComponent_1 = $derived(icon);
 </script>
 
 <button
-  on:click={onClick}
+  onclick={onClick}
   bind:this={element}
   class={cn(
     `grid grid-cols-[40px,auto] outline-none w-full cursor-pointer 
@@ -31,7 +45,7 @@ $: {
   )}
 >
   <div class="pl-4 w-10 h-10 flex items-center justify-center">
-    <svelte:component this={icon} size={24} />
+    <SvelteComponent_1 size={24} />
   </div>
   <div class="w-full text-left ml-4">
     <p class="text-base font-medium">

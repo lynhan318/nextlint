@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { stopPropagation } from 'svelte/legacy';
+
   import {createPopover, melt} from '@melt-ui/svelte';
   import {fade} from 'svelte/transition';
   import {ImageIcon, Trash2} from 'lucide-svelte';
@@ -21,8 +23,8 @@
   const removeNode = () => deleteNode();
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 
 <div class="relative">
   <button
@@ -33,7 +35,7 @@
   </button>
   <button
     class="w-10 h-10 cursor-pointer !text-red-400 absolute bottom-1 right-1"
-    on:click|stopPropagation={() => removeNode()}
+    onclick={stopPropagation(() => removeNode())}
   >
     <Trash2 size={16} />
   </button>

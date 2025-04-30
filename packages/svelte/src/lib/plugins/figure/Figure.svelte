@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import {cn} from '$lib/helpers';
   import {useNodeViewContext} from '$lib/node-view';
 
@@ -14,8 +16,8 @@
   const deleteNode = useNodeViewContext('deleteNode');
   const selectNode = useNodeViewContext('selectNode');
   const updateAttributes = useNodeViewContext('updateAttributes');
-  $: attrs = $node.attrs;
-  $: visible = $selected;
+  let attrs = $derived($node.attrs);
+  let visible = $derived($selected);
 </script>
 
 <figure
@@ -31,7 +33,7 @@
       >
         <button
           aria-label="Fit Image"
-          on:mousedown={() => updateAttributes({fit: 'contain'})}
+          onmousedown={() => updateAttributes({fit: 'contain'})}
           class={cn(
             attrs?.fit === 'contain' ? 'bg-accent' : 'bg-background',
             'p-[6px] rounded-md hover:bg-secondary'
@@ -41,7 +43,7 @@
         </button>
         <button
           aria-label="Fit View"
-          on:mousedown={() => updateAttributes({fit: 'cover'})}
+          onmousedown={() => updateAttributes({fit: 'cover'})}
           class={cn(
             attrs?.fit === 'cover' ? 'bg-accent' : 'bg-background',
             'p-[6px] rounded-md hover:bg-secondary'
@@ -49,11 +51,11 @@
         >
           <GalleryVertical size={16} />
         </button>
-        <div class="w-[1px] h-6 bg-border" />
+        <div class="w-[1px] h-6 bg-border"></div>
         <button
           color="red"
           class="p-1 text-destructive"
-          on:mousedown|preventDefault={deleteNode}
+          onmousedown={preventDefault(deleteNode)}
         >
           <Trash2 size={16} />
         </button>
@@ -64,7 +66,7 @@
     alt={attrs?.alt}
     src={attrs?.src}
     style="object-fit: {attrs?.fit};cursor:pointer;"
-    on:mousedown|preventDefault={selectNode}
+    onmousedown={preventDefault(selectNode)}
     class={cn(
       'border-none rounded-md',
       visible && 'outline outline-offset-1 outline-primary'

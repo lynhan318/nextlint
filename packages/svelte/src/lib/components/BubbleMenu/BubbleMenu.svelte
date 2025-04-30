@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   // Icons
   import {
     Bold,
@@ -35,7 +37,7 @@
     'doc'
   ];
 
-  $: visibleNode = (() => {
+  let visibleNode = $derived((() => {
     const resolver = $editor.state.selection.$from;
     if (!resolver) return;
     let node = resolver.node(resolver.depth);
@@ -53,7 +55,7 @@
       return;
     }
     return node;
-  })();
+  })());
 
   const collectFontValues = () => {
     const values = [
@@ -92,8 +94,8 @@
     $editor!.off('update', updateBubbleState);
     $editor!.off('selectionUpdate', updateBubbleState);
   });
-  $: {
-  }
+  run(() => {
+  });
 </script>
 
 {#if visibleNode}
@@ -106,7 +108,7 @@
       <button
         class="item"
         data-state={$fontValues.has('Bold') ? 'on' : 'off'}
-        on:click={() => {
+        onclick={() => {
           $editor.chain().focus().toggleBold().run();
         }}
       >
@@ -115,7 +117,7 @@
       <button
         class={cn('item')}
         data-state={$fontValues.has('Italic') ? 'on' : 'off'}
-        on:mousedown={() => {
+        onmousedown={() => {
           $editor.chain().focus().toggleItalic().run();
         }}
       >
@@ -124,7 +126,7 @@
       <button
         class={cn('item')}
         data-state={$fontValues.has('Underline') ? 'on' : 'off'}
-        on:mousedown={() => {
+        onmousedown={() => {
           $editor.chain().focus().toggleUnderline().run();
         }}
       >
@@ -133,7 +135,7 @@
       <button
         class={cn('item')}
         data-state={$fontValues.has('Strike') ? 'on' : 'off'}
-        on:mousedown={() => {
+        onmousedown={() => {
           $editor.chain().focus().toggleStrike().run();
         }}
       >
@@ -142,35 +144,37 @@
       <button
         class={cn('item')}
         data-state={$fontValues.has('Code') ? 'on' : 'off'}
-        on:mousedown={() => {
+        onmousedown={() => {
           $editor.chain().focus().toggleCode().run();
         }}
       >
         <Code size={20} />
       </button>
-      <LinkButtonProps let:trigger let:link>
-        <button
-          use:melt={trigger}
-          class={cn('item')}
-          data-state={link ? 'on' : 'off'}
-        >
-          <Link size={20} />
-        </button>
-      </LinkButtonProps>
+      <LinkButtonProps  >
+        {#snippet children({ trigger, link })}
+                <button
+            use:melt={trigger}
+            class={cn('item')}
+            data-state={link ? 'on' : 'off'}
+          >
+            <Link size={20} />
+          </button>
+                      {/snippet}
+            </LinkButtonProps>
     </div>
-    <div class="separator" />
+    <div class="separator"></div>
     <div class="flex items-center gap-1">
       <button
         class={cn('item')}
         data-state={$alignValues === 'left' ? 'on' : 'off'}
-        on:mousedown={() => $editor.chain().focus().setTextAlign('left').run()}
+        onmousedown={() => $editor.chain().focus().setTextAlign('left').run()}
       >
         <AlignLeft size={20} />
       </button>
       <button
         class={cn('item')}
         data-state={$alignValues === 'center' ? 'on' : 'off'}
-        on:mousedown={() => {
+        onmousedown={() => {
           $editor.chain().focus().setTextAlign('center').run();
         }}
       >
@@ -179,14 +183,14 @@
       <button
         class={cn('item')}
         data-state={$alignValues === 'right' ? 'on' : 'off'}
-        on:mousedown={() => {
+        onmousedown={() => {
           $editor.chain().focus().setTextAlign('right').run();
         }}
       >
         <AlignRight size={20} />
       </button>
     </div>
-    <div class="separator" />
+    <div class="separator"></div>
     {#if visibleNode}
       <DropdownMenu {visibleNode} />
     {/if}

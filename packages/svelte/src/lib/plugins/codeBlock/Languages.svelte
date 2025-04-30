@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import {Check, ChevronDown, ChevronUp} from 'lucide-svelte';
   import {createCombobox, melt} from '@melt-ui/svelte';
   import {fly} from 'svelte/transition';
@@ -27,12 +29,12 @@
     inputValue.set(attrs.lang);
   });
 
-  $: filteredLanguages = $touchedInput
+  let filteredLanguages = $derived($touchedInput
     ? LANGUAGES.filter(lang => {
         const normalizedInput = $inputValue.toLowerCase();
         return lang.includes(normalizedInput);
       })
-    : LANGUAGES;
+    : LANGUAGES);
 
   onDestroy(dispose);
 </script>
@@ -65,7 +67,7 @@
     use:melt={$menu}
     transition:fly={{duration: 150, y: -5}}
   >
-    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <div
       class="flex max-h-full flex-col gap-1 overflow-y-auto clean-scroll bg-background border border-accent px-2 py-2 text-foreground rounded-lg p-1"
       tabindex="0"
@@ -76,7 +78,7 @@
             value: lang,
             label: lang
           })}
-          on:mousedown|preventDefault={() => setAttrs({lang})}
+          onmousedown={preventDefault(() => setAttrs({lang}))}
           class="flex flex-row items-center justify-between cursor-pointer
           rounded-md py-1 pl-4 pr-4 data-[highlighted]:bg-accent
           data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50"

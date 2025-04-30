@@ -1,4 +1,4 @@
-<svelte:options accessors={true} />
+<svelte:options ={true} />
 
 <script lang="ts">
   import {lockscroll, createLockScrollStore} from '@svelte-put/lockscroll';
@@ -8,13 +8,12 @@
 
   const options: GPTOptions = getContext('options');
 
-  let prompt = '';
-  let submiting = false;
-  let completion = '';
-  let input: HTMLElement;
+  let prompt = $state('');
+  let submiting = $state(false);
+  let completion = $state('');
+  let input: HTMLElement = $state();
 
-  export let onApply = (text: string) => {};
-  export let onClose = () => {};
+  let { onApply = (text: string) => {}, onClose = () => {} } = $props();
 
   // external access {{
   export const onShow = () => {
@@ -49,25 +48,30 @@
   onDestroy(() => {
     $locked = false;
   });
+
+  export {
+  	onApply,
+  	onClose,
+  }
 </script>
 
 <svelte:body use:lockscroll={locked} />
 <div
   class="bg-background text-foreground w-[480px] absolute z-10 rounded-md shadow-lg p-4 border border-border"
 >
-  <form on:submit={onSubmit}>
+  <form onsubmit={onSubmit}>
     <textarea
       class="w-full outline-none bg-background text-foreground resize-none overflow-y-auto border border-border p-2 rounded-md"
       rows="2"
       bind:this={input}
       placeholder="Hi there! How can I help you? 👋👋👋 "
       bind:value={prompt}
-      on:keypress={e => {
+      onkeypress={e => {
         if (e.key === 'Enter') {
           return onSubmit(e);
         }
       }}
-    />
+></textarea>
   </form>
 
   <div class="w-full bg-background text-foreground">
@@ -99,18 +103,18 @@
           class="w-full bg-background text-foreground outline-none bg-slate-100 p-2 max-h-[400px] overflow-y-auto rounded-md text-sm"
           contenteditable="true"
           bind:innerHTML={completion}
-        />
+></p>
 
         <div class="flex flex-row flex-wrap gap-2 mt-2">
           <button
             class="flex-1 rounded-md py-2 border-border border"
-            on:click={clearData}
+            onclick={clearData}
             disabled={submiting}
             >Clear
           </button>
           <button
             class="flex-1 rounded-md bg-primary text-primary-foreground py-2"
-            on:click={() => {
+            onclick={() => {
               onApply(completion);
               clearData();
             }}
@@ -122,7 +126,7 @@
     {/if}
   </div>
   <button
-    on:click={() => {
+    onclick={() => {
       onClose();
       clearData();
     }}

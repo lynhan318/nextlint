@@ -2,7 +2,11 @@
   import type {Editor} from '@tiptap/core';
   import {Expand, Trash2} from 'lucide-svelte';
 
-  export let editor: Editor;
+  interface Props {
+    editor: Editor;
+  }
+
+  let { editor }: Props = $props();
   const removeBlock = () => {
     editor.chain().deleteSelection().selectTextblockStart().run();
   };
@@ -15,7 +19,7 @@
   <button>
     <Expand size={20} />
   </button>
-  <button color="red" on:mousedown={removeBlock} class="p-1 text-destructive">
+  <button color="red" onmousedown={removeBlock} class="p-1 text-destructive">
     <Trash2 size={20} />
   </button>
 </div>

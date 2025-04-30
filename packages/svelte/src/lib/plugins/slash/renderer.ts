@@ -8,6 +8,7 @@ import {
 } from "@floating-ui/dom";
 
 import SlashComponent from "./Slash.svelte";
+import { mount } from "svelte";
 
 export type Coordinate = {
 	top: number;
@@ -28,10 +29,10 @@ export const slashRenderer = (): any => {
 			};
 			wrapper = document.createElement("div");
 			editor.view.dom.parentNode?.appendChild(wrapper);
-			component = new SlashComponent({
-				target: wrapper,
-				props: { props },
-			});
+			component = mount(SlashComponent, {
+            				target: wrapper,
+            				props: { props },
+            			});
 			Object.assign(wrapper.style, {
 				position: "absolute",
 				zIndex: 1,

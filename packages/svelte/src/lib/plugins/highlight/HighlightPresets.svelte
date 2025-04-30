@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { stopPropagation } from 'svelte/legacy';
+
   import {
     HighlightExtension,
     type Preset,
@@ -12,7 +14,7 @@
 
   const {mark, pos, node, editor} = useFloatingProps();
 
-  $: selectPreset = mark?.attrs.preset || {};
+  let selectPreset = $derived(mark?.attrs.preset || {});
 
   const toggleColor = (preset: Preset) => {
     dispatcher('toggle');
@@ -48,19 +50,19 @@
     selectPreset = preset;
   };
 
-  $: presets = HighlightExtension.options.presets.map(p => ({
+  let presets = $derived(HighlightExtension.options.presets.map(p => ({
     ...p,
     isSelect: p.backgroundColor === selectPreset?.backgroundColor
-  }));
+  })));
 </script>
 
 <div class="p-4" data-testid="highlight">
   <div class="flex flex-row bg-background p-2 rounded-md gap-2 shadow-sm">
     {#each presets as preset (preset.backgroundColor)}
       <a
-        on:mousedown|stopPropagation={e => {
+        onmousedown={stopPropagation(e => {
           toggleColor(preset);
-        }}
+        })}
         class="cursor-pointer w-6 h-6 rounded-full"
         style="background-color:{preset.backgroundColor}"
       >

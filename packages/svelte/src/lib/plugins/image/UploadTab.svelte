@@ -1,12 +1,11 @@
 <script lang="ts">
-  export let onInsert = (url: string, alt: string) => {};
 
-  export let onUploadFile = async (file: File) => {
+  let { onInsert = (url: string, alt: string) => {}, onUploadFile = async (file: File) => {
     return '';
-  };
+  } } = $props();
 
-  let input: HTMLInputElement;
-  let uploading = false;
+  let input: HTMLInputElement = $state();
+  let uploading = $state(false);
 
   const onFileChange = async e => {
     if (uploading) return;
@@ -22,7 +21,7 @@
 
 <div class="flex w-full h-full">
   <button
-    on:click={() => input.click()}
+    onclick={() => input.click()}
     disabled={uploading}
     class="w-full bg-secondary transition-all rounded-md"
   >
@@ -32,6 +31,6 @@
     type="file"
     style="display:none"
     bind:this={input}
-    on:change={onFileChange}
+    onchange={onFileChange}
   />
 </div>

@@ -18,7 +18,7 @@
 
   const options: any = {};
 
-  export let onHide = () => {};
+  let { onHide = () => {} } = $props();
 
   const triggers = [
     options?.handleUpload && {id: 'tab-1', title: 'Upload'},
@@ -64,12 +64,12 @@
 <div
   use:melt={$root}
   use:clickoutside
-  on:clickoutside={onHide}
+  onclickoutside={onHide}
   class="flex w-[460px] h-[400px] flex-col overflow-hidden
   shadow-lg data-[orientation=vertical]:flex-row
   border border-border rounded-xl bg-background text-foreground"
 >
-  <button on:click={onHide} class="absolute w-8 h-8 top-[1px] right-[1px]">
+  <button onclick={onHide} class="absolute w-8 h-8 top-[1px] right-[1px]">
     <X size={24} />
   </button>
   <div
@@ -86,7 +86,7 @@
             in:send={{key: 'trigger'}}
             out:receive={{key: 'trigger'}}
             class="absolute bottom-1 bg-primary left-1/2 h-1 w-6 -translate-x-1/2 rounded-full"
-          />
+></div>
         {/if}
       </button>
     {/each}

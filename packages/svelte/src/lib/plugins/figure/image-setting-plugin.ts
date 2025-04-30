@@ -13,6 +13,7 @@ import {Plugin, PluginKey} from '@tiptap/pm/state';
 import {Decoration, DecorationSet} from '@tiptap/pm/view';
 
 import FigureWidget from './FigureWidget.svelte';
+import { mount, unmount } from "svelte";
 
 export const imageRegex =
   /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|svg|jpeg)/g;
@@ -36,16 +37,16 @@ export const createImageSettingPlugin = (editor: Editor, extension: Node) => {
 
         if (nodeSelection && tr.selection.node.type.name === 'figure') {
           const wrapper = document.createElement('div');
-          const component = new FigureWidget({
-            target: wrapper,
-            props: {
-              editor: editor
-            }
-          });
+          const component = mount(FigureWidget, {
+                      target: wrapper,
+                      props: {
+                        editor: editor
+                      }
+                    });
           const decorator = Decoration.widget(tr.selection.anchor + 1, wrapper);
 
           const newState = {
-            disposes: [() => component.$destroy(), () => wrapper.remove()],
+            disposes: [() => unmount(component), () => wrapper.remove()],
             decorators: DecorationSet.create(tr.doc, [decorator])
           };
 

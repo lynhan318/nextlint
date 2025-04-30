@@ -8,4 +8,4 @@
   <Languages />
 </div>
 
-<code use:contentDOM style="white-space:inherit" />
+<code use:contentDOM style="white-space:inherit"></code>

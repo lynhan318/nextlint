@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import {Check, Link} from 'lucide-svelte';
   import {createCheckbox, createPopover, melt} from '@melt-ui/svelte';
   import {useEditor} from '$lib/context';
@@ -6,7 +8,7 @@
   import {onDestroy, onMount} from 'svelte';
 
   const editor = useEditor();
-  let link = '';
+  let link = $state('');
 
   const {
     elements: {trigger, content},
@@ -53,7 +55,7 @@
   >
     <form
       class="flex gap-2 flex-col min-w-[300px]"
-      on:submit|preventDefault={setLink}
+      onsubmit={preventDefault(setLink)}
     >
       <label class="flex items-center gap-2 rounded-lg cursor-text">
         <Link class="absolute left-4 text-primary" size={16} />

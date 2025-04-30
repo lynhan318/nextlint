@@ -3,10 +3,15 @@
   import {useEditor} from '$lib/context';
   import {onDestroy, onMount} from 'svelte';
   import LinkForm from './LinkForm.svelte';
+  interface Props {
+    children?: import('svelte').Snippet<[any]>;
+  }
+
+  let { children }: Props = $props();
 
   const editor = useEditor();
-  let link = '';
-  let external = true;
+  let link = $state('');
+  let external = $state(true);
 
   const {
     elements: {trigger, content},
@@ -43,7 +48,7 @@
   });
 </script>
 
-<slot {link} trigger={$trigger} />
+{@render children?.({ link, trigger: $trigger, })}
 
 {#if $open}
   <div

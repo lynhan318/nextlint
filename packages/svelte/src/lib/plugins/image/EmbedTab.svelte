@@ -1,13 +1,15 @@
 <script lang="ts">
+  import { preventDefault } from 'svelte/legacy';
+
   import {useNodeViewContext} from '$lib/node-view';
 
   const deleteNode = useNodeViewContext('deleteNode');
   const getPos = useNodeViewContext('getPos');
   const editor = useNodeViewContext('editor');
 
-  let value = '';
+  let value = $state('');
 
-  $: onInsert = () => {
+  let onInsert = $derived(() => {
     if (typeof getPos === 'function') {
       const pos = getPos();
       deleteNode();
@@ -21,12 +23,12 @@
         })
         .run();
     }
-  };
+  });
 </script>
 
-<form class="bg-background text-foreground" on:submit|preventDefault={onInsert}>
+<form class="bg-background text-foreground" onsubmit={preventDefault(onInsert)}>
   <input
-    on:paste={e => {
+    onpaste={e => {
       //prevent paste fire in editor
       e.stopPropagation();
     }}

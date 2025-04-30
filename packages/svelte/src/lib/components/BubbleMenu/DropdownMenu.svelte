@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { stopPropagation } from 'svelte/legacy';
+
   import {createDropdownMenu, melt} from '@melt-ui/svelte';
   import type {Node as PMNode} from '@tiptap/pm/model';
   import {ChevronDown, Check} from 'lucide-svelte';
@@ -19,17 +21,21 @@
     }
   });
 
-  export let visibleNode: PMNode;
+  interface Props {
+    visibleNode: PMNode;
+  }
+
+  let { visibleNode }: Props = $props();
 
   const formatHeadingSlug = (visibleNode: PMNode) =>
     visibleNode.type.name === 'heading'
       ? visibleNode.type.name + visibleNode.attrs.level
       : visibleNode.type.name;
 
-  $: currentNode =
-    BubbleMenuDropdownList.find(
+  let currentNode =
+    $derived(BubbleMenuDropdownList.find(
       item => item.type === formatHeadingSlug(visibleNode)
-    ) || BubbleMenuDropdownList[0];
+    ) || BubbleMenuDropdownList[0]);
 </script>
 
 <button
@@ -53,12 +59,12 @@
     <button
       class="flex flex-row items-center px-2 py-2 hover:bg-secondary transition rounded-md"
       use:melt={$item}
-      on:click|stopPropagation={e => {
+      onclick={stopPropagation(e => {
         i.toggle($editor);
-      }}
+      })}
     >
       <span class="w-6 h-6 p-1">
-        <svelte:component this={i.icon} size={20} />
+        <i.icon size={20} />
       </span>
       <span class="px-4">
         {i.label}

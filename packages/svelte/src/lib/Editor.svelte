@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 export type PluginOptions = {
 	image?: ImagePluginOptions;
 	ask?: AskOptions;
@@ -35,12 +35,23 @@ export type PluginOptions = {
   import {BubbleMenuExtension} from './plugins/bubbleMenu/bubbleMenu';
 
   useProsemirrorAdapterProvider();
-  export let content: Content;
-  export let placeholder = "Press 'space' GPT support, type '/' for help";
-  export let onChange: (editor: Editor) => void;
-  export let onCreated = (_editor: Editor) => {};
-  export let plugins: PluginOptions = {};
-  export let extensions: Extensions = [];
+  interface Props {
+    content: Content;
+    placeholder?: string;
+    onChange: (editor: Editor) => void;
+    onCreated?: any;
+    plugins?: PluginOptions;
+    extensions?: Extensions;
+  }
+
+  let {
+    content,
+    placeholder = "Press 'space' GPT support, type '/' for help",
+    onChange,
+    onCreated = (_editor: Editor) => {},
+    plugins = {},
+    extensions = []
+  }: Props = $props();
   const {render} = createEditorContext({
     editable: true,
     content,
@@ -80,4 +91,4 @@ export type PluginOptions = {
   });
 </script>
 
-<div use:render />
+<div use:render></div>

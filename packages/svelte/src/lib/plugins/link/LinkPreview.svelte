@@ -3,10 +3,10 @@
   import {Link, Pen, Trash2} from 'lucide-svelte';
   import LinkForm from './LinkForm.svelte';
 
-  let update = false;
+  let update = $state(false);
   const props = useFloatingProps();
-  let link = props.mark?.attrs.href;
-  let external = true;
+  let link = $state(props.mark?.attrs.href);
+  let external = $state(true);
 
   const removeLink = () => {
     const editor = props.editor;
@@ -60,10 +60,10 @@
       readonly
       value={link}
     />
-    <button on:click={visibleUpdateForm} class="hover:bg-accent p-1 rounded-md">
+    <button onclick={visibleUpdateForm} class="hover:bg-accent p-1 rounded-md">
       <Pen size={18} />
     </button>
-    <button on:click={removeLink} class="hover:bg-accent p-1 rounded-md mr-2">
+    <button onclick={removeLink} class="hover:bg-accent p-1 rounded-md mr-2">
       <Trash2 size={18} class="text-destructive" />
     </button>
   </div>

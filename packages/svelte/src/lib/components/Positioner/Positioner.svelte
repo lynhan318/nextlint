@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
   let provider: PositionProvider;
 </script>
 
@@ -20,10 +20,15 @@
   setContext('positioner', positionStore);
 
   const editor = useEditor();
-  export let position: Position = 'cursor';
+  interface Props {
+    position?: Position;
+    children?: import('svelte').Snippet<[any]>;
+  }
+
+  let { position = 'cursor', children }: Props = $props();
 
   let computing = false;
-  let domPosition: {x: number; y: number} | null;
+  let domPosition: {x: number; y: number} | null = $state();
 
   provider ||= PositionProvider.create($editor!);
 
@@ -74,5 +79,5 @@
     domPosition ? 'visible' : 'invisible pointer-events-none'
   )}
 >
-  <slot visible={Boolean(domPosition)} />
+  {@render children?.({ visible: Boolean(domPosition), })}
 </div>

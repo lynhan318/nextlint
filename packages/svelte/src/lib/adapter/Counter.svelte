@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 </script>
 
 <script lang="ts">
@@ -6,7 +6,7 @@
 
   import {useNodeViewContext} from '@prosemirror-adapter/svelte';
   import {onMount} from 'svelte';
-  let selected = false;
+  let selected = $state(false);
 
   const contentRef = useNodeViewContext('contentRef');
   const selectedStore = useNodeViewContext('selected');
@@ -17,7 +17,7 @@
   onMount(() => {});
 </script>
 
-<div use:contentRef class:selected />
+<div use:contentRef class:selected></div>
 
 <style>
   .selected {

@@ -17,5 +17,5 @@ let a= 123;
 
 <div id="code-preview" class="w-full h-[400px]"></div>
 <EditorTheme theme="light">
-  <div use:editor id="editor" class="tiptap border p-4 rounded mt-4" />
+  <div use:editor id="editor" class="tiptap border p-4 rounded mt-4"></div>
 </EditorTheme>

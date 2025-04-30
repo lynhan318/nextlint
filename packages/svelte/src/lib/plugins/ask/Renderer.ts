@@ -4,6 +4,7 @@ import type {EditorView} from '@tiptap/pm/view';
 import type {Editor, Content} from '@tiptap/core';
 
 import PromtComponent from './Prompt.svelte';
+import { mount } from "svelte";
 
 export class Renderer {
   private svelteComponent: PromtComponent | null = null;
@@ -25,33 +26,33 @@ export class Renderer {
     }
   }
   show(props: {node: HTMLElement}) {
-    this.svelteComponent = new PromtComponent({
-      target: this.tooltipWrapper,
-      context: new Map([['options', this.options]]),
-      props: {
-        onClose: () => this.hide(),
-        onApply: (text: string) => {
-          const content: Content = [];
-          text.split('\n').forEach(line => {
-            if (!line) return;
-            if (line) {
-              content.push({
-                type: 'paragraph',
-                content: [{type: 'text', text: line}]
+    this.svelteComponent = mount(PromtComponent, {
+          target: this.tooltipWrapper,
+          context: new Map([['options', this.options]]),
+          props: {
+            onClose: () => this.hide(),
+            onApply: (text: string) => {
+              const content: Content = [];
+              text.split('\n').forEach(line => {
+                if (!line) return;
+                if (line) {
+                  content.push({
+                    type: 'paragraph',
+                    content: [{type: 'text', text: line}]
+                  });
+                }
               });
-            }
-          });
-          this.editor
-            .chain()
-            .insertContent(content)
-            .selectTextblockEnd()
-            .focus()
-            .run();
+              this.editor
+                .chain()
+                .insertContent(content)
+                .selectTextblockEnd()
+                .focus()
+                .run();
 
-          this.hide();
-        }
-      }
-    });
+              this.hide();
+            }
+          }
+        });
     if (this.tooltipWrapper) {
       computePosition(props.node, this.tooltipWrapper, {
         placement: 'left',
