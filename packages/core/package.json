@@ -17,6 +17,9 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"peerDependencies": {
+		"svelte": "^5.28.2"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/sveltor/nextlint",
@@ -37,7 +40,7 @@
 		"@tiptap/extension-history": "^2.11.9",
 		"@tiptap/extension-horizontal-rule": "^2.11.9",
 		"@tiptap/extension-italic": "^2.11.9",
-		"@tiptap/extension-link": "2.1.13",
+		"@tiptap/extension-link": "^2.11.9",
 		"@tiptap/extension-list-item": "^2.11.9",
 		"@tiptap/extension-ordered-list": "^2.11.9",
 		"@tiptap/extension-paragraph": "^2.11.9",
@@ -50,7 +53,6 @@
 		"hast-util-to-html": "^9.0.5",
 		"radash": "^11.0.0",
 		"radix-icons-svelte": "^1.2.1",
-		"svelte": "^5.28.2",
 		"tippy.js": "^6.3.7",
 		"zeed-dom": "^0.10.11"
 	},

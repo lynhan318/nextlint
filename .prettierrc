@@ -1,8 +1,9 @@
 {
-  "plugins": ["prettier-plugin-svelte"],
-  "arrowParens": "avoid",
-  "bracketSpacing": false,
-  "singleQuote": true,
-  "svelteSortOrder": "options-scripts-markup-styles",
-  "trailingComma": "none"
+	"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+	"pluginSearchDirs": ["."],
+	"overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }],
+	"svelteSortOrder": "options-styles-scripts-markup",
+	"svelteBracketNewLine": false,
+	"svelteAllowShorthand": false,
+	"svelteIndentScriptAndStyle": false
 }

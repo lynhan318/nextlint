@@ -1,24 +1,24 @@
 <script lang="ts">
-  import {cn} from '$lib/helpers';
-  import {type ComponentType, createEventDispatcher} from 'svelte';
+import { cn } from "$lib/helpers";
+import { type SvelteComponent, createEventDispatcher } from "svelte";
 
-  const dispatcher = createEventDispatcher<{
-    active: HTMLElement;
-  }>();
-  export let text = '';
-  export let description = '';
-  export let icon: ComponentType | null = null;
-  export let active = false;
-  export let onClick = () => {};
-  let element: HTMLElement;
-  $: {
-    if (active) {
-      // wait for next tick make sure layout is ready
-      setTimeout(() => {
-        dispatcher('active', element);
-      });
-    }
-  }
+const dispatcher = createEventDispatcher<{
+	active: HTMLElement;
+}>();
+export let text = "";
+export let description = "";
+export let icon: SvelteComponent | null = null;
+export let active = false;
+export let onClick = () => {};
+let element: HTMLElement;
+$: {
+	if (active) {
+		// wait for next tick make sure layout is ready
+		setTimeout(() => {
+			dispatcher("active", element);
+		});
+	}
+}
 </script>
 
 <button

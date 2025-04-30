@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
-  export type PluginOptions = {
-    image?: ImagePluginOptions;
-    ask?: AskOptions;
-    dropCursor?: DropcursorOptions;
-    codeBlock?: NextlintCodeBlockOptions;
-  };
+export type PluginOptions = {
+	image?: ImagePluginOptions;
+	ask?: AskOptions;
+	dropCursor?: DropcursorOptions;
+	codeBlock?: NextlintCodeBlockOptions;
+};
 </script>
 
 <script lang="ts">
