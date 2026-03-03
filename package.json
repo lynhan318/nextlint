@@ -68,7 +68,7 @@
       }
     }
   },
-  "packageManager": "bun@1.2.18",
+  "packageManager": "bun",
   "devDependencies": {
     "@sveltejs/package": "2.5.7",
     "@sveltejs/vite-plugin-svelte": "6.2.4",
