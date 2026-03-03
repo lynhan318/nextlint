@@ -1,0 +1,21 @@
+@import "prosekit/basic/style.css";
+@import "prosekit/basic/typography.css";
+
+
+.ProseMirror figure {
+    figcaption {
+        font-size: 0.8em;
+        color: var(--color-gray-600);
+        margin-top: 0.8rem;
+        text-align: center;
+    }
+
+}
+
+.ProseMirror block-suggestion {
+    margin: 0;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    display: block;
+    padding: 0.5rem;
+}

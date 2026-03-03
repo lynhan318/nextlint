@@ -1,0 +1,92 @@
+{
+  "name": "sveltor",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "svelte-package -i src/lib -o dist"
+  },
+  "files": [
+    "dist",
+    ""
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    },
+    "./editor": {
+      "svelte": "./dist/editor.svelte",
+      "types": "./dist/editor.svelte.d.ts",
+      "default": "./dist/editor.svelte"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "peerDependencies": {
+    "svelte": ">=5.0.0",
+    "@lucide/svelte": "^0.576.0"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "editor": [
+        "./dist/editor.d.ts"
+      ]
+    }
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./editor": {
+        "types": "./dist/editor.svelte.d.ts",
+        "svelte": "./dist/editor.svelte",
+        "default": "./dist/editor.svelte"
+      },
+      "./style.css": "./dist/style.css"
+    },
+    "dev": {},
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "typesVersions": {
+      "*": {
+        ".": [
+          "./dist/index.d.ts"
+        ],
+        "editor": [
+          "./dist/editor.d.ts"
+        ]
+      }
+    }
+  },
+  "packageManager": "bun@1.2.18",
+  "devDependencies": {
+    "@sveltejs/package": "2.5.7",
+    "@sveltejs/vite-plugin-svelte": "6.2.4",
+    "@tsconfig/svelte": "^5.0.8",
+    "prettier-plugin-svelte": "^3.5.0",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "sass-embedded": "^1.97.3",
+    "svelte": "5.53.6",
+    "svelte-check": "4.4.4",
+    "typescript": "~5.9.3",
+    "vite": "7.3.1"
+  },
+  "dependencies": {
+    "@google/genai": "^1.43.0",
+    "@prosekit/core": "^0.10.0",
+    "@tailwindcss/cli": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.1",
+    "prosekit": "^0.18.4",
+    "tailwindcss": "^4.2.1"
+  }
+}
