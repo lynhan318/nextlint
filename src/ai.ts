@@ -2,7 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { streamBlocks } from "./stream-result";
 
 const ai = new GoogleGenAI({
-  apiKey: "AIzaSyBHLyfIhLfcABnZfutXzjV1EIoVYUjPV-8",
+  apiKey: "",
 });
 
 export async function generateArticleOutlineStream(prompt: string) {
