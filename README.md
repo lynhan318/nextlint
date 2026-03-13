@@ -1,3 +1,13 @@
+ > [!WARNING]
+  > ## 🚧 Deprecated — New Version in Progress
+  >
+  > This package is being replaced. The team is building v2 with a better
+  design, cleaner APIs, and improved performance.
+  >
+  > ⭐ Star this repo to get notified when it drops.
+
+
+
 # Nextlint
 
 Rich text editor (WYSIWYG) written in Svelte, using [MeltUI](https://melt-ui.com/) headless UI and [tailwindcss](https://tailwindcss.com/) CSS framework.
